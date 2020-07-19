@@ -1579,7 +1579,7 @@ PLOT
 1238
 282
 customers served count
-hour
+hours
 count
 0.0
 10.0
@@ -1599,7 +1599,7 @@ PLOT
 1238
 402
 mean queue times 
-hour
+hours
 minutes
 0.0
 10.0
@@ -1867,10 +1867,10 @@ customers %
 11
 
 MONITOR
-802
-635
-910
-680
+803
+634
+911
+679
 customers %
 100 * (( customer-leaving-count - customer-leaving-count-sco ) / customer-leaving-count)
 1
@@ -1923,10 +1923,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-530
 531
-660
-564
+532
+661
+565
 cashier-return-time
 cashier-return-time
 0
@@ -2022,9 +2022,9 @@ PLOT
 24
 1810
 144
-cashier count
-NIL
-NIL
+cashiers count
+minutes
+count
 0.0
 10.0
 0.0
@@ -2095,9 +2095,9 @@ cashier-break-count + sum [break-count] of cashiers
 11
 
 MONITOR
-1020
+1019
 545
-1128
+1127
 590
 mean queue time (only customers in queues)
 customer-checkout-queue-time / customer-leaving-waiting-count
@@ -2107,9 +2107,9 @@ customer-checkout-queue-time / customer-leaving-waiting-count
 
 MONITOR
 1019
-589
+590
 1126
-634
+635
 mean queue time (only customers in queues)
 customer-leaving-queue-time-sco / customer-leaving-waiting-count-sco
 3
@@ -2117,10 +2117,10 @@ customer-leaving-queue-time-sco / customer-leaving-waiting-count-sco
 11
 
 MONITOR
-1019
-635
-1127
-680
+1018
+634
+1126
+679
 mean queue time (only customers in queues)
 (customer-checkout-queue-time - customer-leaving-queue-time-sco) / (customer-leaving-waiting-count-server)
 3
@@ -2128,9 +2128,9 @@ mean queue time (only customers in queues)
 11
 
 MONITOR
-910
-635
-1019
+911
+634
+1020
 680
 mean queue time
 (customer-checkout-queue-time - customer-leaving-queue-time-sco) / (customer-leaving-count - customer-leaving-count-sco)
@@ -2150,9 +2150,9 @@ total working time
 11
 
 MONITOR
-1129
+1127
 545
-1243
+1241
 590
 P(queue time > 5) 
 customer-leaving-waiting5-count / customer-leaving-count
@@ -2166,7 +2166,7 @@ PLOT
 1239
 522
 P(queue time > 5)
-hour
+hours
 probability
 0.0
 10.0
