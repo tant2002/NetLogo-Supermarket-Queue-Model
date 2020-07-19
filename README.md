@@ -10,14 +10,13 @@ This a complex model for simulaton queues in supermarkets with service and selfs
 
 
 ## HOW TO USE IT
-Depend on user decision the model can be rune with mode that use POS data or with inputs generated randomly. 
+Depend on user decision, the model can be rune with mode that use POS data or with inputs generated randomly according to theoretical distributions. To drive model with POS data  the values, parameters "customer-arrival-proces", "customer-basket-payment", "cashier-arrival" need to be set on relevant values (see section Parameters below) and input files (see section POS data input files) need to be provide.  
 ### POS data input files
-The files contains data generated out POS transaction files. For purpose of study, transactional data that was taken from supermarket loceted in southern Poland. The date was extracted out with special procedures. Please note    
+The files contains data generated out POS transactions data. As example, transactional data out of supermarket loceted in southern Poland was provide. The date was extracted out with special procedures. Please note data range of each file need to be coherent.    
 #### customer-arrival-input-file-store1.csv
 This file contain data that are necessary to generate arrivals of customers to checkouts in supermarket. It's assumed that arrivals of cusstomers follows poisson process (non homogenous) and expected value of arrived customers in each hour is close to number of transaction in each hour.  
 In the model expected value of arrivals (lambda function of poisson process) is equel to the linear interploatin between calibration points. The calibration points are number of transaction (transaction count) for each hour. This data can be extracted out of POS data.  The data in file contain following fields (columns):
-"timestamp" - full hour + 30 min ,
-"customer-transaction-count" - number of transactions within time window full hour + full hour + 1.  
+"timestamp" - full hour + 30 min , "customer-transaction-count" - number of transactions within time window <full hour, full hour + 1>.  
 #### customer-basket-payment-input-file-store1.csv
 This file contain data which are necessary to dice basket size and method of payment of customers. Although the drawing of the payment method does not  affect curently on the  the model, it can be used for future extensions. The structure of is as follow:
 "timestamp" - full hour + 30 min , the rest of fields countain count of transactions for each basket size (articles in transaction ) and method of payment within time window full hour, full hour + 1. Names of this fields are decoded as follow:   0 + basket size,  for method of payment cash , 1000 + basket size for non-cash methods of payment: "1"
@@ -26,6 +25,17 @@ This file contain data which are necessary to dice basket size and method of pay
 This file contains workschedule of cashiers. It determines number of cashiers that arrive to work in each full-hour of simulation. Please note that length shift (time cashier spent in store) is determinated by parameter 'cashier-work-time' (see description bellow). The structure of the file is as follow: "timestamp" - full hour of cashier's arrival to store, "number-of-cashiers" - number of cashiers that arrive to store on particular time. 
 ### Parameters
 ![alt text](/readme-images/model-parameters.png)
+#### simulation-start-day
+In standard case simlation start date and time is determinated by the earliest date/time in input fieles or , in case inputs generated randomly according theoretical distributions,  the start date is 01-01-0001 00:00:01. The parameter simulation-start-day parameter let to shift starting of simulation by selected number of days. 
+#### simulation-end-day
+In standard case simlation end date and time is determinated by the latest date/time in input fieles. In case inputs generated randomly according theoretical distributions,  the end date and time is  01-01-0001 00:00:01 + simulation-end-day value. 
+#### customer-arrival-proces
+This parameter determine customer arrivals to the system: value "HPP" means homogenous poisson process with lambda value taken out of "customer-arrival-mean-rate" parameter; value "nhpp (POS)" means non-homogenous poisson process with lamda function determineted by calibration points in customer-arrival-input-file-store1.csv input file. 
+#### customer-arrival-mean-rate
+see description bellow
+#### max-customers
+in case of "HPP" this parameter can be use to limit capacity of system in terms of number of customers. 
+#### customer-basket-payment
 
 ## THINGS TO TRY
 
