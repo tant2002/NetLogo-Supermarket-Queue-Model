@@ -1885,7 +1885,7 @@ CHOOSER
 497
 customer-arrival-proces
 customer-arrival-proces
-"hpp" "NHPP (POS)"
+"HPP" "NHPP (POS)"
 1
 
 CHOOSER
