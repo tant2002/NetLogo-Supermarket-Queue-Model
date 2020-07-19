@@ -10,10 +10,25 @@ This a complex model for simulaton queues in supermarkets with service and selfs
 
 
 ## HOW TO USE IT
-Depend on user decision the model can be rune with mode that use POS data or with inputs generated  
-###Input data files
-M
-
+Depend on user decision the model can be rune with mode that use POS data or with inputs generated randomly. 
+### POS data input files
+The files contains data generated out POS transaction files. For purpose of study, transactional data that was taken from supermarket loceted in southern Poland. The date was extracted out with special procedures.   
+#### customer-arrival-input-file-store1.csv
+This file contain data that are necessary to generate arrivals of customers to checkouts in supermarket. It's assumed that arrivals of cusstomers follows poisson process (non homogenous) and expected value of arrived customers in each hour is close to number of transaction in each hour.  
+In the model expected value of arrivals (lambda function of poisson process) is equel to the linear interploatin between calibration points. The calibration points are number of transaction (transaction count) for each hour. This data can be extracted out of POS data.  The file contain following fields:
+"timestamp" - full hour + 30 min ,
+"customer-transaction-count" - number of transactions within time window full hour + full hour + 1.  
+#### customer-basket-payment-input-file-store1.csv
+This file contain data which are necessary to dice basket size and 
+"timestamp" - full hour + 30 min ,
+"1"
+"2"
+"3" 
+....
+"1001
+"1002"
+"1003"
+.....
 ## THINGS TO TRY
 
 
