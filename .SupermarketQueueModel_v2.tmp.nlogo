@@ -119,6 +119,8 @@ globals [
   customer-leaving-count-hour
   customer-leaving-count-sco
   customer-leaving-count-sco-hour
+  customer-leaving-count-server
+  customer-leaving-count-server-hour
   customer-leaving-waiting-count
   customer-leaving-waiting-count-hour
   customer-leaving-waiting-count-sco
@@ -827,16 +829,18 @@ to customer-update-satistic [utype]
       set customer-leaving-waiting-count-hour customer-leaving-waiting-count-hour + 1
     ]
 
-    if (time-entered-service - time-entered-queue) > 4 [
+    if (time-entered-service - time-entered-queue) > 5 [
       set customer-leaving-waiting5-count customer-leaving-waiting5-count + 1
       set customer-leaving-waiting5-count-hour customer-leaving-waiting5-count-hour + 1
     ]
 
 
     if sco = 0 [
-
+      set customer-leaving-count-server customer-leaving-count-server + 1
+      set customer-leaving-count-server-hour customer-leaving-count-server-hour + 1
       set customer-leaving-queue-time-server customer-leaving-queue-time-server + time-entered-service - time-entered-queue
       set customer-leaving-queue-time-server-hour customer-leaving-queue-time-server-hour + time-entered-service - time-entered-queue
+
       if time-entered-service > time-entered-queue [
         set customer-leaving-waiting-count-server customer-leaving-waiting-count-server + 1
         set customer-leaving-waiting-count-server-hour customer-leaving-waiting-count-server-hour + 1
@@ -846,7 +850,12 @@ to customer-update-satistic [utype]
         set customer-leaving-waiting5-count-server-hour customer-leaving-waiting5-count-server-hour + 1
       ]
     ]
+
     if sco = 1 [
+      set customer-leaving-count-sco customer-leaving-count-sco + 1
+      set customer-leaving-count-sco-hour customer-leaving-count-sco-hour + 1
+      set customer-leaving-queue-time-sco customer-leaving-queue-time-sco + time-entered-service - time-entered-queue
+      set customer-leaving-queue-time-sco-hour customer-leaving-queue-time-sco-hour + time-entered-service - time-entered-queue
       if time-entered-service > time-entered-queue [
         set customer-leaving-waiting-count-sco customer-leaving-waiting-count-sco + 1
         set customer-leaving-waiting-count-sco-hour customer-leaving-waiting-count-sco-hour + 1
@@ -855,11 +864,8 @@ to customer-update-satistic [utype]
         set customer-leaving-waiting5-count-sco customer-leaving-waiting5-count-sco + 1
         set customer-leaving-waiting5-count-sco-hour customer-leaving-waiting5-count-sco-hour + 1
       ]
-      set customer-leaving-count-sco customer-leaving-count-sco + 1
-      set customer-leaving-count-sco-hour customer-leaving-count-sco-hour + 1
-      set customer-leaving-queue-time-sco customer-leaving-queue-time-sco + time-entered-service - time-entered-queue
-      set customer-leaving-queue-time-sco-hour customer-leaving-queue-time-sco-hour + time-entered-service - time-entered-queue
     ]
+
     if exposure-time > 0 [
       set customer-leaving-exposed-count customer-leaving-exposed-count + 1
       set customer-leaving-exposed-count-hour customer-leaving-exposed-count-hour + 1
@@ -896,6 +902,7 @@ to customer-update-statistic-hour
   set customer-checkout-queue-time-hour 0
   set customer-service-time-hour 0
   set customer-leaving-queue-time-not-infected-hour 0
+  set customer-leaving-count-server-hour 0
 end
 
 to customer-update-statistic-minute
@@ -1109,13 +1116,15 @@ end
 to-report cashier-server-close-check? ;cashier procedure
  ; check if checkout can be closed:  Checkout can by closed in two cases working time of cashier is end or avarage queue is shortest than threshold
  let check? false
- ifelse time-end < ticks [
-  set check? true
-  ][
-    if ( single-queue? and length server-zone-queue < cashier-min-line ) or
-    (not single-queue? and ((sum ([length(server-queue)] of (servers with [open])) + length(sco-zone-queue)) / (count  (servers with [open]) + (ifelse-value (number-of-sco-servers > 0) [1] [0] )) < cashier-min-line)) [
+  if number-of-sco-servers != 0 or (count servers with [open]) > 1 [
+    ifelse time-end < ticks [
       set check? true
+    ][
+      if ( single-queue? and length server-zone-queue < cashier-min-line ) or
+      (not single-queue? and ((sum ([length(server-queue)] of (servers with [open])) + length(sco-zone-queue)) / (count  (servers with [open]) + (ifelse-value (number-of-sco-servers > 0) [1] [0] )) < cashier-min-line)) [
+        set check? true
       ]
+    ]
   ]
   report check?
 end
@@ -1239,9 +1248,14 @@ end
 to next-minute-events-complete  ;events to be done every minute
   ;print word "count: " customer-leaving-count-hour
   ;print word "waiting - count: " customer-leaving-waiting5-count-hour
+  ifelse customer-leaving-count-hour != 0   [
+    print word ticks word " - " ( customer-leaving-waiting5-count-hour / customer-leaving-count-hour )
+  ][
+    print word ticks word " - " 0
+  ]
   update-plots
-  set ticks-minute (ticks-minute + 1)
   customer-update-statistic-minute
+  set ticks-minute (ticks-minute + 1)
 end
 
 
@@ -1251,8 +1265,13 @@ end
 
 to next-hour-events-complete ;events to be done every second
   ;update-plots
-  set ticks-hour ( ticks-hour + 1 )
+   ifelse customer-leaving-count-hour != 0   [
+    print word ticks word " + " ( customer-leaving-waiting5-count-hour / customer-leaving-count-hour )
+  ][
+    print word ticks word " + " 0
+  ]
   customer-update-statistic-hour
+  set ticks-hour ( ticks-hour + 1 )
 end
 
 to end-run-complete
@@ -1299,11 +1318,12 @@ to go
     ;**** firstly set to list  events done regulary
     ;if (next-second > ticks)[
     ;  set event-queue (fput (list next-second "next-second-events-complete") event-queue)]
-    if (next-hour > ticks)[
-      set event-queue (fput (list next-hour "next-hour-events-complete") event-queue)]
 
     if (next-minute > ticks)[
       set event-queue (fput (list next-minute "next-minute-events-complete") event-queue)]
+
+    if (next-hour > ticks)[
+      set event-queue (fput (list next-hour "next-hour-events-complete") event-queue)]
 
     ;**** secondly set to list events done discretly
     if (customer-arrival-next-time > ticks)[
@@ -1609,9 +1629,9 @@ true
 true
 "" ""
 PENS
-"all" 1.0 0 -9276814 true "" "if (customer-leaving-count-hour != 0) and ((ticks-minute / 60) = ticks-hour) [ \nplotxy ticks-hour (customer-checkout-queue-time-hour / customer-leaving-count-hour)]\nif (customer-leaving-count-hour = 0) and ((ticks-minute / 60) = ticks-hour) [ \nplotxy ticks-hour 0]"
-"self-service" 1.0 0 -16777216 true "" "if (customer-leaving-count-sco-hour != 0 ) and ((ticks-minute / 60) = ticks-hour) [\nplotxy ticks-hour customer-leaving-queue-time-sco-hour / customer-leaving-count-sco-hour]\nif (customer-leaving-count-sco-hour = 0 ) and ((ticks-minute / 60) = ticks-hour) [\nplotxy ticks-hour 0]"
-"service" 1.0 0 -14070903 true "" "if ( ( customer-leaving-count-hour - customer-leaving-count-sco-hour ) != 0 ) and ((ticks-minute / 60) = ticks-hour) [\nplotxy ticks-hour customer-leaving-queue-time-server-hour / ( customer-leaving-count-hour - customer-leaving-count-sco-hour )\n]\n\nif ( ( customer-leaving-count-hour - customer-leaving-count-sco-hour ) = 0 ) and ((ticks-minute / 60) = ticks-hour) [\nplotxy ticks-hour 0 \n]"
+"all" 1.0 0 -9276814 true "" "if (customer-leaving-count-hour != 0) and ((ticks-minute / 60) = (ticks-hour ) ) [ \nplotxy ticks-hour (customer-checkout-queue-time-hour / customer-leaving-count-hour)]\nif (customer-leaving-count-hour = 0) and ((ticks-minute / 60) = (ticks-hour ) ) [ \nplotxy ticks-hour 0]"
+"self-service" 1.0 0 -16777216 true "" "if (customer-leaving-count-sco-hour != 0 ) and ((ticks-minute / 60) = (ticks-hour)) [\nplotxy ticks-hour customer-leaving-queue-time-sco-hour / customer-leaving-count-sco-hour]\nif (customer-leaving-count-sco-hour = 0 ) and ((ticks-minute / 60) = (ticks-hour)) [\nplotxy ticks-hour 0]"
+"service" 1.0 0 -14070903 true "" "if ( ( customer-leaving-count-hour - customer-leaving-count-sco-hour ) != 0 ) and ((ticks-minute / 60) = (ticks-hour)) [\nplotxy ticks-hour customer-leaving-queue-time-server-hour / ( customer-leaving-count-hour - customer-leaving-count-sco-hour )\n]\n\nif ( ( customer-leaving-count-hour - customer-leaving-count-sco-hour ) = 0 ) and ((ticks-minute / 60) = (ticks-hour)) [\nplotxy ticks-hour 0 \n]"
 
 MONITOR
 909
@@ -1690,7 +1710,7 @@ distance-in-queue
 distance-in-queue
 1
 3
-1.0
+3.0
 1
 1
 NIL
@@ -1815,30 +1835,30 @@ customer-leaving-queue-time-sco / customer-leaving-count-sco
 11
 
 TEXTBOX
-669
-558
-691
-578
+680
+547
+701
+566
 all
 11
 0.0
 1
 
 TEXTBOX
-632
-605
-690
-648
-sel-service
+640
+590
+700
+609
+selfservice
 11
 0.0
 1
 
 TEXTBOX
-652
-644
-706
-664
+656
+634
+695
+654
 service
 11
 0.0
@@ -1955,8 +1975,8 @@ HORIZONTAL
 TEXTBOX
 395
 564
-600
-592
+625
+583
 sco-servers (self-checkout) parameters
 11
 0.0
@@ -2106,10 +2126,10 @@ customer-checkout-queue-time / customer-leaving-waiting-count
 11
 
 MONITOR
-1019
+1020
 590
-1126
-635
+1131
+636
 mean queue time (only customers in queues)
 customer-leaving-queue-time-sco / customer-leaving-waiting-count-sco
 3
@@ -2150,9 +2170,9 @@ total working time
 11
 
 MONITOR
-1127
+1125
 545
-1241
+1239
 590
 P(queue time > 5) 
 customer-leaving-waiting5-count / customer-leaving-count
@@ -2171,12 +2191,12 @@ probability
 0.0
 10.0
 0.0
-0.05
+0.005
 true
 true
 "" ""
 PENS
-"all              " 1.0 0 -16777216 true "" "if ((ticks-minute / 60) = ticks-hour) and (customer-leaving-count-hour != 0) [plotxy ticks-hour customer-leaving-waiting5-count-hour / customer-leaving-count-hour]\nif ((ticks-minute / 60) = ticks-hour) and (customer-leaving-count-hour = 0) [plotxy ticks-hour 0]"
+"all              " 1.0 0 -16777216 true "" "if ((ticks-minute / 60) = (ticks-hour + 1)) and (customer-leaving-count-hour != 0) [ plotxy ticks-hour ( customer-leaving-waiting5-count-hour / customer-leaving-count-hour ) ]\nif ((ticks-minute / 60) = (ticks-hour + 1)) and (customer-leaving-count-hour = 0) [ plotxy ticks-hour 0 ]"
 
 TEXTBOX
 1247
@@ -2207,6 +2227,28 @@ all
 11
 0.0
 1
+
+MONITOR
+1127
+590
+1241
+635
+P(queue time > 5)
+customer-leaving-waiting5-count-sco / customer-leaving-count-sco
+3
+1
+11
+
+MONITOR
+1127
+635
+1241
+680
+P(queue time > 5)
+customer-leaving-waiting5-count-server / customer-leaving-count-server
+3
+1
+11
 
 @#$#@#$#@
 ## WHAT IS IT?
