@@ -10,7 +10,7 @@ This a complex model for simulaton queues in supermarkets with service and selfs
 
 
 ## HOW TO USE IT
-Depend on user decision, the model can be rune with mode that use POS data or with inputs generated randomly according to theoretical distributions. To drive model with POS data  the values, parameters "customer-arrival-proces", "customer-basket-payment", "cashier-arrival" need to be set on relevant values (see section Parameters below) and input files (see section POS data input files) need to be provide.  
+Depend on user decision, the model can be run with mode that use POS data or with inputs generated randomly according to theoretical distributions. To drive model with POS data  the values, parameters "customer-arrival-proces", "customer-basket-payment", "cashier-arrival" need to be set on relevant values (see section Parameters bellow) and input files (see section POS data input files) need to be provide.  
 ### POS data input files
 The files contains data generated out POS transactions data. As example, transactional data out of supermarket loceted in southern Poland was provide. The date was extracted out with special procedures. Please note data range of each file need to be coherent.    
 #### customer-arrival-input-file-store1.csv
@@ -30,12 +30,23 @@ In standard case simlation start date and time is determinated by the earliest d
 #### simulation-end-day
 In standard case simlation end date and time is determinated by the latest date/time in input fieles. In case inputs generated randomly according theoretical distributions,  the end date and time is  01-01-0001 00:00:01 + simulation-end-day value. 
 #### customer-arrival-proces
-This parameter determine customer arrivals to the system: value "HPP" means homogenous poisson process with lambda value taken out of "customer-arrival-mean-rate" parameter; value "nhpp (POS)" means non-homogenous poisson process with lamda function determineted by calibration points in customer-arrival-input-file-store1.csv input file. 
+This parameter determine customer arrivals to the system: value "HPP" means homogenous poisson process with lambda value taken out of "customer-arrival-mean-rate" parameter; value "NHPP (POS)" means non-homogenous poisson process with lamda function determineted by calibration points in customer-arrival-input-file-store1.csv input file. 
 #### customer-arrival-mean-rate
-see description bellow
+see description of "customer-arrival-proces" parameter
 #### max-customers
-in case of "HPP" this parameter can be use to limit capacity of system in terms of number of customers. 
+In case ofcustomer arrivals with "HPP" this parameter can be use to limit capacity of system in terms of number of customers. 
 #### customer-basket-payment
+This parameter indicate the way of determination basket size and payment method. Value "Poisson\Binomial" means: basket size is drawn with poisson distribution and  parameter lambda equel to parameter  "customer-basket-mean-size";  payment method with binomial distribution and probanility value out of parameter "customer-cash-payment-rate".  
+"ECDF (POS)" value means that basket size and method of payment is drawn according to empirical distributions determinated for each hour of simulation out of POS data (file customer-basket-payment-input-file-store1.csv)
+#### customer-basket-mean-size
+see description of "customer-basket-payment" parameter 
+#### customer-cash-payment-rate
+see description of "customer-basket-payment" parameter 
+#### customer-picking-line-strategy
+It determine the strategy picking line by the customer. Followed possibility are available: 0 the line is picked randomly, using a uniform distribution; 1 - the line with the lowest number of customers is picked, 2 - the line with the lowest number of items in all baskets in this line is picked; 3 the line with the lowest mean service time-implied expected waiting time is picked, i.e.the expected waiting time for each queue is calculated using the number of customers and the mean service time for service and self-service checkouts; 4 the line with the lowest power regression-implied expected waiting time is picked, i.e., the expected waiting time for each queue is calculated using the number of customers and the expected service and break times.
+#### cashier-arriaval
+The parameter determine availability of cashiers in  store. The value "constant number" mean that constant number of cashiers  
+"workschedule (POS)"
 
 ## THINGS TO TRY
 
