@@ -1372,6 +1372,16 @@ GRAPHICS-WINDOW
 ticks
 50.0
 
+TEXTBOX
+0
+0
+0
+0
+NIL
+11
+0.0
+1
+
 SLIDER
 3
 575
@@ -2195,16 +2205,6 @@ TEXTBOX
 1437
 32
 Statistic per minute (cashiers)
-11
-0.0
-1
-
-TEXTBOX
-1270
-557
-1458
-580
-all
 11
 0.0
 1
