@@ -222,12 +222,11 @@ end
 
 to setup-cashier-arrival
   set cashiers-backoffice []
+  cashiers-create number-of-cashiers 99999999999
   ;print (cashier-arrival = "workschedule (POS)")
-  ifelse (cashier-arrival = "workschedule (POS)") [
+  if (cashier-arrival = "workschedule (POS)") [
     set cashier-arrival-input-file "cashier-arrival-input-file-store1.csv"
     set cashier-arrival-input time:ts-load cashier-arrival-input-file
-  ][
-    cashiers-create number-of-cashiers 99999999999
   ]
 
 end
@@ -1523,7 +1522,7 @@ number-of-cashiers
 number-of-cashiers
 0
 number-of-servers
-8.0
+0.0
 1
 1
 NIL
@@ -1580,7 +1579,7 @@ PLOT
 1238
 282
 customers served count
-hour
+hours
 count
 0.0
 10.0
@@ -1994,7 +1993,7 @@ cashier-work-time
 cashier-work-time
 120
 720
-238.0
+240.0
 1
 1
 NIL
@@ -2006,7 +2005,7 @@ PLOT
 1238
 145
 customers arrived count
-minut
+minuts
 count
 0.0
 10.0
