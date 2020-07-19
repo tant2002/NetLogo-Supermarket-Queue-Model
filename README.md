@@ -4,13 +4,15 @@
 ![alt text](/readme-images/model-interface.png)
 ## WHAT IS IT?
 
-This a complex model for simulaton queues in supermarkets with service and selfservice checkout.  It can use sets of data extracted out of POS (Point of Sale) trnactional data to mimic queue system in Store. As opposed to traditional models based on queue theory it let simulate and examine complex queue system with dynamicly changed  parmaeters. 
+This a complex model for simulaton queues in supermarkets with service and selfservice checkout.  It can use sets of data extracted out of POS (Point of Sale) tranactional data to mimic queue system in Store. As opposed to traditional models based on queue theory it let simulate and examine complex queue system with dynamicly changed parmaeters. 
 
 ## HOW IT WORKS
 
 
 ## HOW TO USE IT
-
+Depend on user decision the model can be rune with mode that use POS data or with inputs generated  
+###Input data files
+M
 
 ## THINGS TO TRY
 
