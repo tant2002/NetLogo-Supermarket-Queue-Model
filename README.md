@@ -1,7 +1,7 @@
 # NetLogo_SupermarketQueueModel
  Queue model of supermarket's checkout zone ABM
 
-![alt text](readme-images/readme-images.png)
+![alt text](/readme-images/model-interface.png)
 ## WHAT IS IT?
 
 This a complex model for simulaton queues in supermarkets with service and selfservice checkout.  It can use sets of data extracted out of POS (Point of Sale) trnactional data to mimic queue system in Store. As opposed to traditional models based on queue theory it let simulate and examine complex queue system with dynamicly changed  parmaeters. 
