@@ -68,7 +68,7 @@ distance-in-queue, distance-queue-server, distance-server-server, distance-sco-s
 ![alt text](/readme-images/plot-mean-queue-times.png)
 ![alt text](/readme-images/plot-probability.png)
 ![alt text](/readme-images/plot-cashiers-count.png)
-![alt text](/readme-images/plot-outputs-customers.png)
+![alt text](/readme-images/outputs-customers.png)
 ![alt text](/readme-images/outputs-cashiers.png)
 
 
