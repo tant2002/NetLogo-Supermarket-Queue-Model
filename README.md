@@ -4,15 +4,15 @@
 ![alt text](/readme-images/model-interface.png)
 ## WHAT IS IT?
 
-This a complex model for simulaton queues in supermarkets with service and selfservice checkout.  It can use sets of data extracted out of POS (Point of Sale) tranactional data to mimic queue system. As opposed to traditional models based on queue theory it let simulate and examine complex queue system with dynamicly changed parmaeters. The  
+This is a complex model for simulaton queues in supermarkets with service and selfservice checkouts.  It can use sets of data extracted out of POS (Point of Sale) tranactions to mimic queue system of tipical supermarket. As opposed to traditional models based on queue theory it let simulate and examine complex queue system with dynamicly changed parmaeters. The model is created with  
 
 ## HOW IT WORKS
 
 
 ## HOW TO USE IT
-Depend on user decision, the model can be rune with mode that use POS data or with inputs generated randomly according to theoretical distributions. To drive model with POS data  the values, parameters "customer-arrival-proces", "customer-basket-payment", "cashier-arrival" need to be set on relevant values (see section Parameters below) and input files (see section POS data input files) need to be provide.  
+Depend on user decision, the model can be run with mode that use POS data or with inputs generated randomly according to theoretical distributions. To drive model with POS data  the values, parameters "customer-arrival-proces", "customer-basket-payment", "cashier-arrival" need to be set on relevant values (see section Parameters bellow) and input files (see section POS data input files) need to be provide.  
 ### POS data input files
-The files contains data generated out POS transactions data. As example, transactional data out of supermarket loceted in southern Poland was provide. The date was extracted out with special procedures. Please note data range of each file need to be coherent.    
+The files contains data generated out POS transactions data. As example, transactional data out of supermarket loceted in southern Poland was provide. The date was extracted out with special procedures. Please note data range of all files need to be coherent.    
 #### customer-arrival-input-file-store1.csv
 This file contain data that are necessary to generate arrivals of customers to checkouts in supermarket. It's assumed that arrivals of cusstomers follows poisson process (non homogenous) and expected value of arrived customers in each hour is close to number of transaction in each hour.  
 In the model expected value of arrivals (lambda function of poisson process) is equel to the linear interploatin between calibration points. The calibration points are number of transaction (transaction count) for each hour. This data can be extracted out of POS data.  The data in file contain following fields (columns):
@@ -26,16 +26,45 @@ This file contains workschedule of cashiers. It determines number of cashiers th
 ### Parameters
 ![alt text](/readme-images/model-parameters.png)
 #### simulation-start-day
-In standard case simlation start date and time is determinated by the earliest date/time in input fieles or , in case inputs generated randomly according theoretical distributions,  the start date is 01-01-0001 00:00:01. The parameter simulation-start-day parameter let to shift starting of simulation by selected number of days. 
+Value in days (1 day = 3600 ticks). In standard case simlation start date and time is determinated by the earliest date/time in input fieles or , in case inputs generated randomly according theoretical distributions,  the start date is 01-01-0001 00:00:01. The parameter simulation-start-day parameter let to shift starting of simulation by selected number of days. 
 #### simulation-end-day
-In standard case simlation end date and time is determinated by the latest date/time in input fieles. In case inputs generated randomly according theoretical distributions,  the end date and time is  01-01-0001 00:00:01 + simulation-end-day value. 
+Value in days (1 day = 3600 ticks). In standard case simlation end date and time is determinated by the latest date/time in input fieles. In case inputs generated randomly according theoretical distributions,  the end date and time is  01-01-0001 00:00:01 + simulation-end-day value. 
 #### customer-arrival-proces
-This parameter determine customer arrivals to the system: value "HPP" means homogenous poisson process with lambda value taken out of "customer-arrival-mean-rate" parameter; value "nhpp (POS)" means non-homogenous poisson process with lamda function determineted by calibration points in customer-arrival-input-file-store1.csv input file. 
+This parameter determine customer arrivals to the system: value "HPP" means homogenous poisson process with lambda value taken out of "customer-arrival-mean-rate" parameter; value "NHPP (POS)" means non-homogenous poisson process with lamda function determineted by calibration points in customer-arrival-input-file-store1.csv input file. 
 #### customer-arrival-mean-rate
-see description bellow
+See description of "customer-arrival-proces" parameter
 #### max-customers
-in case of "HPP" this parameter can be use to limit capacity of system in terms of number of customers. 
+In case ofcustomer arrivals with "HPP" this parameter can be use to limit capacity of system in terms of number of customers. 
 #### customer-basket-payment
+This parameter indicate the way of determination basket size and payment method. Value "Poisson\Binomial" means: basket size is drawn with poisson distribution and  parameter lambda equel to parameter  "customer-basket-mean-size";  payment method with binomial distribution and probanility value out of parameter "customer-cash-payment-rate".  
+"ECDF (POS)" value means that basket size and method of payment is drawn according to empirical distributions determinated for each hour of simulation out of POS data (file customer-basket-payment-input-file-store1.csv)
+#### customer-basket-mean-size
+See description of "customer-basket-payment" parameter 
+#### customer-cash-payment-rate
+See description of "customer-basket-payment" parameter 
+#### customer-picking-line-strategy
+It determine the strategy picking line by the customer. Followed possibility are available: 0 the line is picked randomly, using a uniform distribution; 1 - the line with the lowest number of customers is picked, 2 - the line with the lowest number of items in all baskets in this line is picked; 3 the line with the lowest mean service time-implied expected waiting time is picked, i.e.the expected waiting time for each queue is calculated using the number of customers and the mean service time for service and self-service checkouts; 4 the line with the lowest power regression-implied expected waiting time is picked, i.e., the expected waiting time for each queue is calculated using the number of customers and the expected service and break times.
+#### cashier-arriaval
+The parameter determine availability of cashiers in  store. The value "constant number" means that constant number of cashiers is detemine by parameter "number-of-cashiers" from the beginning till end of simulation. The value "workschedule (POS)" mean that cashiers number is determine be workschedule defined in file "cashier-arrival-input-file-store1.csv" and parameter "cashier-work-time". Note that value "number-of-cashiers" greater than 0 add  cashiers to the quntities defined in "cashier-arrival-input-file-store1.csv" in whole period of simulation.
+#### cashier-work-time
+Value in minutes (ticks). See desription of "cashier-arriaval" parameter and "cashier-arrival-input-file-store1.csv" input file.
+#### number-of-cashiers
+See desription of "cashier-arriaval" parameter and "cashier-arrival-input-file-store1.csv" input file.
+#### cashier-max-line
+This parameter determine behaviour of cashiers in the system. In case avarage queue length in store exceed this value the available cashier triger to go from backoffice to checkout (server).   
+#### cashier-min-line 
+This parameter determine behaviour of cashiers in the system. In case avarage queue length in store is less than this value the cashier close checkout (server). Note thay The cashier will remain in checkout until last customer from current queue will be served. Closed checkout means no new customer can join to the line assign to checkout. 
+#### cashier-return-time
+Value in minutes (ticks). This parameter determine time the cashier need to swith from backoffice to checkout. In other words: it takes "cashier-return-time"  minutes to go from backoffice to checkout and open it. 
+#### number-of-servers
+It determine number of checkouts that are available to be open on the store. 
+#### single-queue?
+It determine organisation of queues. Swith on mean single queue to all servers (checkouts), Swith off mean separate queue to each open checkouts.  
+#### other parameters
+distance-in-queue, distance-queue-server, distance-server-server, distance-sco-sco-h, distance-sco-sco-v determines spatiala distances between customers in queues, servers, sco-servers, servers and customers. Although the spatial parameter do not  affect curently on the  the model, they can be used for future extensions. 
+### Plots
+![alt text](/readme-images/plot-customer-arrived.png)
+
 
 ## THINGS TO TRY
 
