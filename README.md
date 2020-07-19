@@ -1,5 +1,5 @@
 # NetLogo_SupermarketQueueModel
- Queue model of supermarket's checkout zone ABM
+ Simulation data driven model of queue system of typical supermarket's checkout zone. The model created with ABS (Agent Based Simulation) approach. 
 
 ![alt text](/readme-images/model-interface.png)
 ## WHAT IS IT?
