@@ -456,7 +456,7 @@ to-report customer-arrival-time-schedule-nhpp
 end
 
 to-report customer-arrival-inter-rate-read [time]
-; this read read interpleted value out transaction count out of POS data file and return it as arrival rate (lambda function value )  for Non-omogeneous poisson process
+; this read read interpleted value out transaction count out of POS data file and return it as arrival rate (lambda function value )  for Non-Homogeneous Poisson Process
   let value 0
   carefully
       [set value  precision ( (time:ts-get-exact customer-arrival-input time "\"customer-transaction-count\"") / 60 ) 2 ]
