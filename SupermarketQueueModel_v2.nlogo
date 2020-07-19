@@ -42,9 +42,9 @@ cashiers-own [
 ]
 
 customers-own [
-
-  ;parameter diced
   basket-size
+
+  ;parameter drawn
   payment-method
   sco-will
   picking-queue-strategy
@@ -205,7 +205,7 @@ to setup-customer-arrival-data-read
 end
 
 to setup-customer-basket-payment-data-read
-;this procedure read initial values necessary to further proces POS data for basket size and method of payment dice
+;this procedure read initial values necessary to further proces POS data for basket size and method of payment draw
 
   set customer-basket-payment-input-file "customer-basket-payment-input-file-store1.csv"
 
@@ -469,11 +469,11 @@ end
 to customer-store-arrive
   if (count customers < max-customers )[
     create-customers 1[
-      customer-basket-payment-dice
-      customer-sco-will-dice
-      customer-picking-queue-strategy-dice
-      customer-server-service-time-dice
-      customer-sco-server-service-time-dice
+      customer-basket-payment-draw
+      customer-sco-will-draw
+      customer-picking-queue-strategy-draw
+      customer-server-service-time-draw
+      customer-sco-server-service-time-draw
       customer-update-satistic "arrival"
       setxy max-pxcor min-pycor
       set time-entered-model ticks
@@ -518,7 +518,7 @@ to-report basket-payment-ECDF
   report iECDF
 end
 
-to customer-basket-payment-dice-ECDF  ;;customer procedure
+to customer-basket-payment-draw-ECDF  ;;customer procedure
   let x random-float 1
   let y 1 + length filter [x1 -> x1 < x] basket-payment-ECDF
   let iValue item y customer-basket-payment-values
@@ -531,7 +531,7 @@ to customer-basket-payment-dice-ECDF  ;;customer procedure
     ]
 end
 
-to customer-basket-payment-dice-theoretical ;customer procedure
+to customer-basket-payment-draw-poisson-binomial ;customer procedure
 
   set basket-size random-poisson ( customer-basket-mean-size )
   ifelse ( (random-float 1) < customer-cash-payment-rate )
@@ -540,27 +540,27 @@ to customer-basket-payment-dice-theoretical ;customer procedure
 
 end
 
-to customer-basket-payment-dice ;;customer procedure
+to customer-basket-payment-draw ;;customer procedure
   ifelse customer-basket-payment = "ECDF (POS)" [
-    customer-basket-payment-dice-ECDF
+    customer-basket-payment-draw-ECDF
   ][
-    customer-basket-payment-dice-theoretical
+    customer-basket-payment-draw-poisson-binomial
   ]
 
 end
 
-to customer-sco-will-dice ;; customer procedure
+to customer-sco-will-draw ;; customer procedure
  ; no logic is implemented - every customer can use SCO
  set sco-will 1
 end
 
-to customer-server-service-time-dice ;;customer procedure
+to customer-server-service-time-draw ;;customer procedure
   let transaction-time (e ^ ( 2.121935 + 0.698402 * ln basket-size + random-normal 0 0.4379083) ) / 60
   let break-time (random-gamma 4.830613 (1 /  3.074209 )) / 60
   set server-service-time transaction-time + break-time
 end
 
-to customer-sco-server-service-time-dice
+to customer-sco-server-service-time-draw
   let transaction-time (e ^ ( 3.122328 + 0.672461 * ln basket-size + random-normal 0 0.4907405) ) / 60
   let break-time (e ^ ( 3.51669 + 0.22300 * ln basket-size + random-normal 0 0.4820532) ) / 60
   set sco-server-service-time transaction-time + break-time
@@ -619,7 +619,7 @@ to-report server-zone-waiting-time-expected
 end
 
 
-to customer-picking-queue-strategy-dice ;customer procedure
+to customer-picking-queue-strategy-draw ;customer procedure
   if (customer-picking-line-strategy = 0 )  [set picking-queue-strategy 0]
   if (customer-picking-line-strategy = 1 )  [set picking-queue-strategy 1]
   if (customer-picking-line-strategy = 2 )  [set picking-queue-strategy 2]
@@ -1238,8 +1238,8 @@ to-report next-minute-schedule  ;report next minute in ticks
 end
 
 to next-minute-events-complete  ;events to be done every minute
-  print word "count: " customer-leaving-count-hour
-  print word "waiting - count: " customer-leaving-waiting5-count-hour
+  ;print word "count: " customer-leaving-count-hour
+  ;print word "waiting - count: " customer-leaving-waiting5-count-hour
   update-plots
   set ticks-minute (ticks-minute + 1)
   customer-update-statistic-minute
@@ -1478,7 +1478,7 @@ customer-cash-payment-rate
 customer-cash-payment-rate
 0
 1
-1.0
+0.6
 0.1
 1
 NIL
@@ -1492,7 +1492,7 @@ CHOOSER
 customer-picking-line-strategy
 customer-picking-line-strategy
 0 1 2 4
-0
+3
 
 TEXTBOX
 4
@@ -1885,7 +1885,7 @@ CHOOSER
 497
 customer-arrival-proces
 customer-arrival-proces
-"hpp" "NHPP (POS)"
+"HPP" "NHPP (POS)"
 1
 
 CHOOSER
@@ -1895,7 +1895,7 @@ CHOOSER
 497
 customer-basket-payment
 customer-basket-payment
-"theretical" "ECDF (POS)"
+"Poisson\\Binomial" "ECDF (POS)"
 1
 
 CHOOSER
@@ -1994,7 +1994,7 @@ cashier-work-time
 cashier-work-time
 120
 720
-240.0
+238.0
 1
 1
 NIL
