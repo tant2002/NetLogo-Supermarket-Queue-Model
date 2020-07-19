@@ -459,8 +459,8 @@ to-report customer-arrival-inter-rate-read [time]
 ;
   let value 0
   carefully
-      [set value  precision ( (time:ts-get-exact customer-arrival-input time "\"Bons\"") / 60 ) 2 ]
-      [set value  precision ( (time:ts-get-interp customer-arrival-input time "\"Bons\"") / 60 ) 2 ]
+      [set value  precision ( (time:ts-get-exact customer-arrival-input time "\"customer-arrival-mean-rate\"") / 60 ) 2 ]
+      [set value  precision ( (time:ts-get-interp customer-arrival-input time "\"customer-arrival-mean-rate\"") / 60 ) 2 ]
   report value
 end
 
@@ -2078,7 +2078,7 @@ simulation-start-day
 simulation-start-day
 0
 20
-1.2
+0.0
 0.2
 1
 NIL
@@ -2086,9 +2086,9 @@ HORIZONTAL
 
 MONITOR
 1514
-544
+545
 1622
-589
+590
 changeovers
 cashier-break-count + sum [break-count] of cashiers
 0
@@ -2141,9 +2141,9 @@ mean queue time
 
 MONITOR
 1623
-544
+545
 1737
-589
+590
 total working time
 (sum [ticks - time-start] of cashiers) - (sum [break-length] of cashiers) + cashier-effective-working-length + cashier-return-time + (cashier-break-count + sum [break-count] of cashiers)
 0
