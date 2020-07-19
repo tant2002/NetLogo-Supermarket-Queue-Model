@@ -12,7 +12,7 @@ This is a complex model for simulaton queues in supermarkets with service and se
 ## HOW TO USE IT
 Depend on user decision, the model can be run with mode that use POS data or with inputs generated randomly according to theoretical distributions. To drive model with POS data  the values, parameters "customer-arrival-proces", "customer-basket-payment", "cashier-arrival" need to be set on relevant values (see section Parameters bellow) and input files (see section POS data input files) need to be provide.  
 ### POS data input files
-The files contains data generated out POS transactions data. As example, transactional data out of supermarket loceted in southern Poland was provide. The date was extracted out with special procedures. Please note data range of all files need to be coherent.    
+The files contains data generated out POS transactions data. As example, transactional data out of supermarket loceted in southern Poland was provide. The date was extracted out with special procedures. Please note data range of all files need to be coherent. Files are in time series format and need netlogo Time extenssion - see https://github.com/NetLogo/Time-Extension . 
 #### customer-arrival-input-file-store1.csv
 This file contain data that are necessary to generate arrivals of customers to checkouts in supermarket. It's assumed that arrivals of cusstomers follows poisson process (non homogenous) and expected value of arrived customers in each hour is close to number of transaction in each hour.  
 In the model expected value of arrivals (lambda function of poisson process) is equel to the linear interploatin between calibration points. The calibration points are number of transaction (transaction count) for each hour. This data can be extracted out of POS data.  The data in file contain following fields (columns):
@@ -64,6 +64,13 @@ It determine organisation of queues. Swith on mean single queue to all servers (
 distance-in-queue, distance-queue-server, distance-server-server, distance-sco-sco-h, distance-sco-sco-v determines spatiala distances between customers in queues, servers, sco-servers, servers and customers. Although the spatial parameter do not  affect curently on the  the model, they can be used for future extensions. 
 ### Plots
 ![alt text](/readme-images/plot-customers-arrived-count.png)
+![alt text](/readme-images/plot-customers-served-count.png)
+![alt text](/readme-images/plot-mean-queue-times.png)
+![alt text](/readme-images/plot-probability.png)
+![alt text](/readme-images/plot-cashiers-count.png)
+![alt text](/readme-images/plot-outputs-customers.png)
+![alt text](/readme-images/outputs-cashiers.png)
+
 
 
 ## THINGS TO TRY
