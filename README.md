@@ -63,7 +63,7 @@ It determine organisation of queues. Swith on mean single queue to all servers (
 #### other parameters
 distance-in-queue, distance-queue-server, distance-server-server, distance-sco-sco-h, distance-sco-sco-v determines spatiala distances between customers in queues, servers, sco-servers, servers and customers. Although the spatial parameter do not  affect curently on the  the model, they can be used for future extensions. 
 ### Plots
-![alt text](/readme-images/plot-customer-arrived.png)
+![alt text](/readme-images/plot-customers-arrived-count.png)
 
 
 ## THINGS TO TRY
