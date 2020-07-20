@@ -7,6 +7,15 @@
 This is a complex model for simulation queues in supermarkets with service and self-service checkouts.  It can use sets of data extracted out of POS (Point of Sale) transactions to mimic queue system of typical supermarket. As opposed to traditional models based on queue theory it let simulate and examine complex queue system with dynamically changed parameters. The model is created with  
 
 ## HOW IT WORKS
+System simulate basic operations in queue system in checkouts zone of tipical supermarket. 
+- customer arrival patern
+- service time
+- number of available servers
+- queue discipline
+- number of queues
+
+
+
 See description in article "Data-driven simulation modeling of the checkout process in supermarkets: Insights for decision support in retail operations"
 
 ## HOW TO USE IT
