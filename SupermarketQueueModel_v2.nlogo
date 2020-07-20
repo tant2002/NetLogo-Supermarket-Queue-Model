@@ -19,6 +19,12 @@ servers-own [
   expected-waiting-time
   open
   sys
+  open-start
+  open-end
+  open-length
+  service-start
+  service-end
+  service-length
 ]
 
 sco-servers-own [
@@ -965,6 +971,7 @@ end
 
 
 
+
 to sco-servers-service-begin
   let available-sco-servers (sco-servers with [not is-agent? customer-being-served])
   let bs 0
@@ -1246,13 +1253,7 @@ to-report next-minute-schedule  ;report next minute in ticks
 end
 
 to next-minute-events-complete  ;events to be done every minute
-  ;print word "count: " customer-leaving-count-hour
-  ;print word "waiting - count: " customer-leaving-waiting5-count-hour
-  ifelse customer-leaving-count-hour != 0   [
-    print word ticks word " - " ( customer-leaving-waiting5-count-hour / customer-leaving-count-hour )
-  ][
-    print word ticks word " - " 0
-  ]
+
   update-plots
   customer-update-statistic-minute
   set ticks-minute (ticks-minute + 1)
@@ -1264,12 +1265,13 @@ to-report next-hour-schedule  ;report next hour in ticks (ticks are in min)
 end
 
 to next-hour-events-complete ;events to be done every second
-  ;update-plots
-   ifelse customer-leaving-count-hour != 0   [
-    print word ticks word " + " ( customer-leaving-waiting5-count-hour / customer-leaving-count-hour )
-  ][
-    print word ticks word " + " 0
-  ]
+  update-plots
+  ;print word "ticks-hour " ticks-hour
+  ;ifelse customer-leaving-count-hour != 0   [
+  ;  print word ticks word " + " ( customer-leaving-waiting5-count-hour / customer-leaving-count-hour )
+  ;][
+  ;  print word ticks word " + " 0
+  ;]
   customer-update-statistic-hour
   set ticks-hour ( ticks-hour + 1 )
 end
@@ -1318,12 +1320,13 @@ to go
     ;**** firstly set to list  events done regulary
     ;if (next-second > ticks)[
     ;  set event-queue (fput (list next-second "next-second-events-complete") event-queue)]
+     if (next-hour > ticks)[
+      set event-queue (fput (list next-hour "next-hour-events-complete") event-queue)]
 
     if (next-minute > ticks)[
       set event-queue (fput (list next-minute "next-minute-events-complete") event-queue)]
 
-    if (next-hour > ticks)[
-      set event-queue (fput (list next-hour "next-hour-events-complete") event-queue)]
+
 
     ;**** secondly set to list events done discretly
     if (customer-arrival-next-time > ticks)[
@@ -1609,7 +1612,7 @@ true
 true
 "" ""
 PENS
-"all              " 1.0 0 -7500403 true "" "if (ticks-minute / 60) = ticks-hour [plotxy ticks-hour customer-leaving-count-hour]"
+"all             " 1.0 0 -7500403 true "" "if (ticks-minute / 60) = ticks-hour [plotxy ticks-hour customer-leaving-count-hour]"
 "self-service" 1.0 0 -16448764 true "" "if (ticks-minute / 60) = ticks-hour [plotxy ticks-hour customer-leaving-count-sco-hour]"
 "service" 1.0 0 -13345367 true "" "if (ticks-minute / 60) = ticks-hour [ plotxy ticks-hour  customer-leaving-count-hour - customer-leaving-count-sco-hour]"
 
@@ -1629,7 +1632,7 @@ true
 true
 "" ""
 PENS
-"all" 1.0 0 -9276814 true "" "if (customer-leaving-count-hour != 0) and ((ticks-minute / 60) = (ticks-hour ) ) [ \nplotxy ticks-hour (customer-checkout-queue-time-hour / customer-leaving-count-hour)]\nif (customer-leaving-count-hour = 0) and ((ticks-minute / 60) = (ticks-hour ) ) [ \nplotxy ticks-hour 0]"
+"all " 1.0 0 -9276814 true "" "if (customer-leaving-count-hour != 0) and ((ticks-minute / 60) = (ticks-hour ) ) [ \nplotxy ticks-hour (customer-checkout-queue-time-hour / customer-leaving-count-hour)]\nif (customer-leaving-count-hour = 0) and ((ticks-minute / 60) = (ticks-hour ) ) [ \nplotxy ticks-hour 0]"
 "self-service" 1.0 0 -16777216 true "" "if (customer-leaving-count-sco-hour != 0 ) and ((ticks-minute / 60) = (ticks-hour)) [\nplotxy ticks-hour customer-leaving-queue-time-sco-hour / customer-leaving-count-sco-hour]\nif (customer-leaving-count-sco-hour = 0 ) and ((ticks-minute / 60) = (ticks-hour)) [\nplotxy ticks-hour 0]"
 "service" 1.0 0 -14070903 true "" "if ( ( customer-leaving-count-hour - customer-leaving-count-sco-hour ) != 0 ) and ((ticks-minute / 60) = (ticks-hour)) [\nplotxy ticks-hour customer-leaving-queue-time-server-hour / ( customer-leaving-count-hour - customer-leaving-count-sco-hour )\n]\n\nif ( ( customer-leaving-count-hour - customer-leaving-count-sco-hour ) = 0 ) and ((ticks-minute / 60) = (ticks-hour)) [\nplotxy ticks-hour 0 \n]"
 
@@ -1710,7 +1713,7 @@ distance-in-queue
 distance-in-queue
 1
 3
-3.0
+1.0
 1
 1
 NIL
@@ -1951,7 +1954,7 @@ cashier-return-time
 cashier-return-time
 0
 5
-5.0
+1.0
 0.5
 1
 NIL
@@ -2071,19 +2074,8 @@ MONITOR
 545
 1403
 590
-time in store
+total time in work
 sum [ticks - time-start] of cashiers + cashier-working-length
-0
-1
-11
-
-MONITOR
-1404
-545
-1514
-590
-effective-working-time
-(sum [ticks - time-start] of cashiers) - (sum [break-length] of cashiers) + cashier-effective-working-length
 0
 1
 11
@@ -2129,7 +2121,7 @@ MONITOR
 1020
 590
 1131
-636
+635
 mean queue time (only customers in queues)
 customer-leaving-queue-time-sco / customer-leaving-waiting-count-sco
 3
@@ -2151,7 +2143,7 @@ MONITOR
 911
 634
 1020
-680
+679
 mean queue time
 (customer-checkout-queue-time - customer-leaving-queue-time-sco) / (customer-leaving-count - customer-leaving-count-sco)
 3
@@ -2164,7 +2156,7 @@ MONITOR
 1737
 590
 total working time
-(sum [ticks - time-start] of cashiers) - (sum [break-length] of cashiers) + cashier-effective-working-length + cashier-return-time + (cashier-break-count + sum [break-count] of cashiers)
+(sum [ticks - time-start] of cashiers) - (sum [break-length] of cashiers) + cashier-effective-working-length + cashier-return-time * (cashier-break-count + sum [break-count] of cashiers)
 0
 1
 11
@@ -2196,7 +2188,9 @@ true
 true
 "" ""
 PENS
-"all              " 1.0 0 -16777216 true "" "if ((ticks-minute / 60) = (ticks-hour + 1)) and (customer-leaving-count-hour != 0) [ plotxy ticks-hour ( customer-leaving-waiting5-count-hour / customer-leaving-count-hour ) ]\nif ((ticks-minute / 60) = (ticks-hour + 1)) and (customer-leaving-count-hour = 0) [ plotxy ticks-hour 0 ]"
+"all             " 1.0 0 -7500403 true "" "if ((ticks-minute / 60) = (ticks-hour + 1)) and (customer-leaving-count-hour != 0) [ plotxy ticks-hour ( customer-leaving-waiting5-count-hour / customer-leaving-count-hour ) ]\nif ((ticks-minute / 60) = (ticks-hour + 1)) and (customer-leaving-count-hour = 0) [ plotxy ticks-hour 0 ]"
+"self-service" 1.0 0 -16777216 true "" "if ((ticks-minute / 60) = (ticks-hour + 1)) and (customer-leaving-count-sco-hour != 0) [ plotxy ticks-hour ( customer-leaving-waiting5-count-sco-hour / customer-leaving-count-sco-hour ) ]\nif ((ticks-minute / 60) = (ticks-hour + 1)) and (customer-leaving-count-sco-hour = 0) [ plotxy ticks-hour 0 ]"
+"service" 1.0 0 -14070903 true "" "if ((ticks-minute / 60) = (ticks-hour + 1)) and (customer-leaving-count-server-hour != 0) [ plotxy ticks-hour ( customer-leaving-waiting5-count-hour / customer-leaving-count-server-hour ) ]\nif ((ticks-minute / 60) = (ticks-hour + 1)) and (customer-leaving-count-server-hour = 0) [ plotxy ticks-hour 0 ]"
 
 TEXTBOX
 1247
@@ -2221,7 +2215,7 @@ Statistic per minute (cashiers)
 TEXTBOX
 1270
 557
-1458
+1285
 580
 all
 11
@@ -2247,6 +2241,17 @@ MONITOR
 P(queue time > 5)
 customer-leaving-waiting5-count-server / customer-leaving-count-server
 3
+1
+11
+
+MONITOR
+1404
+545
+1514
+590
+effective-working-time
+(sum [ticks - time-start] of cashiers) - (sum [break-length] of cashiers) + cashier-effective-working-length
+0
 1
 11
 
