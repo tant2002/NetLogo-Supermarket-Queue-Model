@@ -4,7 +4,7 @@
 ![alt text](/readme-images/model-interface.png)
 ![alt text](/readme-images/model-pitch3D.png)
 ## WHAT IS IT?
-This is a complex model was for simulatation queue system of tipical supermarket's checkout zone. As opposed to traditional models based on queue theory, it let simulate and examine complex system with non-stationary characteristics i.e.  dynamically changed intensity  of customers arrival,  servers availability and / or service time distribution. 
+This is a complex model for simulatation queue system of tipical supermarket's checkout zone. As opposed to traditional models based on queue theory, it let simulate and examine complex system with non-stationary characteristics i.e.  dynamically changed intensity  of customers arrival,  servers availability and / or service time distribution. 
 Th mimmic proces accuratly, the model can be driven with historical data  containing  transactions intensities,  proportions of various basket sizes,  and  cashiers avalability in time. It let to examine various servers (checkouts) configurations in terms of quntity ond type (service and selfsevice). The model was created with an agent approach (ABS - Agent Based Simulation) however it also meets the  DES (Discret Events Simulation)  model definition.  
 
 ## HOW IT WORKS
