@@ -1,16 +1,31 @@
 # NetLogo_SupermarketQueueModel
- Simulation data driven model of queue system of typical supermarket's checkout zone. The model created with ABS (Agent Based Simulation) approach. 
+ Simulation data driven model of queue system of typical supermarket's checkout zone. 
 
 ![alt text](/readme-images/model-interface.png)
 ![alt text](/readme-images/model-pitch3D.png)
 ## WHAT IS IT?
-
-This is a complex model for simulation queues in supermarkets with service and self-service checkouts.  It can use sets of data extracted out of POS (Point of Sale) transactions to mimic queue system of typical supermarket. As opposed to traditional models based on queue theory it let simulate and examine complex queue system with dynamically changed parameters. The model is created with  
+This is a complex model was for simulatation queue system of tipical supermarket's checkout zone. As opposed to traditional models based on queue theory it let simulate and examine complex system with non-stationary characteristics i.e.  dynamically changed intensity  of customers arrival,  servers availability and / or service time distribution. 
+Th mimmic proces accuratly, the model can be driven with historical data  containing  transactions intensities,  proportions of various basket sizes,  and  cashiers avalability in time. It let to examine various servers (checkouts) configurations in terms of quntity ond type (service and selfsevice). The model was created with an agent approach (ABS - Agent Based Simulation) however it also meets the  DES (Discret Events Simulation)  model definition.  
 
 ## HOW IT WORKS
-System simulate basic operations in queue system in checkouts zone of tipical supermarket. 
-- customer arrival patern
-- service time
+System let simulate basic chracteristics of queue system in checkouts zone of tipical supermarket:  
+### customer arrival patern
+Depending on the settings, customer arrival can be simulated as: HPP (Homogenous Poisson Process) or NHPP (None-Homogenous Poisson Process). In first case, interarrival rate are simply drawn according to exponetial distribution with given and constant lambda ( = 1 /  arrival rate). In second case intensity function Lambda(t) is designated as an interpolation between the calibration points which historical data of  transactions counts for each full hour +/- 30 minuts.   
+### service time patern
+Service time cold be drawn simple according theoretical (exponetial) distribution or  designated in several stages: firsty basket-size of each customer is drown  on the basis empirical distrubutions, then service time  is calculated as the sum of the transaction and break times. The transaction times are generated according to Eqn. \begin{equation}
+\mathit{BreakTime}(n) = \mathit{BeginDateTime}(n) - \mathit{EndDateTime}(n - 1),
+\end{equation} and 
+\begin{equation}
+\mathit{TranTime}(n) = \mathit{EndDateTime}(n) - \mathit{BeginDateTime}(n).
+\end{equation}
+
+with residuals randomly sampled from the respective
+distribution (see the histograms in Fig. 3). Similarly, the break times for self-service
+checkouts are generated according to Eqn. (4) with residuals randomly sampled from the respective
+distribution, while for service checkouts – simply randomly sampled from BreakTime(n) for n
+spanning all transactions.    
+  
+
 - number of available servers
 - queue discipline
 - number of queues
