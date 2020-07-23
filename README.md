@@ -10,14 +10,15 @@ Th mimmic proces accuratly, the model can be driven with historical data  contai
 ## HOW IT WORKS
 System let simulate basic chracteristics of queue system in checkouts zone of tipical supermarket:  
 ### customer arrival patern
-Depending on the settings, customer arrival can be simulated as: HPP (Homogenous Poisson Process) or NHPP (None-Homogenous Poisson Process). In first case, interarrival rate are simply drawn according to exponetial distribution with given and constant lambda ( = 1 /  arrival rate). In second case intensity function Lambda(t) is designated as an interpolation between the calibration points which historical data of  transactions counts for each full hour +/- 30 minuts.   
+Depending on the settings, customer arrival can be simulated as: HPP (Homogenous Poisson Process) or NHPP (None-Homogenous Poisson Process). In first case, interarrival rate are sampled according to exponetial distribution with given and constant lambda ( = 1 /  arrival rate). In second case intensity function Lambda(t) is designated as an interpolation between the calibration points which historical data of  transactions counts for each full hour +/- 30 minuts.
 ### service time patern
 Service time cold be drawn simply according theoretical (exponetial) distribution or designated in more comlex way in several steps.  Firsty basket-size of each customer is drown  on the basis empirical distrubutions, then service time  is calculated as the sum of the transaction and break times separatly for service and self-service servers (checkouts). The transaction times are generated according to power regression model equetion just like the break times for self-service. The break times for service checkouts – simply randomly sampled. The parameters for this models was estimated according to historical transactional data out of grocery supermarkets located in a large city in Southern Poland.    
 ### number of available servers
-The number 
+The number of servers (both service and self-service) is given as parameters. However the avialability of servers customers depends,  like in real supermarket,   on avialability cashiers.   
 
-- queue discipline
-- number of queues
+### queue discipline
+First In First Served (FIFS) for both types of server. 
+### number of queues
 
 
 
