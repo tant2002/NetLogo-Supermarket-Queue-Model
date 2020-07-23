@@ -1878,10 +1878,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-390
-700
-519
-733
+394
+702
+523
+735
 distance-sco-sco-h
 distance-sco-sco-h
 1
@@ -1893,10 +1893,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-520
-700
-654
-733
+524
+702
+658
+735
 distance-sco-sco-v
 distance-sco-sco-v
 1
@@ -2343,7 +2343,7 @@ P(queue time > 5) %
 MONITOR
 1725
 123
-1855
+1848
 168
 P(queue time > 5) %
 100 * customer-leaving-waiting5-count-server / customer-leaving-count-server

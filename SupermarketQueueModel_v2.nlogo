@@ -1496,13 +1496,13 @@ to go
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
+-2
+65
+658
+409
 -1
-54
-639
-388
 -1
--1
-12.3
+12.7
 1
 9
 1
@@ -1524,9 +1524,9 @@ ticks
 
 SLIDER
 3
-595
-133
 628
+133
+661
 number-of-servers
 number-of-servers
 0
@@ -1538,10 +1538,10 @@ NIL
 HORIZONTAL
 
 BUTTON
-2
-403
-57
-436
+3
+437
+58
+470
 Setup
 setup
 NIL
@@ -1556,9 +1556,9 @@ NIL
 
 BUTTON
 60
-403
+437
 115
-436
+470
 Next
 go
 NIL
@@ -1572,10 +1572,10 @@ NIL
 1
 
 BUTTON
-118
-403
-173
-436
+119
+437
+174
+470
 Go
 go
 T
@@ -1601,9 +1601,9 @@ time:show current-time \"EEEE, dd.MM.YYYY HH:mm:ss\"
 
 TEXTBOX
 5
-387
+420
 155
-405
+438
 controls
 11
 0.0
@@ -1611,9 +1611,9 @@ controls
 
 TEXTBOX
 4
-582
+614
 181
-601
+633
 servers (checkout) parameters
 11
 0.0
@@ -1621,9 +1621,9 @@ servers (checkout) parameters
 
 SLIDER
 129
-537
+569
 259
-570
+602
 customer-cash-payment-rate
 customer-cash-payment-rate
 0
@@ -1636,9 +1636,9 @@ HORIZONTAL
 
 CHOOSER
 258
-460
+493
 389
-505
+538
 customer-picking-line-strategy
 customer-picking-line-strategy
 0 1 2 3 4
@@ -1646,9 +1646,9 @@ customer-picking-line-strategy
 
 TEXTBOX
 4
-443
+475
 154
-461
+493
 customers parameters
 11
 0.0
@@ -1656,9 +1656,9 @@ customers parameters
 
 TEXTBOX
 397
-445
+478
 547
-463
+496
 cashiers parameters
 11
 0.0
@@ -1666,9 +1666,9 @@ cashiers parameters
 
 SLIDER
 394
-535
-530
 568
+530
+601
 number-of-cashiers
 number-of-cashiers
 0
@@ -1681,9 +1681,9 @@ HORIZONTAL
 
 SLIDER
 3
-503
+535
 132
-536
+568
 customer-arrival-mean-rate
 customer-arrival-mean-rate
 0
@@ -1696,9 +1696,9 @@ HORIZONTAL
 
 SLIDER
 129
-503
+535
 259
-536
+568
 customer-basket-mean-size
 customer-basket-mean-size
 0
@@ -1710,10 +1710,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-396
-404
-659
-437
+397
+438
+660
+471
 simulation-end-day
 simulation-end-day
 simulation-start-day
@@ -1808,9 +1808,9 @@ customer-leaving-count
 
 SLIDER
 394
-595
-528
 628
+528
+661
 number-of-sco-servers
 number-of-sco-servers
 0
@@ -1823,9 +1823,9 @@ HORIZONTAL
 
 SWITCH
 3
-640
-133
 673
+133
+706
 single-queue?
 single-queue?
 1
@@ -1834,9 +1834,9 @@ single-queue?
 
 SLIDER
 2
-700
-130
 733
+130
+766
 distance-in-queue
 distance-in-queue
 1
@@ -1849,9 +1849,9 @@ HORIZONTAL
 
 SLIDER
 129
-702
+734
 263
-735
+767
 distance-queue-server
 distance-queue-server
 1
@@ -1864,9 +1864,9 @@ HORIZONTAL
 
 SLIDER
 263
-702
+734
 386
-735
+767
 distance-server-server
 distance-server-server
 1
@@ -1878,10 +1878,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-390
-700
-519
-733
+394
+734
+523
+767
 distance-sco-sco-h
 distance-sco-sco-h
 1
@@ -1893,10 +1893,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-520
-700
-654
-733
+524
+734
+658
+767
 distance-sco-sco-v
 distance-sco-sco-v
 1
@@ -1909,9 +1909,9 @@ HORIZONTAL
 
 TEXTBOX
 3
-683
+715
 153
-701
+733
 other-parameters
 11
 0.0
@@ -1919,9 +1919,9 @@ other-parameters
 
 SLIDER
 3
-537
+569
 132
-570
+602
 max-customers
 max-customers
 0
@@ -2030,9 +2030,9 @@ customers %
 
 CHOOSER
 2
-460
+493
 131
-505
+538
 customer-arrival-proces
 customer-arrival-proces
 "HPP" "NHPP (POS)"
@@ -2040,9 +2040,9 @@ customer-arrival-proces
 
 CHOOSER
 129
-460
+493
 259
-505
+538
 customer-basket-payment
 customer-basket-payment
 "Poisson\\Binomial" "ECDF (POS)"
@@ -2050,9 +2050,9 @@ customer-basket-payment
 
 CHOOSER
 394
-460
+493
 530
-505
+538
 cashier-arrival
 cashier-arrival
 "constant number" "workschedule (POS)"
@@ -2060,9 +2060,9 @@ cashier-arrival
 
 SLIDER
 529
-460
-657
 493
+657
+526
 cashier-max-line
 cashier-max-line
 1
@@ -2075,9 +2075,9 @@ HORIZONTAL
 
 SLIDER
 530
-537
+569
 660
-570
+602
 cashier-return-time
 cashier-return-time
 0
@@ -2090,9 +2090,9 @@ HORIZONTAL
 
 SLIDER
 530
-503
+535
 659
-536
+568
 cashier-min-line
 cashier-min-line
 0
@@ -2105,9 +2105,9 @@ HORIZONTAL
 
 TEXTBOX
 394
-580
+613
 624
-599
+632
 sco-servers (self-checkout) parameters
 11
 0.0
@@ -2137,9 +2137,9 @@ time:show start-time \"dd.MM.YYYY HH:mm:ss\"
 
 SLIDER
 395
-504
-531
 537
+531
+570
 cashier-work-time
 cashier-work-time
 120
@@ -2209,10 +2209,10 @@ sum [ticks - time-start] of cashiers + cashier-working-length
 11
 
 SLIDER
-177
-403
-392
-436
+178
+437
+393
+470
 simulation-start-day
 simulation-start-day
 0
@@ -2364,9 +2364,9 @@ total time on servers
 
 CHOOSER
 133
-595
+628
 259
-640
+673
 server-service-time-model
 server-service-time-model
 "EXPONENTIAL" "Reg. model (POS)"
@@ -2374,9 +2374,9 @@ server-service-time-model
 
 SLIDER
 134
-640
-259
 673
+259
+706
 server-service-time-expected
 server-service-time-expected
 0
@@ -2389,9 +2389,9 @@ HORIZONTAL
 
 CHOOSER
 530
-595
+628
 660
-640
+673
 sco-server-service-time-model
 sco-server-service-time-model
 "EXPONENTIAL" "Reg. model (POS)"
@@ -2399,9 +2399,9 @@ sco-server-service-time-model
 
 SLIDER
 530
-640
-660
 673
+660
+706
 sco-server-service-time-expected
 sco-server-service-time-expected
 0
