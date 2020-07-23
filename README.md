@@ -2,6 +2,7 @@
  Simulation data driven model of queue system of typical supermarket's checkout zone. The model created with ABS (Agent Based Simulation) approach. 
 
 ![alt text](/readme-images/model-interface.png)
+![alt text](/readme-images/model-pitch3D.png)
 ## WHAT IS IT?
 
 This is a complex model for simulation queues in supermarkets with service and self-service checkouts.  It can use sets of data extracted out of POS (Point of Sale) transactions to mimic queue system of typical supermarket. As opposed to traditional models based on queue theory it let simulate and examine complex queue system with dynamically changed parameters. The model is created with  
