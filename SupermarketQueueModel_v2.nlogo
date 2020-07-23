@@ -2332,7 +2332,7 @@ all
 MONITOR
 1725
 78
-1855
+1848
 123
 P(queue time > 5) %
 100 * customer-leaving-waiting5-count-sco / customer-leaving-count-sco
@@ -2343,7 +2343,7 @@ P(queue time > 5) %
 MONITOR
 1725
 123
-1855
+1848
 168
 P(queue time > 5) %
 100 * customer-leaving-waiting5-count-server / customer-leaving-count-server
