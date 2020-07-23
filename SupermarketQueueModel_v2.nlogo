@@ -281,7 +281,7 @@ End
 
 
 to setup-store
-  import-drawing "store1.png"
+  import-drawing "model-images/store.png"
   ask patches [
     set floor? FALSE
   ]
@@ -1642,7 +1642,7 @@ CHOOSER
 customer-picking-line-strategy
 customer-picking-line-strategy
 0 1 2 3 4
-4
+1
 
 TEXTBOX
 4
@@ -1718,7 +1718,7 @@ simulation-end-day
 simulation-end-day
 simulation-start-day
 20
-19.0
+20.0
 1
 1
 NIL
@@ -1815,7 +1815,7 @@ number-of-sco-servers
 number-of-sco-servers
 0
 8
-8.0
+6.0
 1
 1
 NIL
@@ -2589,7 +2589,7 @@ true
 true
 "" ""
 PENS
-"all          " 1.0 0 -11053225 true "" "if (count sco-servers + count servers) != 0 [ plotxy ticks-minute 100 *(count servers with [customer-being-served != nobody] + count sco-servers with [customer-being-served != nobody]) / (count sco-servers + count servers)] "
+"all          " 1.0 0 -5987164 true "" "if (count sco-servers + count servers) != 0 [ plotxy ticks-minute 100 *(count servers with [customer-being-served != nobody] + count sco-servers with [customer-being-served != nobody]) / (count sco-servers + count servers)] "
 "self-service" 1.0 0 -16777216 true "" "if (count sco-servers) != 0 [ plotxy ticks-minute 100 *(count sco-servers with [customer-being-served != nobody]) / (count sco-servers)] "
 "service" 1.0 0 -14730904 true "" "if (count servers) != 0 [ plotxy ticks-minute 100 *(count servers with [customer-being-served != nobody]) / (count servers)] "
 
