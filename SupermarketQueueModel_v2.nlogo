@@ -257,10 +257,11 @@ to setup-times
   ]
 
 
-  if  ( time:is-before start-time1 start-time and (not time:is-equal start-time1 time:create "0001-01-01 00:01:00")) or (start-time = time:create "0001-01-01 00:01:00")[
+  if  ( time:is-before start-time1 start-time and (not time:is-equal start-time1 time:create "0001-01-01 00:01:00")) or (time:is-equal start-time  time:create "0001-01-01 00:01:00")[
+
     set start-time start-time1
   ]
-  if  ( time:is-after end-time1 end-time  and (not time:is-equal end-time1 time:create "9999-12-31 00:00:00")) or (end-time = time:create "9999-12-31 00:00:00") [set end-time end-time1 ]
+  if  ( time:is-after end-time1 end-time  and (not time:is-equal end-time1 time:create "9999-12-31 00:00:00")) or (time:is-equal end-time  time:create "9999-12-31 00:00:00") [set end-time end-time1 ]
 
   set start-time time:plus start-time -1.0 "minutes"
   set start-time1 time:plus start-time1 -1.0 "minutes"
@@ -291,25 +292,27 @@ end
   set-default-shape servers "checkout-service"
   set server-queue-offset 5
   set server-zone-queue []
-  let max-in-row floor ( abs max-pxcor ) / distance-server-server
-  create-servers number-of-servers [
-    ifelse ( who < max-in-row) [
-      setxy (- ( who * distance-server-server ) ) server-ycor
-    ][
-      setxy (- (( who - max-in-row) * distance-server-server ) - 1 ) ( server-ycor + distance-server-server )
-    ]
+  if number-of-servers > 0 [
+    let max-in-row floor ( abs max-pxcor ) / distance-server-server
+    create-servers number-of-servers [
+      ifelse ( who < max-in-row) [
+        setxy (- ( who * distance-server-server ) ) server-ycor
+      ][
+        setxy (- (( who - max-in-row) * distance-server-server ) - 1 ) ( server-ycor + distance-server-server )
+      ]
 
-    set label ""
-    set customer-being-served nobody
-    set cashier-working-on nobody
-    set next-completion-time 0
-    set server-queue []
-    set open false
-    recolor-server
-    set sys false
-   ]
-  set server-zone-xcor ([xcor] of (min-one-of servers [xcor])) + (([xcor] of (max-one-of servers [xcor]))-([xcor] of (min-one-of servers [xcor]))) / 2
-  set server-zone-ycor [ycor] of max-one-of servers [ycor]
+      set label ""
+      set customer-being-served nobody
+      set cashier-working-on nobody
+      set next-completion-time 0
+      set server-queue []
+      set open false
+      recolor-server
+      set sys false
+    ]
+    set server-zone-xcor ([xcor] of (min-one-of servers [xcor])) + (([xcor] of (max-one-of servers [xcor]))-([xcor] of (min-one-of servers [xcor]))) / 2
+    set server-zone-ycor [ycor] of max-one-of servers [ycor]
+  ]
 
 end
 
@@ -561,60 +564,75 @@ to customer-sco-will-draw ;; customer procedure
  set sco-will 1
 end
 
-to customer-server-service-time-draw ;;customer procedure
+to customer-server-service-time-draw ;customer proccedure
+;this procedure decide how service time for each customer is drawn
+  if server-service-time-model = "EXPONENTIAL" [customer-server-service-time-draw-exponetial]
+  if server-service-time-model = "Reg. model (POS)" [customer-server-service-time-draw-regression]
+
+end
+
+to customer-sco-server-service-time-draw ;customer proccedure
+;this procedure decide how  service time on sco server for each customer is drawn
+  if sco-server-service-time-model = "EXPONENTIAL" [customer-sco-server-service-time-draw-exponetial]
+  if sco-server-service-time-model = "Reg. model (POS)" [customer-sco-server-service-time-draw-regression]
+end
+
+to customer-server-service-time-draw-regression ;;customer procedure
+  ;set server-service-time according to power regression model with parameters  estimated according to POS data
   let transaction-time (e ^ ( 2.121935 + 0.698402 * ln basket-size + random-normal 0 0.4379083) ) / 60
   let break-time (random-gamma 4.830613 (1 /  3.074209 )) / 60
   set server-service-time transaction-time + break-time
 end
 
-to customer-sco-server-service-time-draw
+to customer-sco-server-service-time-draw-regression ; customer procedure
+  ;set sco-server-service-time according to power regression model with parameters  estimated according to POS data
   let transaction-time (e ^ ( 3.122328 + 0.672461 * ln basket-size + random-normal 0 0.4907405) ) / 60
   let break-time (e ^ ( 3.51669 + 0.22300 * ln basket-size + random-normal 0 0.4820532) ) / 60
   set sco-server-service-time transaction-time + break-time
 end
 
-to-report customer-server-service-time-expected-model ;;customer reporter
-   ;report expected waiting time on server of customer
-   let transaction-time-expected (e ^ ( 2.121935 + 0.698402 * ln basket-size) ) / 60
-   let break-time-expected (3.074209 * (4.830613)) / 60
-   report transaction-time-expected + break-time-expected
-End
-
-to-report customer-sco-server-service-time-expected-model ;;customer reporter
-   ;report expected waiting time on sco-server of customer
-   let transactiom-time-expected (e ^ ( 3.122328 + 0.672461 * ln basket-size) ) / 60
-   let break-time-expected  (e ^ ( 3.51669 + 0.22300 * ln basket-size) ) / 60
-   report transactiom-time-expected + break-time-expected
+to customer-server-service-time-draw-exponetial ;;customer procedure
+  ;set server-service-time according exponerial distribution with parameter  'server-service-time-expected'
+  set server-service-time random-exponential ( server-service-time-expected )
 end
 
-to-report server-waiting-time-expected-model ;;server reporter
+to customer-sco-server-service-time-draw-exponetial
+   ;set 'sco-server-service-time' according exponerial distribution with parameter  'server-service-time-expected'
+  set sco-server-service-time random-exponential ( sco-server-service-time-expected )
+end
+
+
+
+
+
+to-report server-waiting-time-expected-regression ;;server reporter
   ;report expected waiting time on queue of server
   ifelse is-agent? customer-being-served [
-    report (sum ( [ customer-server-service-time-expected-model ] of  customers with [member? self [server-queue] of myself ])) + (next-completion-time - ticks)
+    report (sum ( [ customer-server-service-time-expected-regression ] of  customers with [member? self [server-queue] of myself ])) + (next-completion-time - ticks)
   ][
-    report (sum ( [ customer-server-service-time-expected-model ] of  customers with [member? self [server-queue] of myself ]))
+    report (sum ( [ customer-server-service-time-expected-regression ] of  customers with [member? self [server-queue] of myself ]))
   ]
 end
 
 to-report server-waiting-time-expected-mean ;;server reporter
   ;report expected waiting time according to assumed mean service time
-  let imean-service-time 1.079757 + 0.266212
-  ifelse is-agent? customer-being-served [
-    report (( count  customers with [member? self [server-queue] of myself ]) + 1 )
+  ;reporer use external parameter 'server-service-time-expected'
+    ifelse is-agent? customer-being-served [
+    report (( count  customers with [member? self [server-queue] of myself ]) + 1 ) * server-service-time-expected
   ][
-    report ( count customers with [member? self [server-queue] of myself ])
+    report ( count customers with [member? self [server-queue] of myself ]) * server-service-time-expected
   ]
 end
 
-to-report sco-zone-waiting-time-expected-model
+to-report sco-zone-waiting-time-expected-regression
 ;report expected waiting time on sco-zone.  if no SCO checkout is define it return max run time
   ifelse any? sco-servers with [open] [
     let next-sco-server  min-one-of sco-servers with [next-completion-time > ticks] [next-completion-time]
     ;select sco-server that next finish service
     ifelse next-sco-server != nobody [
-      report (sum ( [ customer-sco-server-service-time-expected-model ] of  customers with [member? self sco-zone-queue ]) / count sco-servers with [open] ) + ( [next-completion-time] of next-sco-server - ticks )
+      report (sum ( [ customer-sco-server-service-time-expected-regression ] of  customers with [member? self sco-zone-queue ]) / count sco-servers with [open] ) + ( [next-completion-time] of next-sco-server - ticks )
     ][
-      report (sum ( [ customer-sco-server-service-time-expected-model ] of  customers with [member? self sco-zone-queue ]) / count sco-servers with [open] )
+      report (sum ( [ customer-sco-server-service-time-expected-regression ] of  customers with [member? self sco-zone-queue ]) / count sco-servers with [open] )
     ]
   ][
     report max-run-time]
@@ -622,23 +640,23 @@ end
 
 to-report sco-zone-waiting-time-expected-mean
 ;report expected waiting time on sco-zone according to assumed mean service time .  if no SCO checkout is define it return max run time
-  let imean-sco-service-time 1.718488333 + 1.134386167
+;reporer use external parameter 'sco-server-service-time-expected'
   ifelse any? sco-servers with [open] [
-    report ((length sco-zone-queue) * imean-sco-service-time)  / count sco-servers with [open]
+    report ((length sco-zone-queue) * sco-server-service-time-expected)  / count sco-servers with [open]
   ][
     report max-run-time]
 end
 
-to-report server-zone-waiting-time-expected-model
+to-report server-zone-waiting-time-expected-regression
 ;report expected waiting time on server-zone (single queue)
   let next-server  min-one-of servers with [open and next-completion-time > ticks] [next-completion-time]
   let waiting-time-expected time:difference-between current-time end-time  "minute"
   ;select sco-server that next finish service
   if any? servers with [open] [
     ifelse next-server != nobody  [
-      set waiting-time-expected  (sum ( [ customer-server-service-time-expected-model ] of  customers with [member? self server-zone-queue ]) / count servers with [open] ) + ( [next-completion-time] of next-server - ticks )
+      set waiting-time-expected  (sum ( [ customer-server-service-time-expected-regression ] of  customers with [member? self server-zone-queue ]) / count servers with [open] ) + ( [next-completion-time] of next-server - ticks )
     ][
-      set waiting-time-expected  (sum ( [ customer-server-service-time-expected-model ] of  customers with [member? self server-zone-queue ]) / count servers with [open] )
+      set waiting-time-expected  (sum ( [ customer-server-service-time-expected-regression ] of  customers with [member? self server-zone-queue ]) / count servers with [open] )
     ]
   ]
   report  waiting-time-expected
@@ -646,13 +664,30 @@ end
 
 to-report server-zone-waiting-time-expected-mean
 ;report expected waiting time on server-zone (single queue) ccording to assumed mean service time
-  let imean-service-time 64.78542 + 15.97272
+;reporer use external parameter 'server-service-time-expected'
+
   ifelse any? servers with [open] [
-    report ((length server-zone-queue) * imean-service-time)  / count servers with [open]
+    report ((length server-zone-queue) * server-service-time-expected)  / count servers with [open]
   ][
     report  max-run-time
   ]
 end
+
+
+to-report customer-server-service-time-expected-regression ;;customer reporter
+   ;report expected waiting time on server of customer
+   let transaction-time-expected (e ^ ( 2.121935 + 0.698402 * ln basket-size) ) / 60
+   let break-time-expected (3.074209 * (4.830613)) / 60
+   report transaction-time-expected + break-time-expected
+End
+
+to-report customer-sco-server-service-time-expected-regression ;;customer reporter
+   ;report expected waiting time on sco-server of customer
+   let transactiom-time-expected (e ^ ( 3.122328 + 0.672461 * ln basket-size) ) / 60
+   let break-time-expected  (e ^ ( 3.51669 + 0.22300 * ln basket-size) ) / 60
+   report transactiom-time-expected + break-time-expected
+end
+
 
 
 to customer-picking-queue-strategy-draw ;customer procedure
@@ -786,23 +821,23 @@ end
 
 ;******pick line strategy  : the minimal expected time according to number of items and expected time of transaction and break **
 to customer-checkout-queue-pick-strategy4
-  let iserver-picked (min-one-of (servers with [open])  [server-waiting-time-expected-model])
+  let iserver-picked (min-one-of (servers with [open])  [server-waiting-time-expected-regression])
 
   let server-picked-waiting-time-expected 0
-  if iserver-picked != nobody [set server-picked-waiting-time-expected  [server-waiting-time-expected-model] of iserver-picked ]
+  if iserver-picked != nobody [set server-picked-waiting-time-expected  [server-waiting-time-expected-regression] of iserver-picked ]
 
   ifelse single-queue? [  ;if single queue for all servers
 
-    if (server-zone-waiting-time-expected-model <= sco-zone-waiting-time-expected-model) or (not any? (sco-servers with [open]))[
+    if (server-zone-waiting-time-expected-regression <= sco-zone-waiting-time-expected-regression) or (not any? (sco-servers with [open]))[
       set server-zone-queue-picked? TRUE
       ]
-    if (server-zone-waiting-time-expected-model > sco-zone-waiting-time-expected-model) or (iserver-picked = nobody)[
+    if (server-zone-waiting-time-expected-regression > sco-zone-waiting-time-expected-regression) or (iserver-picked = nobody)[
       set sco-zone-queue-picked? TRUE]
   ][ ;if all servers have sparate queues
 
-    if (server-picked-waiting-time-expected <= sco-zone-waiting-time-expected-model) or (not any? (sco-servers with [open]))[
+    if (server-picked-waiting-time-expected <= sco-zone-waiting-time-expected-regression) or (not any? (sco-servers with [open]))[
       set server-picked iserver-picked]
-    if (server-picked-waiting-time-expected > sco-zone-waiting-time-expected-model) or (iserver-picked = nobody)[
+    if (server-picked-waiting-time-expected > sco-zone-waiting-time-expected-regression) or (iserver-picked = nobody)[
       set sco-zone-queue-picked? TRUE]
   ]
   customer-checkout-queue-join
@@ -1135,7 +1170,7 @@ to-report cashier-server-enter-time-schedule
 end
 
 to cashier-server-enter ;cashier procedure
-  let server-to-work  []
+  let server-to-work nobody
   let available-servers []
   ;First choice: server with cashiers that alredy closed checkout
   set available-servers (servers with [not open and is-agent? cashier-working-on])
@@ -1149,22 +1184,28 @@ to cashier-server-enter ;cashier procedure
   ]
 
   set server-to-work one-of available-servers
-  ask server-to-work [
-    if cashier-working-on != nobody [ ask cashier-working-on [cashier-server-leave] ]
-    set cashier-working-on myself
-    set open true
-    recolor-server
+  if server-to-work != nobody [
+    ask server-to-work [
+      if cashier-working-on != nobody [ ask cashier-working-on [cashier-server-leave] ]
+      set cashier-working-on myself
+      set open true
+      recolor-server
+    ]
+    set xcor [xcor] of server-to-work
+    set ycor [ycor] of server-to-work
+    set server-working-on server-to-work
+    set working? true
+    set time-break-end ticks
+    set break-length ( break-length + time-break-end - time-break-start )
+    if (time-break-end > time-break-start)[
+      set break-count  break-count + 1 ]
+    cashier-update-satistic "server-enter"
+    recolor-cashier
+    set cashiers-backoffice  remove self cashiers-backoffice
+    move-cashiers-backoffice  max-pxcor min-pycor
   ]
-  set xcor [xcor] of server-to-work
-  set ycor [ycor] of server-to-work
-  set server-working-on server-to-work
-  set working? true
-  set time-break-end ticks
-  set break-length ( break-length + time-break-end - time-break-start )
-  if (time-break-end > time-break-start)[
-    set break-count  break-count + 1 ]
-  cashier-update-satistic "server-enter"
-  recolor-cashier
+
+
 
 end
 
@@ -1172,8 +1213,6 @@ to cashiers-server-enter
 ;chose on of cashier in backoffice to go server
   if ( not empty? cashiers-backoffice ) [
     ask first cashiers-backoffice [cashier-server-enter]
-    set cashiers-backoffice  but-first cashiers-backoffice
-    move-cashiers-backoffice  max-pxcor min-pycor
   ]
 
 end
@@ -1459,7 +1498,7 @@ SLIDER
 608
 number-of-servers
 number-of-servers
-1
+0
 20
 20.0
 1
@@ -1618,8 +1657,8 @@ customer-arrival-mean-rate
 customer-arrival-mean-rate
 0
 25
-9.2
-0.2
+8.0
+0.001
 1
 NIL
 HORIZONTAL
@@ -1695,9 +1734,9 @@ PENS
 "service" 1.0 0 -14070903 true "" "if ( ( customer-leaving-count-hour - customer-leaving-count-sco-hour ) != 0 ) and ((ticks-minute / 60) = (ticks-hour)) [\nplotxy ticks-hour customer-leaving-queue-time-server-hour / ( customer-leaving-count-hour - customer-leaving-count-sco-hour )\n]\n\nif ( ( customer-leaving-count-hour - customer-leaving-count-sco-hour ) = 0 ) and ((ticks-minute / 60) = (ticks-hour)) [\nplotxy ticks-hour 0 \n]"
 
 MONITOR
-909
+922
 544
-1018
+1031
 589
 mean queue time
 customer-checkout-queue-time / customer-leaving-count
@@ -1726,9 +1765,9 @@ Statistics per hour (customers)
 1
 
 MONITOR
-692
+705
 544
-801
+814
 589
 customers
 customer-leaving-count
@@ -1745,7 +1784,7 @@ number-of-sco-servers
 number-of-sco-servers
 0
 8
-6.0
+1.0
 1
 1
 NIL
@@ -1863,9 +1902,9 @@ NIL
 HORIZONTAL
 
 MONITOR
-692
+705
 589
-802
+815
 634
 customers
 customer-leaving-count-sco
@@ -1874,9 +1913,9 @@ customer-leaving-count-sco
 11
 
 MONITOR
-692
+705
 633
-802
+815
 678
 customers
 ( customer-leaving-count - customer-leaving-count-sco )
@@ -1885,9 +1924,9 @@ customers
 11
 
 MONITOR
-910
+923
 589
-1019
+1032
 634
 mean queue time
 customer-leaving-queue-time-sco / customer-leaving-count-sco
@@ -1896,39 +1935,39 @@ customer-leaving-queue-time-sco / customer-leaving-count-sco
 11
 
 TEXTBOX
-680
-547
-701
-566
+671
+555
+692
+574
 all
 11
 0.0
 1
 
 TEXTBOX
-655
-592
-690
-626
+669
+595
+704
+629
 self service
 11
 0.0
 1
 
 TEXTBOX
-656
-634
-695
-654
+669
+644
+708
+664
 service
 11
 0.0
 1
 
 MONITOR
-802
+815
 544
-911
+924
 589
 customers %
 100 * (customer-leaving-count / customer-leaving-count)
@@ -1937,9 +1976,9 @@ customers %
 11
 
 MONITOR
-802
+815
 589
-910
+923
 634
 customers %
 100 * (customer-leaving-count-sco / customer-leaving-count)
@@ -1948,9 +1987,9 @@ customers %
 11
 
 MONITOR
-803
+816
 634
-911
+924
 679
 customers %
 100 * (( customer-leaving-count - customer-leaving-count-sco ) / customer-leaving-count)
@@ -2165,9 +2204,9 @@ cashier-break-count + sum [break-count] of cashiers
 11
 
 MONITOR
-1019
+1032
 545
-1127
+1140
 590
 mean queue time (only customers in queues)
 customer-checkout-queue-time / customer-leaving-waiting-count
@@ -2176,9 +2215,9 @@ customer-checkout-queue-time / customer-leaving-waiting-count
 11
 
 MONITOR
-1020
+1033
 590
-1131
+1144
 635
 mean queue time (only customers in queues)
 customer-leaving-queue-time-sco / customer-leaving-waiting-count-sco
@@ -2187,9 +2226,9 @@ customer-leaving-queue-time-sco / customer-leaving-waiting-count-sco
 11
 
 MONITOR
-1018
+1031
 634
-1126
+1139
 679
 mean queue time (only customers in queues)
 (customer-checkout-queue-time - customer-leaving-queue-time-sco) / (customer-leaving-waiting-count-server)
@@ -2198,9 +2237,9 @@ mean queue time (only customers in queues)
 11
 
 MONITOR
-911
+924
 634
-1020
+1033
 679
 mean queue time
 (customer-checkout-queue-time - customer-leaving-queue-time-sco) / (customer-leaving-count - customer-leaving-count-sco)
@@ -2220,9 +2259,9 @@ total working time
 11
 
 MONITOR
-1125
+1138
 545
-1239
+1252
 590
 P(queue time > 5) 
 customer-leaving-waiting5-count / customer-leaving-count
@@ -2281,9 +2320,9 @@ all
 1
 
 MONITOR
-1127
+1140
 590
-1241
+1252
 635
 P(queue time > 5)
 customer-leaving-waiting5-count-sco / customer-leaving-count-sco
@@ -2292,9 +2331,9 @@ customer-leaving-waiting5-count-sco / customer-leaving-count-sco
 11
 
 MONITOR
-1127
+1140
 635
-1241
+1252
 680
 P(queue time > 5)
 customer-leaving-waiting5-count-server / customer-leaving-count-server
@@ -2320,8 +2359,48 @@ CHOOSER
 620
 server-service-time-model
 server-service-time-model
-"POISSON" "Reg. model (POS)"
+"EXPONENTIAL" "Reg. model (POS)"
 1
+
+SLIDER
+134
+620
+259
+653
+server-service-time-expected
+server-service-time-expected
+0
+10
+0.111
+0.001
+1
+NIL
+HORIZONTAL
+
+CHOOSER
+531
+579
+661
+624
+sco-server-service-time-model
+sco-server-service-time-model
+"EXPONENTIAL" "Reg. model (POS)"
+0
+
+SLIDER
+531
+625
+661
+658
+sco-server-service-time-expected
+sco-server-service-time-expected
+0
+10
+0.111
+0.001
+1
+NIL
+HORIZONTAL
 
 @#$#@#$#@
 ## WHAT IS IT?
