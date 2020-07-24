@@ -8,7 +8,7 @@ This is a complex model for simulatation queue system of tipical supermarket's c
 Th mimmic proces accuratly, the model can be driven with historical data (time series)  containing  transactions intensities,  proportions of  transactions for various combination basket sizes/methods of payment  and  cashiers avalability (workschedule). It let to examine  configurations in terms of quntity ond type of servers (service and selfsevice checkouts). The model was created with an agent approach (ABS - Agent Based Simulation) however it also meets DES (Discret Events Simulation)  model definition.  
 
 ## HOW IT WORKS
-System let simulate basic chracteristics of queue system:  
+System let to simulate queue system with followed characteristics:  
 ### customer arrival patern
 Depending on the settings, customer arrival can be simulated as: HPP (Homogenous Poisson Process) or NHPP (None-Homogenous Poisson Process). In first case, interarrival rate are sampled according to exponetial distribution with given and constant lambda ( = 1 /  arrival rate). In second case intensity function Lambda(t) is designated as an interpolation between the calibration points which historical data of  transactions counts for each full hour +/- 30 minuts.
 ### service time patern
