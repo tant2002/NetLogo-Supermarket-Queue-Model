@@ -1,4 +1,4 @@
-# NetLogo_SupermarketQueueModel
+# NetLogo Supermarket Queue Model
 NetLogo's simulation data driven model of queue system in typical supermarket's checkout zone.
 
 ![alt text](/readme-images/model-interface.png)
