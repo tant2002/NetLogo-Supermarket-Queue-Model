@@ -139,15 +139,19 @@ Try various picking line strategy to see how proper referral of customers to pic
 #### Servers / SCO-servers configuration variants
 By change the configuration of system (quantity of various types of servers) it is possible to the impact check various investments variants on work demand (utilization of cashiers).
 
-
 ## AUTHORSHIP
 Created July 2020
 Tomasz Antczak 
+email: tomasz.antczak@pwr.edu.pl
 
-
-This work was partially supported by the Ministry of Science and Higher Education (MNiSW, Poland) core funding for statutory R&D activities.
-
-This work is licensed .....
+## HOW TO CITE
+If you mention this model or the NetLogo software in a publication, we ask that you include the citations below.
+Antczak  T. (2010). NetLogo Supermarket Queue Model https://github.com/tant2002/NetLogo_SupermarketQueueModel ,  Politechnika Wroclawska
+Wroclaw, POLAND 
 
 ## CREDITS AND REFERENCES
+Wilensky  U. (1999). NetLogo. http://ccl.northwestern.edu/netlogo/. Center for Connected Learning and Computer-Based Modeling, Northwestern University, Evanston, IL.
+Sheppard C., Railsback S.,  Kelter J. NetLogo time extensions, https://github.com/NetLogo/Time-Extension 
+Cizek P. Hardle W. Weron R. (Eds.) (2011). Statistical Tools for Finance and Insurance (2nd ed.), Springer
+Antczak T., Weron R., (2019),  Point of sale (POS) data from a supermarket: Transactions and cashier operations, Data 4 (2) (2019) 67.
 
