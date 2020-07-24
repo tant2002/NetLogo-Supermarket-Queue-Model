@@ -68,7 +68,7 @@ See description of "cashier-arrival" parameter and "cashier-arrival-input-file-s
 #### cashier-max-line
 This parameter determine behaviour of cashiers in the system. In case average queues length in store exceed this value the available cashier trigger to go from backoffice to checkout (server).   
 #### cashier-min-line 
-This parameter determine behaviour of cashiers in the system. In case average queue length in store is less than this value the cashier close checkout (server). Note that,  cashier will remain in checkout until last customer from current queue will be served. Closed checkout means no new customer can join to the line assign to checkout. 
+This parameter determine behaviour of cashiers in the system. In case average queue length in store is less than this value the cashier close checkout (server). Note, that  cashier will remain in checkout until last customer from current queue will be served. Closed checkout means no new customer can join to the line assign to checkout. 
 #### cashier-return-time
 Value in minutes (ticks). This parameter determine time the cashier need to switch from backoffice to checkout. In other words: it takes "cashier-return-time"  minutes to go from backoffice to checkout and open it. 
 #### number-of-servers
@@ -78,12 +78,12 @@ It determine organisation of queues. Switch-on mean single queue to all servers 
 #### server-service-time-model
 The choicer indicate how service time on servers is calculated. Value "EXPONENTIAL" means that service time is sampled out of theoretical (exponential) distribution with lambda parameter taken out of 'server-service-time-expected'. Value "Reg. model (POS)" means service times are compute according to power regression - see section 'service time pattern' above.
 #### server-service-time-expected
-The parameter is used for two purposes. Firstly it is used as input (Lambda) parameter for sampling service time with theoretical distribution- see description 'server-service-time-model'. Secondly, it is used as mean service time for calculation expected service time in case of strategy 3 of picking the line by customers - see description 'customer-picking-queue-strategy' 
+The parameter is used for two purposes. Firstly it is used as input (Lambda) parameter for sampling service time with theoretical distribution- see description 'server-service-time-model'. Secondly, it is used as mean service time for calculation expected service time - in strategy 3 of picking the line by customers - see description 'customer-picking-queue-strategy' 
 
 #### sco-server-service-time-model
-The choicer indicate how service time on sco-servers (self-service checkouts) is calculated. Value "EXPONENTIAL" means that service time is sampled out of theoretical (exponential) distribution with lambda parameter taken out of 'server-service-time-expected'. Value "Reg. model (POS)" means service times are compute according to power regression - see section 'service time pattern' above.
+The choicer indicate how service time on sco-servers (self-service checkouts) is calculated. Value "EXPONENTIAL" means that service time is sampled out of theoretical (exponential) distribution with lambda parameter taken out of 'sco-server-service-time-expected'. Value "Reg. model (POS)" means service times are compute according to power regression - see section 'service time pattern' above.
 #### sco-server-service-time-expected
-The parameter is used for two purposes. Firstly it is used as input (Lambda) parameter for sampling service time with theoretical distribution- see description 'sco-server-service-time-model'. Secondly, it is used as mean service time for calculation expected service time in case of strategy 3 of picking the line by customers - see description 'customer-picking-queue-strategy' 
+The parameter is used for two purposes. Firstly it is used as input (Lambda) parameter for sampling service time with theoretical distribution- see description 'sco-server-service-time-model'. Secondly, it is used as mean service time for calculation expected service time in strategy 3 of picking the line by customers - see description 'customer-picking-queue-strategy' 
 
 #### other parameters
 distance-in-queue, distance-queue-server, distance-server-server, distance-sco-sco-h, distance-sco-sco-v determines spatial distances between customers in queues, servers, sco-servers, servers and customers. Although the spatial parameter do not  affect currently on the  model, they can be used for future extensions. 
@@ -95,7 +95,7 @@ The plot shows number of customers arrived to the system within every minute of 
 #### cashiers count 
 ![alt text](/readme-images/plot-cashiers-count.png) 
 
-The plot number of cashiers that are in system within every minute of simulaion. The staistic is calculated for every full minute (tick) of simulation. 
+The plot number of cashiers that are in system. The staistic is calculated for every full minute (tick) of simulation. 
 #### servers utilization 
 ![alt text](/readme-images/plot-servers-utilization.png) 
 
@@ -103,20 +103,21 @@ The plot shows percentage of used server/sco-servers out of all of used server/s
 #### customers served count
 ![alt text](/readme-images/plot-customers-served-count.png) 
 
-The plot shows number of customers that complete transaction within every minute of simulation. Data are presented in summarised form and with distinction between customers served on service (servers) and self-service (SCO-servers) checkouts.   
+The plot shows number of customers that complete transaction within every hour of simulation. Data are presented in summarised form and with distinction between customers served on service (servers) and self-service (sco-servers) checkouts.   
 #### mean queue times
 ![alt text](/readme-images/plot-mean-queue-times.png) 
 
-The plot shows mean queue (waiting) time within every hour of simulation. Data are presented in summarised form and with distinction between customers served on service (servers) and self-service (SCO-servers) checkouts.
+The plot shows mean queue (waiting) time within every hour of simulation. Data are presented in summarised form and with distinction between customers served on service (servers) and self-service (sco-servers) checkouts.
 #### P(queue time > 5 )
 ![alt text](/readme-images/plot-probability.png) 
 
-The plot shows rate of customers that need to wait in queue more than 5 minutes (ticks). This is only for overview. To calculate  probability, results from many repeated experiments need to be complete.  
+The plot shows rate of customers that need to wait in queue more than 5 minutes (ticks). 
+
 ### Aggregated statistics
 #### for customers 
 ![alt text](/readme-images/outputs-customers.png) 
 
-Statistics shows 'number of customers', 'percentage of customers', 'mean queue (waiting) time', mean queue (waiting) time only for customers that need to wait and probability (rate) of customers that have to wait more than 5 minutes (ticks). Data are presented for all customers and with distinction for service (servers) self-service (sco-server) checkouts.    
+Statistics shows 'number of customers', 'percentage of customers', 'mean queue (waiting) time', mean queue time (only for customers that need to wait) and rate of customers that have to wait more than 5 minutes (ticks). Data are presented for all customers and with distinction for service (servers) self-service (sco-server) checkouts.    
 #### for cashiers
 ![alt text](/readme-images/outputs-cashiers.png) 
 
@@ -129,7 +130,7 @@ Statistics show: 'total time' (means sum of time that each cashier spent in syst
 
 ## THINGS TO TRY
 ### Simple M/M/1 model
-If the parameter are set as system with one server and theoretical (exponential) distribution of customer and service time then it is simple M/M/1 queue model. A simulation of a sufficiently long period of time should cause the 'mean queue time' statistic to aim for theoretical values calculated using a formula known from queue theory. 
+If only one server is set in  system and theoretical (exponential) distribution of customer and service time is set, then it is simple M/M/1 queue model. A simulation of a sufficiently long period of time should cause the 'mean queue time' statistic to aim for theoretical values calculated using a formula known from queue theory. 
 ### Historical data driven experiments 
 Base of historical data it is possible to mimic queues in  checkout zone of real supermarket.
 #### Picking queue strategy
