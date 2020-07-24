@@ -117,13 +117,16 @@ The plot shows rate of customers that need to wait in queue more than 5 minutes 
 ### Aggregated statistics
 #### for customers 
 ![alt text](/readme-images/outputs-customers.png) 
+
 Statistics shows 'number of customers', 'percentage of customers', 'mean queue (waiting) time', mean queue (waiting) time only for customers that need to wait and probability (rate) of customers that have to wait more than 5 minutes (ticks). Data are presented for all customers and with distinction for service (servers) self-service (sco-server) checkouts.    
 #### for cashiers
 ![alt text](/readme-images/outputs-cashiers.png) 
+
 Statistics show: 'total time' (means sum of time that each cashier spent in system), 'total time on server' (means sum of time each cashier was on server), 'changeovers' (number of times all cashiers shift between servers and backoffice), 'total working time' (sum of 'time on server' and multiplication of 'changeovers' and value of 'cashier-return-time') and 'utilization' (ratio of 'total working time' and  'total time')     
 
 #### for servers
 ![alt text](/readme-images/outputs-servers.png) 
+
 'total time' is multiplication of simulation time and number of servers/ sco-servers. 'service time' is sum of times of serving customers on servers/ sco-servers.  'utilization' is ratio of 'service time' and  'total time'.
 
 ## THINGS TO TRY
