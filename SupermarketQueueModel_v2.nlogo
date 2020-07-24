@@ -1642,7 +1642,7 @@ CHOOSER
 customer-picking-queue-strategy
 customer-picking-queue-strategy
 0 1 2 3 4
-2
+4
 
 TEXTBOX
 4
@@ -1718,7 +1718,7 @@ simulation-end-day
 simulation-end-day
 simulation-start-day
 20
-0.0
+18.0
 1
 1
 NIL
@@ -2046,7 +2046,7 @@ CHOOSER
 customer-basket-payment
 customer-basket-payment
 "Poisson\\Binomial" "ECDF (POS)"
-0
+1
 
 CHOOSER
 394
@@ -2067,7 +2067,7 @@ cashier-max-line
 cashier-max-line
 1
 5
-2.0
+1.0
 1
 1
 NIL
@@ -2279,10 +2279,10 @@ mean queue time
 11
 
 MONITOR
-1723
-33
-1850
-78
+1726
+34
+1849
+79
 P(queue time > 5) %
 100 * customer-leaving-waiting5-count / customer-leaving-count
 3
@@ -2428,7 +2428,7 @@ MONITOR
 365
 1512
 410
-service-time
+service time
 (sum [ticks - time-start] of servers) - (sum [break-length] of servers) - (sum [ticks - time-break-start] of servers with [time-break-start > time-break-end ] )
 0
 1
@@ -2482,7 +2482,7 @@ MONITOR
 320
 1512
 365
-service-time
+service time
 (sum [ticks - time-start] of sco-servers) - (sum [break-length] of sco-servers) - (sum [ticks - time-break-start] of sco-servers with [time-break-start > time-break-end ] )
 0
 1
@@ -2576,7 +2576,7 @@ service
 PLOT
 668
 264
-1240
+1238
 384
 servers utilization %
 minutes
