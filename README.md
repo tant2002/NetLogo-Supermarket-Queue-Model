@@ -94,31 +94,30 @@ distance-in-queue, distance-queue-server, distance-server-server, distance-sco-s
 ![alt text](/readme-images/plot-customers-arrived-count.png)
 The plot shows number of customers arrived to the system within every minute of simulation.
 #### cashiers count 
-![alt text](/readme-images/plot-cashiers-count.png)
+![alt text](/readme-images/plot-cashiers-count.png) 
 The plot number of cashiers that are in system within every minute of simulaion. The staistic is calculated for every full minute (tick) of simulation. 
 #### servers utilization 
-![alt text](/readme-images/plot-servers-utilization.png)
+![alt text](/readme-images/plot-servers-utilization.png) 
 The plot shows percentage of used server/sco-servers out of all of used server/sco-servers. The statistic is calculated for every full minute (tick) of simulation. 
-
 #### customers served count
-![alt text](/readme-images/plot-customers-served-count.png)
+![alt text](/readme-images/plot-customers-served-count.png) 
 The plot shows number of customers that complete transaction within every minute of simulation. Data are presented in summarised form and with distinction between customers served on service (servers) and self-service (SCO-servers) checkouts.   
 #### mean queue times
-![alt text](/readme-images/plot-mean-queue-times.png)
+![alt text](/readme-images/plot-mean-queue-times.png) 
 The plot shows mean queue (waiting) time within every hour of simulation. Data are presented in summarised form and with distinction between customers served on service (servers) and self-service (SCO-servers) checkouts.
 #### P(queue time > 5 )
-![alt text](/readme-images/plot-probability.png)
+![alt text](/readme-images/plot-probability.png) 
 The plot shows rate of customers that need to wait in queue more than 5 minutes (ticks). This is only for overview. To calculate  probability, results from many repeated experiments need to be complete.  
 ### Aggregated statistics
 #### for customers 
-![alt text](/readme-images/outputs-customers.png)
+![alt text](/readme-images/outputs-customers.png) 
 Statistics shows 'number of customers', 'percentage of customers', 'mean queue (waiting) time', mean queue (waiting) time only for customers that need to wait and probability (rate) of customers that have to wait more than 5 minutes (ticks). Data are presented for all customers and with distinction for service (servers) self-service (sco-server) checkouts.    
 #### for cashiers
-![alt text](/readme-images/outputs-cashiers.png)
+![alt text](/readme-images/outputs-cashiers.png) 
 Statistics show: 'total time' (means sum of time that each cashier spent in system), 'total time on server' (means sum of time each cashier was on server), 'changeovers' (number of times all cashiers shift between servers and backoffice), 'total working time' (sum of 'time on server' and multiplication of 'changeovers' and value of 'cashier-return-time') and 'utilization' (ratio of 'total working time' and  'total time')     
 
 #### for servers
-![alt text](/readme-images/outputs-servers.png)
+![alt text](/readme-images/outputs-servers.png) 
 'total time' is multiplication of simulation time and number of servers/ sco-servers. 'service time' is sum of times of serving customers on servers/ sco-servers.  'utilization' is ratio of 'service time' and  'total time'.
 
 ## THINGS TO TRY
