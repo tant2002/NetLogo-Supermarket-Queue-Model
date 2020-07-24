@@ -1498,11 +1498,11 @@ end
 GRAPHICS-WINDOW
 -2
 65
-526
-340
+662
+410
 -1
 -1
-12.7
+16.0
 1
 9
 1
@@ -1718,7 +1718,7 @@ simulation-end-day
 simulation-end-day
 simulation-start-day
 20
-2.0
+0.0
 1
 1
 NIL
@@ -2046,7 +2046,7 @@ CHOOSER
 customer-basket-payment
 customer-basket-payment
 "Poisson\\Binomial" "ECDF (POS)"
-1
+0
 
 CHOOSER
 394

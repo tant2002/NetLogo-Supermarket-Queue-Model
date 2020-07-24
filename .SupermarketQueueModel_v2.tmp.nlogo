@@ -1498,11 +1498,11 @@ end
 GRAPHICS-WINDOW
 -2
 65
-526
-340
+662
+410
 -1
 -1
-15.9
+16.0
 1
 9
 1
@@ -1642,7 +1642,7 @@ CHOOSER
 customer-picking-queue-strategy
 customer-picking-queue-strategy
 0 1 2 3 4
-2
+4
 
 TEXTBOX
 4
@@ -1718,7 +1718,7 @@ simulation-end-day
 simulation-end-day
 simulation-start-day
 20
-2.0
+20.0
 1
 1
 NIL
@@ -2576,7 +2576,7 @@ service
 PLOT
 668
 264
-1240
+1238
 384
 servers utilization %
 minutes
