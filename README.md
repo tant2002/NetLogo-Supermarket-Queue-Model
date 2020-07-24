@@ -92,21 +92,27 @@ distance-in-queue, distance-queue-server, distance-server-server, distance-sco-s
 ### Plots
 #### customers arrived cunt 
 ![alt text](/readme-images/plot-customers-arrived-count.png)
+
 The plot shows number of customers arrived to the system within every minute of simulation.
 #### cashiers count 
 ![alt text](/readme-images/plot-cashiers-count.png) 
+
 The plot number of cashiers that are in system within every minute of simulaion. The staistic is calculated for every full minute (tick) of simulation. 
 #### servers utilization 
 ![alt text](/readme-images/plot-servers-utilization.png) 
+
 The plot shows percentage of used server/sco-servers out of all of used server/sco-servers. The statistic is calculated for every full minute (tick) of simulation. 
 #### customers served count
 ![alt text](/readme-images/plot-customers-served-count.png) 
+
 The plot shows number of customers that complete transaction within every minute of simulation. Data are presented in summarised form and with distinction between customers served on service (servers) and self-service (SCO-servers) checkouts.   
 #### mean queue times
 ![alt text](/readme-images/plot-mean-queue-times.png) 
+
 The plot shows mean queue (waiting) time within every hour of simulation. Data are presented in summarised form and with distinction between customers served on service (servers) and self-service (SCO-servers) checkouts.
 #### P(queue time > 5 )
 ![alt text](/readme-images/plot-probability.png) 
+
 The plot shows rate of customers that need to wait in queue more than 5 minutes (ticks). This is only for overview. To calculate  probability, results from many repeated experiments need to be complete.  
 ### Aggregated statistics
 #### for customers 
