@@ -1,5 +1,5 @@
 # NetLogo_SupermarketQueueModel
- Simulation data driven model of queue system of typical supermarket's checkout zone in NetLogo.
+NetLogo's simulation data driven model of queue system in typical supermarket's checkout zone.
 
 ![alt text](/readme-images/model-interface.png)
 
@@ -47,7 +47,7 @@ Value in days (1 day = 3600 ticks). In standard case simulation start date and t
 #### simulation-end-day
 Value in days (1 day = 3600 ticks). In standard case simulation end date and time is determined by the latest date/time in input fields. In case inputs generated randomly according theoretical distributions,  the end date and time is  01-01-0001 00:00:01 + simulation-end-day value. 
 #### customer-arrival-process
-This parameter determine customer arrivals to the system: value "HPP" means Homogenous Poisson Process with lambda value taken out of "customer-arrival-mean-rate" parameter (lambda = 1/customer-arrival-mean-rate) ; value "NHPP (POS)" means Non-Homogenous Poisson Process with lambda function determined by calibration points in customer-arrival-input-file-store1.csv input file. 
+This parameter determine customer arrivals to the system: value "HPP" means Homogenous Poisson Process with lambda value taken out of "customer-arrival-mean-rate" parameter (lambda = 1/customer-arrival-mean-rate) ; value "NHPP (POS)" means Non-Homogenous Poisson Process with lambda function determined by calibration points in customer-arrival-input-file-store1.csv input file. For simulation NHPP thinning algorithm was implemented. 
 #### customer-arrival-mean-rate
 See description of "customer-arrival-process" parameter
 #### max-customers
@@ -92,33 +92,41 @@ distance-in-queue, distance-queue-server, distance-server-server, distance-sco-s
 ### Plots
 #### customers arrived cunt 
 ![alt text](/readme-images/plot-customers-arrived-count.png)
+
 The plot shows number of customers arrived to the system within every minute of simulation.
 #### cashiers count 
-![alt text](/readme-images/plot-cashiers-count.png)
+![alt text](/readme-images/plot-cashiers-count.png) 
+
 The plot number of cashiers that are in system within every minute of simulaion. The staistic is calculated for every full minute (tick) of simulation. 
 #### servers utilization 
-![alt text](/readme-images/plot-servers-utilization.png)
-The plot shows percentage of used server/sco-servers out of all of used server/sco-servers. The statistic is calculated for every full minute (tick) of simulation. 
+![alt text](/readme-images/plot-servers-utilization.png) 
 
+The plot shows percentage of used server/sco-servers out of all of used server/sco-servers. The statistic is calculated for every full minute (tick) of simulation. 
 #### customers served count
-![alt text](/readme-images/plot-customers-served-count.png)
+![alt text](/readme-images/plot-customers-served-count.png) 
+
 The plot shows number of customers that complete transaction within every minute of simulation. Data are presented in summarised form and with distinction between customers served on service (servers) and self-service (SCO-servers) checkouts.   
 #### mean queue times
-![alt text](/readme-images/plot-mean-queue-times.png)
+![alt text](/readme-images/plot-mean-queue-times.png) 
+
 The plot shows mean queue (waiting) time within every hour of simulation. Data are presented in summarised form and with distinction between customers served on service (servers) and self-service (SCO-servers) checkouts.
 #### P(queue time > 5 )
-![alt text](/readme-images/plot-probability.png)
+![alt text](/readme-images/plot-probability.png) 
+
 The plot shows rate of customers that need to wait in queue more than 5 minutes (ticks). This is only for overview. To calculate  probability, results from many repeated experiments need to be complete.  
 ### Aggregated statistics
 #### for customers 
-![alt text](/readme-images/outputs-customers.png)
+![alt text](/readme-images/outputs-customers.png) 
+
 Statistics shows 'number of customers', 'percentage of customers', 'mean queue (waiting) time', mean queue (waiting) time only for customers that need to wait and probability (rate) of customers that have to wait more than 5 minutes (ticks). Data are presented for all customers and with distinction for service (servers) self-service (sco-server) checkouts.    
 #### for cashiers
-![alt text](/readme-images/outputs-cashiers.png)
+![alt text](/readme-images/outputs-cashiers.png) 
+
 Statistics show: 'total time' (means sum of time that each cashier spent in system), 'total time on server' (means sum of time each cashier was on server), 'changeovers' (number of times all cashiers shift between servers and backoffice), 'total working time' (sum of 'time on server' and multiplication of 'changeovers' and value of 'cashier-return-time') and 'utilization' (ratio of 'total working time' and  'total time')     
 
 #### for servers
-![alt text](/readme-images/outputs-servers.png)
+![alt text](/readme-images/outputs-servers.png) 
+
 'total time' is multiplication of simulation time and number of servers/ sco-servers. 'service time' is sum of times of serving customers on servers/ sco-servers.  'utilization' is ratio of 'service time' and  'total time'.
 
 ## THINGS TO TRY
@@ -131,15 +139,19 @@ Try various picking line strategy to see how proper referral of customers to pic
 #### Servers / SCO-servers configuration variants
 By change the configuration of system (quantity of various types of servers) it is possible to the impact check various investments variants on work demand (utilization of cashiers).
 
-
 ## AUTHORSHIP
 Created July 2020
 Tomasz Antczak 
+email: tomasz.antczak@pwr.edu.pl
 
-
-This work was partially supported by the Ministry of Science and Higher Education (MNiSW, Poland) core funding for statutory R&D activities.
-
-This work is licensed .....
+## HOW TO CITE
+If you mention this model or the NetLogo software in a publication, we ask that you include the citations below.
+Antczak  T. (2010). NetLogo Supermarket Queue Model https://github.com/tant2002/NetLogo_SupermarketQueueModel ,  Politechnika Wroclawska, 
+Wroclaw, POLAND 
 
 ## CREDITS AND REFERENCES
+Wilensky  U. (1999). NetLogo. http://ccl.northwestern.edu/netlogo/. Center for Connected Learning and Computer-Based Modeling, Northwestern University, Evanston, IL.
+Sheppard C., Railsback S.,  Kelter J. NetLogo time extensions, https://github.com/NetLogo/Time-Extension 
+Cizek P. Hardle W. Weron R. (Eds.) (2011). Statistical Tools for Finance and Insurance (2nd ed.), Springer
+Antczak T., Weron R., (2019),  Point of sale (POS) data from a supermarket: Transactions and cashier operations, Data 4 (2) (2019) 67.
 
