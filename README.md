@@ -5,24 +5,23 @@
 ![alt text](/readme-images/model-pitch3D.png)
 ## WHAT IS IT?
 This is a complex model for simulatation queue system of tipical supermarket's checkout zone. As opposed to traditional models based on queue theory, it let simulate and examine complex system with non-stationary characteristics i.e.  dynamically changed intensity  of customers arrival,  servers availability and / or service time distribution. 
-Th mimmic proces accuratly, the model can be driven with historical data  containing  transactions intensities,  proportions of various basket sizes,  and  cashiers avalability in time. It let to examine various servers (checkouts) configurations in terms of quntity ond type (service and selfsevice). The model was created with an agent approach (ABS - Agent Based Simulation) however it also meets the  DES (Discret Events Simulation)  model definition.  
+Th mimmic proces accuratly, the model can be driven with historical data (time series)  containing  transactions intensities,  proportions of  transactions for various combination basket sizes/methods of payment  and  cashiers avalability (workschedule). It let to examine  configurations in terms of quntity ond type of servers (service and selfsevice checkouts). The model was created with an agent approach (ABS - Agent Based Simulation) however it also meets DES (Discret Events Simulation)  model definition.  
 
 ## HOW IT WORKS
-System let simulate basic chracteristics of queue system in checkouts zone of tipical supermarket:  
+System let simulate basic chracteristics of queue system:  
 ### customer arrival patern
 Depending on the settings, customer arrival can be simulated as: HPP (Homogenous Poisson Process) or NHPP (None-Homogenous Poisson Process). In first case, interarrival rate are sampled according to exponetial distribution with given and constant lambda ( = 1 /  arrival rate). In second case intensity function Lambda(t) is designated as an interpolation between the calibration points which historical data of  transactions counts for each full hour +/- 30 minuts.
 ### service time patern
-Service time cold be drawn simply according theoretical (exponetial) distribution or designated in more comlex way in several steps.  Firsty basket-size of each customer is drown  on the basis empirical distrubutions, then service time  is calculated as the sum of the transaction and break times separatly for service and self-service servers (checkouts). The transaction times are generated according to power regression model equetion just like the break times for self-service. The break times for service checkouts – simply randomly sampled. The parameters for this models was estimated according to historical transactional data out of grocery supermarkets located in a large city in Southern Poland.    
+Service time cold be drawn simply according theoretical (exponetial) distribution or designated in more comlex way in several steps. In the second approach: firsty basket-size of each customer is drown  on the basis empirical distrubutions (historical data) , then service time  is calculated as the sum of the transaction and break times separatly for service and self-service servers (checkouts). The transaction times are compute according to power regression model equetion just like the break times for self-service. The break times for service checkouts – simply randomly sampled. The parameters for this models was estimated according to historical transactional data out of grocery supermarkets located in a large city in Southern Poland and are hardcoded within procedures 'customer-server-service-time-draw-regression' and customer-sco-server-service-time-draw-regression'     
 ### number of available servers
-The number of servers (both service and self-service) is given as parameters. However the avialability of servers customers depends,  like in real supermarket,   on avialability cashiers.   
-
+The number of servers (both service and self-service) is given as parameters. However the avialability of servers customers depends - like in real supermarket -  on number of  cashiers present in store. The latter is dependent on workschedule (historical data) and planned work time given as parameter. Because in real environments, cashiers can perform another task during periods of low trafic, the a mechanism for leaving the checkouts and entering the backoffice zone has been implemented. Cashier is triger: to close checkout  or to open checkout when the mean queu lenght fall bellow or excced given thresholds respectivelly. It's alsso assumed that changeover from backoffice to checkout of cashier takes time (set as parameter). 
 ### queue discipline
 First In First Served (FIFS) for both types of server. 
 ### number of queues
+The system can mimic both multi or single queeue to the service checkouts. For self-service checkouts, only single queue is possible. 
+Since the system assumes multiple queues, various methods of queue picking have been implemented. Although the way of picking is an individual decision of each client, the model assumes that each cashiers uses the same strategy. It is possible to simulate 5 different strategies (0 - 4) that reflect different levels of customer knowledge about the state of the system: from strategy 0 that reflect no information (= pure random choice of line) to strategy 4 which assume konowing expected waiting times in each queue (= queue with minumum expexted waiting time is picked). Strategies 0 - 3  are between - see description of 'customer-picking-queue-strategy' paramaeter for more details.          
 
-
-
-See description in article "Data-driven simulation modeling of the checkout process in supermarkets: Insights for decision support in retail operations"
+Historical time serires can extracted out of transactional data that are colected by most of POS (Point of Sales) system -  see work "Data-driven simulation modeling of the checkout process in supermarkets: Insights for decision support in retail operations" for more details. 
 
 ## HOW TO USE IT
 Depend on user decision, the model can be run with mode that use POS data or with inputs generated randomly according to theoretical distributions. To drive model with POS data  the values, parameters "customer-arrival-process", "customer-basket-payment", "cashier-arrival" need to be set on relevant values (see section Parameters bellow) and input files (see section POS data input files) need to be provide.  
@@ -57,7 +56,7 @@ This parameter indicate the way of determination basket size and payment method.
 See description of "customer-basket-payment" parameter 
 #### customer-cash-payment-rate
 See description of "customer-basket-payment" parameter 
-#### customer-picking-line-strategy
+#### customer-picking-queue-strategy
 It determine the strategy picking line by the customer. Followed possibility are available: 0 the line is picked randomly, using a uniform distribution; 1 - the line with the lowest number of customers is picked, 2 - the line with the lowest number of items in all baskets in this line is picked; 3 the line with the lowest mean service time-implied expected waiting time is picked, i.e.the expected waiting time for each queue is calculated using the number of customers and the mean service time for service and self-service checkouts; 4 the line with the lowest power regression-implied expected waiting time is picked, i.e., the expected waiting time for each queue is calculated using the number of customers and the expected service and break times.
 #### cashier-arrival
 The parameter determine availability of cashiers in  store. The value "constant number" means that constant number of cashiers is determine by parameter "number-of-cashiers" from the beginning till end of simulation. The value "workschedule (POS)" mean that cashiers number is determine be workschedule defined in file "cashier-arrival-input-file-store1.csv" and parameter "cashier-work-time". Note that value "number-of-cashiers" greater than 0 add  cashiers to the quantities defined in "cashier-arrival-input-file-store1.csv" in whole period of simulation.
