@@ -2,7 +2,7 @@
  Simulation data driven model of queue system of typical supermarket's checkout zone. 
 
 ![alt text](/readme-images/model-interface.png)
-![alt text](/readme-images/model-pitch3D.png)
+
 ## WHAT IS IT?
 This is a complex model for simulatation queue system of tipical supermarket's checkout zone. As opposed to traditional models based on queue theory, it let simulate and examine complex system with non-stationary characteristics i.e.  dynamically changed intensity  of customers arrival,  servers availability and / or service time distribution. 
 Th mimmic proces accuratly, the model can be driven with historical data (time series)  containing  transactions intensities,  proportions of  transactions for various combination basket sizes/methods of payment  and  cashiers avalability (workschedule). It let to examine  configurations in terms of quntity ond type of servers (service and selfsevice checkouts). The model was created with an agent approach (ABS - Agent Based Simulation) however it also meets DES (Discret Events Simulation)  model definition.  
@@ -22,7 +22,9 @@ The system can mimic both multi or single queeue to the service checkouts. For s
 Since the system assumes multiple queues, various methods of queue picking have been implemented. Although the way of picking is an individual decision of each client, the model assumes that each cashiers uses the same strategy. It is possible to simulate 5 different strategies (0 - 4) that reflect different levels of customer knowledge about the state of the system: from strategy 0 that reflect no information (= pure random choice of line) to strategy 4 which assume konowing expected waiting times in each queue (= queue with minumum expexted waiting time is picked). Strategies 0 - 3  are between - see description of 'customer-picking-queue-strategy' paramaeter for more details.          
 
 Historical time serires can extracted out of transactional data that are colected by most of POS (Point of Sales) system -  see work "Data-driven simulation modeling of the checkout process in supermarkets: Insights for decision support in retail operations" for more details. 
+
 ![alt text](/readme-images/model-pitch3D.png)
+
 ## HOW TO USE IT
 Depend on user decision, the model can be run with mode that use POS data or with inputs generated randomly according to theoretical distributions. To drive model with POS data  the values, parameters "customer-arrival-process", "customer-basket-payment", "cashier-arrival" need to be set on relevant values (see section Parameters bellow) and input files (see section POS data input files) need to be provide.  
 
