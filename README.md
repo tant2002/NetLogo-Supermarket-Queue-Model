@@ -150,7 +150,10 @@ Antczak  T. (2010). NetLogo Supermarket Queue Model https://github.com/tant2002/
 
 ## CREDITS AND REFERENCES
 Wilensky  U. (1999). NetLogo. http://ccl.northwestern.edu/netlogo/. Center for Connected Learning and Computer-Based Modeling, Northwestern University, Evanston, IL.
+
 Sheppard C., Railsback S.,  Kelter J. NetLogo time extensions, https://github.com/NetLogo/Time-Extension 
+
 Cizek P. Hardle W. Weron R. (Eds.) (2011). Statistical Tools for Finance and Insurance (2nd ed.), Springer
+
 Antczak T., Weron R., (2019),  Point of sale (POS) data from a supermarket: Transactions and cashier operations, Data 4 (2) (2019) 67.
 
