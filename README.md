@@ -1,5 +1,5 @@
 # NetLogo_SupermarketQueueModel
- Simulation data driven model of queue system of typical supermarket's checkout zone in NetLogo.
+NetLogo's simulation data driven model of queue system in typical supermarket's checkout zone.
 
 ![alt text](/readme-images/model-interface.png)
 
