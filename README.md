@@ -52,8 +52,7 @@ See description of "customer-arrival-process" parameter
 #### max-customers
 In case of customer arrivals with "HPP" this parameter can be used to limit capacity of system in terms of number of customers. 
 #### customer-basket-payment
-This parameter indicate the way of determination basket size and payment method. Value "Poisson\Binomial" means: basket size is drawn with Poisson distribution and  parameter lambda equal to parameter  "customer-basket-mean-size";  payment method with binomial distribution and probability value out of parameter "customer-cash-payment-rate".  
-"ECDF (POS)" value means that basket size and method of payment is drawn according to empirical distributions determined for each hour of simulation out of POS data (file customer-basket-payment-input-file-store1.csv)
+This parameter indicate the way of determination basket size and payment method. Value "Poisson\Binomial" means: basket size is drawn with Poisson distribution and  parameter lambda equal to parameter  "customer-basket-mean-size";  payment method with binomial distribution and probability value out of parameter "customer-cash-payment-rate". "ECDF (POS)" value means that basket size and method of payment is drawn according to empirical distributions determined for each hour of simulation out of POS data (file customer-basket-payment-input-file-store1.csv)
 #### customer-basket-mean-size
 See description of "customer-basket-payment" parameter 
 #### customer-cash-payment-rate
