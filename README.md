@@ -68,13 +68,13 @@ See description of "cashier-arrival" parameter and "cashier-arrival-input-file-s
 #### cashier-max-line
 This parameter determine behaviour of cashiers in the system. In case average queues length in store exceed this value the available cashier trigger to go from backoffice to checkout (server).   
 #### cashier-min-line 
-This parameter determine behaviour of cashiers in the system. In case average queue length in store is less than this value the cashier close checkout (server). Note, that  cashier will remain in checkout until last customer from current queue will be served. Closed checkout means no new customer can join to the line assign to checkout. 
+This parameter determine behaviour of cashiers in the system. In case average queue length in store is less than this value, the cashier close checkout (server). Note, that  cashier will remain in checkout until last customer from current queue will be served. Closed checkout means no new customer can join to the line assign to checkout. 
 #### cashier-return-time
 Value in minutes (ticks). This parameter determine time the cashier need to switch from backoffice to checkout. In other words: it takes "cashier-return-time"  minutes to go from backoffice to checkout and open it. 
 #### number-of-servers
 It determine number of checkouts that are available to be open on the store. 
 #### single-queue?
-It determine organisation of queues. Switch-on mean single queue to all servers (checkouts), Switch-off mean separate queue to each open checkouts. 
+It determine organisation of queues for servers. Switch-on mean single queue to all servers (checkouts), Switch-off mean separate queue to each open checkouts. 
 #### server-service-time-model
 The choicer indicate how service time on servers is calculated. Value "EXPONENTIAL" means that service time is sampled out of theoretical (exponential) distribution with lambda parameter taken out of 'server-service-time-expected'. Value "Reg. model (POS)" means service times are compute according to power regression - see section 'service time pattern' above.
 #### server-service-time-expected
