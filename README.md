@@ -5,16 +5,16 @@
 
 ## WHAT IS IT?
 This is a complex model for simulatation queue system of tipical supermarket's checkout zone. As opposed to traditional models based on queue theory, it let simulate and examine complex system with non-stationary characteristics i.e.  dynamically changed intensity  of customers arrival,  servers availability and / or service time distribution. 
-Th mimmic proces accuratly, the model can be driven with historical data (time series)  containing  transactions intensities,  proportions of  transactions for various combination basket sizes/methods of payment  and  cashiers avalability (workschedule). It let to examine  configurations in terms of quntity ond type of servers (service and selfsevice checkouts). The model was created with an agent approach (ABS - Agent Based Simulation) however it also meets DES (Discret Events Simulation)  model definition.  
+To mimmic proces accuratly, the model can be driven with historical data (time series)  containing  transactions intensities,  proportions of  transactions for various combination basket sizes/methods of payment  and  cashiers avalability (workschedule). It let to examine  configurations in terms of quntity ond type of servers (service and selfsevice checkouts) and overview basic performance mesures. The model was created with an agent approach (ABS - Agent Based Simulation) however it also meets DES (Discret Events Simulation)  model definition.  
 
 ## HOW IT WORKS
-System let simulate basic chracteristics of queue system:  
+System let to simulate queue system with followed characteristics:  
 ### customer arrival patern
 Depending on the settings, customer arrival can be simulated as: HPP (Homogenous Poisson Process) or NHPP (None-Homogenous Poisson Process). In first case, interarrival rate are sampled according to exponetial distribution with given and constant lambda ( = 1 /  arrival rate). In second case intensity function Lambda(t) is designated as an interpolation between the calibration points which historical data of  transactions counts for each full hour +/- 30 minuts.
 ### service time patern
-Service time cold be drawn simply according theoretical (exponetial) distribution or designated in more comlex way in several steps. In the second approach: firsty basket-size of each customer is drown  on the basis empirical distrubutions (historical data) , then service time  is calculated as the sum of the transaction and break times separatly for service and self-service servers (checkouts). The transaction times are compute according to power regression model equetion just like the break times for self-service. The break times for service checkouts – simply randomly sampled. The parameters for this models was estimated according to historical transactional data out of grocery supermarkets located in a large city in Southern Poland and are hardcoded within procedures 'customer-server-service-time-draw-regression' and customer-sco-server-service-time-draw-regression'     
+Service time can be drawn simply according theoretical (exponetial) distribution or designated in more comlex way in several steps. In the second approach: firsty basket-size of each customer is drown  on the basis of empirical (out historical data) or theoretical (poisson) distribution. Secondly service time  is calculated as the sum of the transaction and break times separatly for service and self-service servers (checkouts). The transaction times are compute according to power regression model equetion just like the break times for self-service. In this model explenatory variable is basket size. The break times for service checkouts – simply randomly sampled. The parameters for this models was estimated according to historical data out of grocery supermarkets located in a large city in Southern Poland and are hardcoded within procedures 'customer-server-service-time-draw-regression' and customer-sco-server-service-time-draw-regression'     
 ### number of available servers
-The number of servers (both service and self-service) is given as parameters. However the avialability of servers customers depends - like in real supermarket -  on number of  cashiers present in store. The latter is dependent on workschedule (historical data) and planned work time given as parameter. Because in real environments, cashiers can perform another task during periods of low trafic, the a mechanism for leaving the checkouts and entering the backoffice zone has been implemented. Cashier is triger: to close checkout  or to open checkout when the mean queu lenght fall bellow or excced given thresholds respectivelly. It's alsso assumed that changeover from backoffice to checkout of cashier takes time (set as parameter). 
+The number of servers (both service and self-service) is given as parameters. However the avialability of servers depends - like in real supermarket -  on number of  cashiers present in store. The latter is dependent on workschedule (historical data) and planned work time given as parameter. Because in real environments, cashiers can perform another task during periods of low trafic, the a mechanism for leaving the checkouts and entering the backoffice zone has been implemented. Cashier is triger: to close checkout  or to open checkout when the mean queu lenght fall bellow or exceed given thresholds respectivelly. It's alsso assumed that changeover from backoffice to checkout of cashier takes time (set as parameter). 
 ### queue discipline
 First In First Served (FIFS) for both types of server. 
 ### number of queues
@@ -97,7 +97,7 @@ The plot shows number of customers arrived to the system within every minute of 
 ![alt text](/readme-images/plot-cashiers-count.png)
 The plot number of cashiers that are in system within every minute of simulaion. The staistic is calculated for every full minute (tick) of simulation. 
 #### servers utilization 
-![alt text](/readme-images/plot-servers-utlization.png)
+![alt text](/readme-images/plot-servers-utilization.png)
 The plot shows percentage of used server/sco-servers out of all of used server/sco-servers. The staistic is calculated for every full minute (tick) of simulation. 
 
 #### customers served count
@@ -112,12 +112,16 @@ The plot shows rate of customers that need to wait in queue more than 5 minutes 
 ### Aggregated statistics
 #### for customers 
 ![alt text](/readme-images/outputs-customers.png)
-Statistics shows number of customers, percentage of customers, mean queue (waiting) time, mean queue (waiting) time only for customers that need to wait and probability (rate) of customers that have to wait more than 5 minutes (ticks). Data are presented for all customers and with distinction for service (servers) sel-service (SCO-server) checkouts.    
+Statistics shows 'number of customers', 'percentage of customers', 'mean queue (waiting) time', mean queue (waiting) time only for customers that need to wait and probability (rate) of customers that have to wait more than 5 minutes (ticks). Data are presented for all customers and with distinction for service (servers) sel-service (SCO-server) checkouts.    
 #### for cashiers
 ![alt text](/readme-images/outputs-cashiers.png)
+Stitistic shows: 'total time' (means sum of time that each cashier spent in system), 'total time on server' (means sum of time each cashier was on server), 'changoevers' (number of times all cashiers shift betwen servers and backoffice), 'total working time' (sume of 'time on server' and multiplication of 'changovers' and value of 'cashier-return-time') and 'utilization' (ratio of 'total working time' and  'total time')     
 
 #### for servers
 ![alt text](/readme-images/outputs-servers.png)
+'total time' is multiplaction of simulation time and number of servers/ sco-servers. 'service time' is sum of times of serving customers on servers/ sco-servers.  'utilization' is ratio of 'service time' and  'total time'.
+
+
 
 ## THINGS TO TRY
 
