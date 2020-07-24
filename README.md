@@ -97,7 +97,7 @@ The plot shows number of customers arrived to the system within every minute of 
 ![alt text](/readme-images/plot-cashiers-count.png)
 The plot number of cashiers that are in system within every minute of simulaion. The staistic is calculated for every full minute (tick) of simulation. 
 #### servers utilization 
-![alt text](/readme-images/plot-servers-utlization.png)
+![alt text](/readme-images/plot-servers-utilization.png)
 The plot shows percentage of used server/sco-servers out of all of used server/sco-servers. The staistic is calculated for every full minute (tick) of simulation. 
 
 #### customers served count
