@@ -38,7 +38,7 @@ This file contain data which are necessary to sample basket size and method of p
 "timestamp" = full hour  , the rest of fields contain count of transactions for each basket size (articles in transaction ) and method of payment within time window <full hour, full hour + 1>. Names of this fields are decoded as follow:   0 + basket size,  for method of payment cash , 1000 + basket size for non-cash methods of payment: "1"
 ,"2", "3", ...,"1001, "1002", "1003"... .
 #### cashier-arrival-input-file-store1.csv
-This file contains workschedule of cashiers. It determines number of cashiers that arrive to work in each full-hour of simulation. Please note that length shift (time cashier spent in store) is determined by parameter 'cashier-work-time' (see description below). The structure of the file is as follow: "timestamp" = time of cashier's arrival to store, "number-of-cashiers" - number of cashiers that arrive to store on this time. 
+This file contains workschedule of cashiers. It determines number of cashiers that arrive to work in each full-hour of simulation. Please note that length shift (time cashier spent in store) is determined by parameter 'cashier-work-time' (see description below). The structure of the file is as follow: "timestamp" = time of cashier's arrival to store, "number-of-cashiers" = number of cashiers that arrive to store on this time. 
 ### Parameters
 ![alt text](/readme-images/model-parameters.png)
 #### simulation-start-day
