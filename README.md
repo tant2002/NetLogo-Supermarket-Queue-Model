@@ -146,7 +146,7 @@ email: tomasz.antczak@pwr.edu.pl
 
 ## HOW TO CITE
 If you mention this model or the NetLogo software in a publication, we ask that you include the citations below.
-Antczak  T. (2010). NetLogo Supermarket Queue Model https://github.com/tant2002/NetLogo_SupermarketQueueModel ,  Politechnika Wroclawska
+Antczak  T. (2010). NetLogo Supermarket Queue Model https://github.com/tant2002/NetLogo_SupermarketQueueModel ,  Politechnika Wroclawska, 
 Wroclaw, POLAND 
 
 ## CREDITS AND REFERENCES
