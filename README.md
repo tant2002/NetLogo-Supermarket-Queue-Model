@@ -47,7 +47,7 @@ Value in days (1 day = 3600 ticks). In standard case simulation start date and t
 #### simulation-end-day
 Value in days (1 day = 3600 ticks). In standard case simulation end date and time is determined by the latest date/time in input fields. In case inputs generated randomly according theoretical distributions,  the end date and time is  01-01-0001 00:00:01 + simulation-end-day value. 
 #### customer-arrival-process
-This parameter determine customer arrivals to the system: value "HPP" means Homogenous Poisson Process with lambda value taken out of "customer-arrival-mean-rate" parameter (lambda = 1/customer-arrival-mean-rate) ; value "NHPP (POS)" means Non-Homogenous Poisson Process with lambda function determined by calibration points in customer-arrival-input-file-store1.csv input file. 
+This parameter determine customer arrivals to the system: value "HPP" means Homogenous Poisson Process with lambda value taken out of "customer-arrival-mean-rate" parameter (lambda = 1/customer-arrival-mean-rate) ; value "NHPP (POS)" means Non-Homogenous Poisson Process with lambda function determined by calibration points in customer-arrival-input-file-store1.csv input file. For simulation NHPP thinning algorithm was implemented. 
 #### customer-arrival-mean-rate
 See description of "customer-arrival-process" parameter
 #### max-customers
