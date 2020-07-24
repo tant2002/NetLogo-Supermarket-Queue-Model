@@ -2279,10 +2279,10 @@ mean queue time
 11
 
 MONITOR
-1723
-33
-1850
-78
+1726
+34
+1849
+79
 P(queue time > 5) %
 100 * customer-leaving-waiting5-count / customer-leaving-count
 3
@@ -2428,7 +2428,7 @@ MONITOR
 365
 1512
 410
-service-time
+service time
 (sum [ticks - time-start] of servers) - (sum [break-length] of servers) - (sum [ticks - time-break-start] of servers with [time-break-start > time-break-end ] )
 0
 1
