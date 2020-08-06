@@ -145,7 +145,7 @@ email: tomasz.antczak@pwr.edu.pl
 
 ## HOW TO CITE
 If you mention this model or the NetLogo software in a publication, we ask that you include the citations below.
-Antczak  T. (2010). NetLogo Supermarket Queue Model https://github.com/tant2002/NetLogo-Supermarket-Queue-Model 
+Antczak  T. (2020). NetLogo Supermarket Queue Model https://github.com/tant2002/NetLogo-Supermarket-Queue-Model 
 
 ## CREDITS AND REFERENCES
 Wilensky  U. (1999). NetLogo. http://ccl.northwestern.edu/netlogo/. Center for Connected Learning and Computer-Based Modeling, Northwestern University, Evanston, IL.
