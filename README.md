@@ -30,7 +30,7 @@ Depend on user decision, the model can be run with mode that use POS (Point of S
 
 ### POS data input files
 As example, the files contained historical data generated out POS  transactional data from supermarket located in southern Poland was provided. However,  it is possible to use any data. Please note data range of all files need to be coherent. Files are in time series format and need NetLogo Time extension ( see https://github.com/NetLogo/Time-Extension ) to be installed in local environment of NetLogo. Instruction for extensions in NetLogo can be find on http://ccl.northwestern.edu/netlogo/docs/extensions.html.
-#### customer-arrival-input-file-store1.csv
+#### [customer-arrival-input-file-store1.csv](customer-arrival-input-file-store1.csv)
 This file contain data that are necessary to generate arrivals of customers to checkouts in supermarket. It's assumed that arrivals of customers Non Homogenous Poisson Process (NHPP) and expected value of arrived customers in each hour is close to number of transaction in each hour. In the model expected value of arrivals (lambda function in NHPP) is equal to the linear interpolation between calibration points. The calibration points are number of transaction (transactions count) for each hour .  The data in file contains following fields (columns):
 "timestamp" = full hour +/- 30 min , "customer-transaction-count" = number of transactions within time window <full hour, full hour + 1>.  
 #### customer-basket-payment-input-file-store1.csv
