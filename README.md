@@ -33,11 +33,11 @@ As example, the files contained historical data generated out POS  transactional
 #### [customer-arrival-input-file-store1.csv](customer-arrival-input-file-store1.csv)
 This file contain data that are necessary to generate arrivals of customers to checkouts in supermarket. It's assumed that arrivals of customers Non Homogenous Poisson Process (NHPP) and expected value of arrived customers in each hour is close to number of transaction in each hour. In the model expected value of arrivals (lambda function in NHPP) is equal to the linear interpolation between calibration points. The calibration points are number of transaction (transactions count) for each hour .  The data in file contains following fields (columns):
 "timestamp" = full hour +/- 30 min , "customer-transaction-count" = number of transactions within time window <full hour, full hour + 1>.  
-#### customer-basket-payment-input-file-store1.csv
+#### [customer-basket-payment-input-file-store1.csv](customer-basket-payment-input-file-store1.csv)
 This file contain data which are necessary to sample basket size and method of payment of customers.  Although the drawing of the payment method does not  affect currently on the model, it can be used for future extensions. The structure of file is as follow:
 "timestamp" = full hour  , the rest of fields contain count of transactions for each basket size (articles in transaction ) and method of payment within time window <full hour, full hour + 1>. Names of this fields are decoded as follow:   0 + basket size,  for method of payment cash , 1000 + basket size for non-cash methods of payment: "1"
 ,"2", "3", ...,"1001, "1002", "1003"... .
-#### cashier-arrival-input-file-store1.csv
+#### [cashier-arrival-input-file-store1.csv](cashier-arrival-input-file-store1.csv)
 This file contains workschedule of cashiers. It determines number of cashiers that arrive to work in each full-hour of simulation. This file specifies only the time of cashiers arrivals. The length of shifts (time cashiers spent in store) is determined by parameter 'cashier-work-time' (see description below). The structure of the file is as follow: "timestamp" = time of cashier's arrival to store, "number-of-cashiers" = number of cashiers that arrive to store on this time. 
 ### Parameters
 ![alt text](/readme-images/model-parameters.png)
