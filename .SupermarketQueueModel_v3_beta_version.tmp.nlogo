@@ -983,7 +983,6 @@ to-report customer-jockey?-strategy3 ;customer procedure
   if (customer-waiting-time-expected-mean > ( min(list iserver-min-waiting-time-expected isco-zone-waiting-time-expected iserver-zone-waiting-time-expected)) + customer-jockeying-threshold * server-service-time-expected) [
       set jockey? true
   ]
-
   report jockey?
 end
 
@@ -998,10 +997,10 @@ to-report customer-jockey?-strategy4 ;customer procedure
   if sco-will? [set isco-zone-waiting-time-expected sco-zone-waiting-time-expected-regression ]
   if not single-queue? [ if any? (servers with [open?])   [set iserver-min-waiting-time-expected  min ([server-waiting-time-expected-regression] of servers with [open?])]]
 
-  if (customer-waiting-time-expected-regression > ( min(list iserver-min-waiting-time-expected isco-zone-waiting-time-expected iserver-zone-waiting-time-expected)) + customer-jockeying-threshold * server-service-time-expected) [
-    set jockey? true
+  if (customer-waiting-time-expected-mean > ( min(list iserver-min-waiting-time-expected isco-zone-waiting-time-expected iserver-zone-waiting-time-expected)) + customer-jockeying-threshold * server-service-time-expected) [
+      set jockey? true
   ]
-
+  report jockey?
   report jockey?
 end
 
@@ -2811,7 +2810,7 @@ CHOOSER
 customer-jockeying-strategy
 customer-jockeying-strategy
 0 1 2 3 4
-4
+3
 
 SLIDER
 257
@@ -2822,7 +2821,7 @@ customer-sco-item-thershold
 customer-sco-item-thershold
 0
 100
-100.0
+25.0
 1
 1
 NIL
