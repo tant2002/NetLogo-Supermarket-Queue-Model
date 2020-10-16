@@ -68,7 +68,7 @@ customers-own [
   server-picked
 
   ;information which
-  sco
+  sco?
   server-queued-on
   server-served-on
 
@@ -98,9 +98,9 @@ globals [
   current-time
 
   ;POS input files names
-  customer-arrival-input-file
-  customer-basket-payment-input-file
-  cashier-arrival-input-file
+  ;customer-arrival-input-file
+  ;customer-basket-payment-input-file
+  ;cashier-arrival-input-file
 
   ;POS input time series
   customer-arrival-input
@@ -187,14 +187,40 @@ globals [
   next-sco-server-to-complete
   next-hour
   next-minute
+  next-day
+
+  ;output file list
+  customers-output-file-list
+  cashier-output-file-list
 
 ]
+
+to setup-customer-arrival-input-file
+  set customer-arrival-input-file user-file
+end
+
+to setup-customer-basket-payment-file
+  set customer-basket-payment-input-file user-file
+end
+
+to setup-cashier-arrival-input-file
+  set cashier-arrival-input-file user-file
+end
+
+to setup-customer-output-directory
+  set customer-output-directory user-directory
+end
+
+to setup-cashier-output-directory
+  set cashier-output-directory user-directory
+end
+
 
 to setup-customer-arrival-data-read
 ; this procedure set initial values necessary to further proces POS data for arrival process calibration
 
   ; set POS input data files
-  set customer-arrival-input-file "customer-arrival-input-file-store1.csv"
+  ;set customer-arrival-input-file "customer-arrival-input-file-store1.csv"
 
   ; read customer-arrival-max-rate, a value necessery for calculation arrival rate with NHPP process
   file-open customer-arrival-input-file
@@ -215,8 +241,7 @@ end
 to setup-customer-basket-payment-data-read
 ;this procedure read initial values necessary to further proces POS data for basket size and method of payment draw
 
-  set customer-basket-payment-input-file "customer-basket-payment-input-file-store1.csv"
-
+ ;set customer-basket-payment-input-file "customer-basket-payment-input-file-store1.csv"
   ; read posiible values of basket size / payment method
   file-open customer-basket-payment-input-file
     set customer-basket-payment-values csv:from-row file-read-line
@@ -227,13 +252,17 @@ to setup-customer-basket-payment-data-read
 
 end
 
+to setup-customer-data-write
+  set customers-output-file-list []
+  set cashier-output-file-list []
+end
 
 to setup-cashier-arrival
   set cashiers-backoffice []
   cashiers-create number-of-cashiers 999999999999999
-  ;print (cashier-arrival = "workschedule (POS)")
+
   if (cashier-arrival = "workschedule (POS)") [
-    set cashier-arrival-input-file "cashier-arrival-input-file-store1.csv"
+   ; set cashier-arrival-input-file "cashier-arrival-input-file-store1.csv"
     set cashier-arrival-input time:ts-load cashier-arrival-input-file
   ]
 
@@ -359,6 +388,7 @@ to setup
   setup-customer-basket-payment-data-read
   setup-cashier-arrival
   setup-times
+  setup-customer-data-write
   ;print customer-arrival-max-rate
 end
 
@@ -387,6 +417,17 @@ to recolor-cashier  ;; sco-server procedure
   if (not working?) [ set color red]
   if (working?)  [ set color green]
 end
+
+
+to-report customers-output-file
+   report (word customer-output-directory "customers-output-file" (remove "." remove ":" remove " " date-and-time) ".csv")
+end
+
+to-report cashiers-output-file
+   report (word cashier-output-directory "cashiers-output-file" (remove "." remove ":" remove " " date-and-time) ".csv")
+end
+
+;substring
 
 
 to move-cashiers-backoffice
@@ -620,24 +661,30 @@ end
 to customer-picking-queue-strategy-draw ;customer procedure
   ; In this  procedure individual picking strategy couuld be assign to each customer. However in our model it's assumed that each customer select the same strategy. Nothing is drawn.
   ; Strategy is assign to all customers according to chosen parameter
+  ifelse customer-picking-queue-strategy = 99 [
+  let idraw random-float 1
+    if (idraw <= 0.2) [set picking-queue-strategy 0]
+    if (idraw > 0.2 and idraw <= 0.4)[set picking-queue-strategy 1]
+    if (idraw > 0.4 and idraw <= 0.6)[set picking-queue-strategy 2]
+    if (idraw > 0.6 and idraw <= 0.8) [set picking-queue-strategy 3]
+   if (idraw > 0.8 and idraw <= 1.0) [set picking-queue-strategy 4]
 
-  if (customer-picking-queue-strategy = 0 )  [set picking-queue-strategy 0]
-  if (customer-picking-queue-strategy = 1 )  [set picking-queue-strategy 1]
-  if (customer-picking-queue-strategy = 2 )  [set picking-queue-strategy 2]
-  if (customer-picking-queue-strategy = 3 )  [set picking-queue-strategy 3]
-  if (customer-picking-queue-strategy = 4 )  [set picking-queue-strategy 4]
+  ][
+    set picking-queue-strategy customer-picking-queue-strategy
+  ]
 end
 
 
 to customer-jockeying-strategy-draw ;customer procedure
   ; In this  procedure individual jockeying strategy couuld be assign to each customer. However in our model it's assumed that each customer select the same strategy. Nothing is drawn.
   ; Strategy is assign to all customers according to chosen parameter
+  ;set jockeying-strategy picking-queue-strategy
+   ifelse customer-jockeying-strategy = 99 [
+    set jockeying-strategy picking-queue-strategy][
+    set jockeying-strategy customer-jockeying-strategy
+  ]
 
-  if (customer-jockeying-strategy = 0 )  [set jockeying-strategy 0]
-  if (customer-jockeying-strategy = 1 )  [set jockeying-strategy 1]
-  if (customer-jockeying-strategy = 2 )  [set jockeying-strategy 2]
-  if (customer-jockeying-strategy = 3 )  [set jockeying-strategy 3]
-  if (customer-jockeying-strategy = 4 )  [set jockeying-strategy 4]
+
 end
 
 
@@ -866,7 +913,7 @@ end
 to customer-checkout-queue-join ;;customer procedure
   if ( server-picked != nobody)[
     ifelse [open?] of server-picked[
-      set sco 0
+      set sco? false
       set server-queued-on server-picked
       set server-picked nobody
       set sco-zone-queue-picked? FALSE
@@ -877,14 +924,14 @@ to customer-checkout-queue-join ;;customer procedure
         server-service-begin
       ]
     ][
-      set sco 0
+      set sco? false
       set server-picked nobody
       set sco-zone-queue-picked? FALSE
       customer-checkout-queue-pick
     ]
   ]
   if (number-of-sco-servers != 0 and sco-zone-queue-picked? ) [
-    set sco 1
+    set sco? true
     set sco-zone-queue-picked? FALSE
     set server-picked nobody
     set time-entered-queue ticks
@@ -893,7 +940,7 @@ to customer-checkout-queue-join ;;customer procedure
     sco-servers-service-begin
   ]
   if (number-of-servers != 0 and server-zone-queue-picked? ) [
-    set sco 0
+    set sco? false
     set sco-zone-queue-picked? FALSE
     set server-picked nobody
     set server-zone-queue-picked? FALSE
@@ -927,7 +974,7 @@ to customer-checkout-queue-leave ;;customer procedure
 end
 
 to customer-jockey  ;customer procedure
-  print word self " is jockeying "
+  ;print word self " is jockeying "
   set jockeying-count jockeying-count + 1
   customer-checkout-queue-leave
   if (jockeying-strategy = 1) [customer-checkout-queue-pick-strategy1]
@@ -1124,10 +1171,31 @@ end
 
 to customer-model-leave ;;customer procedure
   set time-leaving-model ticks
+  customer-update-output-file
   customer-update-satistic  "model-leave"
   die
 end
 
+to customer-update-output-file
+  ;procedure update list with customer data to be written
+  if empty? customers-output-file-list [
+    set customers-output-file-list fput (list "customer-arrival-input-file" "customer-picking-queue-strategy"  "customer-jockeying-strategy" "who" "basket-size" "payment-method" "sco-will?" "picking-queue-strategy" "jockeying-strategy" "time-entered-model"
+      "time-entered-store" "time-entered-queue" "time-entered-service" "time-leaving-model" "server-served-on" "sco?" "num-of-servers" "num-of-sco" "num-of-customers" "num-of-articles" "jockeying-count") customers-output-file-list
+  ]
+  set customers-output-file-list lput (list customer-arrival-input-file customer-picking-queue-strategy customer-jockeying-strategy
+    who
+    basket-size
+    payment-method
+    sco-will?
+    picking-queue-strategy
+    jockeying-strategy
+    ticks-to-time time-entered-model
+    ticks-to-time time-entered-store
+    ticks-to-time time-entered-queue
+    ticks-to-time time-entered-service
+    ticks-to-time time-leaving-model
+    server-served-on sco? num-of-servers num-of-sco num-of-customers num-of-articles jockeying-count) customers-output-file-list
+end
 
 to customer-update-satistic [utype]
   if utype = "arrival" [
@@ -1152,7 +1220,7 @@ to customer-update-satistic [utype]
     ]
 
 
-    if sco = 0 [
+    if sco? [
       set customer-leaving-count-server customer-leaving-count-server + 1
       set customer-leaving-count-server-hour customer-leaving-count-server-hour + 1
       set customer-leaving-queue-time-server customer-leaving-queue-time-server + time-entered-service - time-entered-queue
@@ -1168,7 +1236,7 @@ to customer-update-satistic [utype]
       ]
     ]
 
-    if sco = 1 [
+    if sco? [
       set customer-leaving-count-sco customer-leaving-count-sco + 1
       set customer-leaving-count-sco-hour customer-leaving-count-sco-hour + 1
       set customer-leaving-queue-time-sco customer-leaving-queue-time-sco + time-entered-service - time-entered-queue
@@ -1264,7 +1332,7 @@ to server-complete-service [server-id]
   ask (server server-id) [
     ;print word word "customer: " customer-being-served  word server-id ticks
     ask customer-being-served [ customer-model-leave ]
-    ask cashier-working-on [
+    ask cashiers with [working?] [
       cashier-server-close
       if cashier-server-leave-check? [cashier-server-leave]
     ]
@@ -1311,6 +1379,10 @@ end
 to sco-server-complete-service [sco-server-id]
   ask (sco-server sco-server-id) [
     ask customer-being-served [ customer-model-leave ]
+     ask cashiers with [working?] [
+      cashier-server-close
+      if cashier-server-leave-check? [cashier-server-leave]
+    ]
     set next-completion-time 0
     set label ""
     ; update sco-server statistic of usage
@@ -1375,8 +1447,8 @@ end
 
 to-report cashier-server-enter-time-schedule
 
-  ifelse any? (servers with [open?])
-  [
+  ;ifelse any? (servers with [open?])
+  ;[
     ifelse single-queue?
     [
       ifelse ((length server-zone-queue + length sco-zone-queue) / (count  (servers with [open?]) + 1)  > cashier-max-line)
@@ -1387,10 +1459,10 @@ to-report cashier-server-enter-time-schedule
       ifelse ((sum ([length(server-queue)] of (servers with [open?])) + length(sco-zone-queue)) / (count  (servers with [open?]) + 1)  > cashier-max-line)
       [report ticks + cashier-return-time ]
       [report ticks ]]
-  ]
-  [
-    report ticks + cashier-return-time
-  ]
+  ;]
+  ;[
+  ;  report ticks + cashier-return-time
+  ;]
 
 end
 
@@ -1508,6 +1580,7 @@ to cashier-model-leave ;cashier procedure
      if (time-break-end > time-break-start)[
       set break-count  break-count + 1
     ]
+    cashier-update-output-file-list
     cashier-update-satistic "model-leave"
     die
   ]
@@ -1522,6 +1595,13 @@ to cashiers-model-leave
     cashier-model-leave
   ]
 
+end
+to cashier-update-output-file-list
+
+  if empty? cashier-output-file-list [
+    set cashier-output-file-list fput (list "cashier-arrival-input-file" "customer-picking-queue-strategy" "customer-jockeying-strategy" "who" "time-real-end" "time-start" "time-end" "break-count" "break-length") cashier-output-file-list
+  ]
+  set cashier-output-file-list lput (list cashier-arrival-input-file customer-picking-queue-strategy customer-picking-queue-strategy who ticks-to-time ticks ticks-to-time time-start ticks-to-time time-end break-count break-length) cashier-output-file-list
 end
 
 to cashier-update-satistic [utype]
@@ -1596,9 +1676,22 @@ to next-hour-events-complete ;events to be done every second
   ;  print word ticks word " + " 0
   ;]
   customer-update-statistic-hour
+
   set ticks-hour ( ticks-hour + 1 )
 end
 
+to-report next-day-schedule  ;report next hour in ticks (ticks are in min)
+  report ( 60 * 24 * ( floor ( ticks / (60 * 24))) + ( 60  * 24))
+end
+
+to next-day-events-complete
+  csv:to-file  customers-output-file customers-output-file-list
+  set customers-output-file-list []
+
+  csv:to-file  cashiers-output-file cashier-output-file-list
+  set cashier-output-file-list []
+
+end
 to end-run-complete
 
 end
@@ -1613,9 +1706,11 @@ to-report ts-get-next [ logotimeseries logotime column-name ]
     set line time:ts-get logotimeseries (time:plus logotime i "minutes") column-name
   ]
   report line
-
 end
 
+to-report ticks-to-time [itick]
+  report time:show  (time:plus start-time itick "minutes") "yyyy-MM-dd HH:mm:ss"
+end
 
 to go
   ifelse (ticks < max-run-time) [
@@ -1625,7 +1720,10 @@ to go
     if next-minute <= ticks [ set next-minute next-minute-schedule ]
     ;print next-minute
     if next-hour <= ticks [ set next-hour next-hour-schedule ]
+
     ;print word ticks-hour word " - " ticks-minute
+
+    if next-day <= ticks [ set next-day next-day-schedule ]
 
     ;schedule of events done discret
     if customer-arrival-next-time <= ticks  [ set customer-arrival-next-time (customer-arrival-time-schedule)]
@@ -1649,6 +1747,9 @@ to go
     if (next-minute > ticks)[
       set event-queue (fput (list next-minute "next-minute-events-complete") event-queue)]
 
+    if (next-day > ticks)[
+      set event-queue (fput (list next-day "next-day-events-complete") event-queue)]
+
 
 
     ;**** secondly set to list events done discretly
@@ -1668,7 +1769,6 @@ to go
     if (is-turtle? next-sco-server-to-complete)[
       set event-queue (fput (list ([next-completion-time] of next-sco-server-to-complete)
                                   "sco-server-complete-service" ([who] of next-sco-server-to-complete)) event-queue)]
-
 
     ;sort list of events according to time
     set event-queue (sort-by [ [ ?1 ?2 ] -> first ?1 < first ?2] event-queue)
@@ -1718,10 +1818,10 @@ ticks
 50.0
 
 SLIDER
-1
-660
-131
-693
+4
+732
+134
+765
 number-of-servers
 number-of-servers
 0
@@ -1805,20 +1905,20 @@ controls
 1
 
 TEXTBOX
-2
-646
-179
-665
+5
+718
+182
+737
 servers (checkout) parameters
 11
 0.0
 1
 
 SLIDER
-127
-571
-257
-604
+129
+563
+259
+596
 customer-cash-payment-rate
 customer-cash-payment-rate
 0
@@ -1830,40 +1930,40 @@ NIL
 HORIZONTAL
 
 CHOOSER
-256
-483
-389
-528
+259
+484
+392
+529
 customer-picking-queue-strategy
 customer-picking-queue-strategy
-0 1 2 3 4
-4
+0 1 2 3 4 99
+1
 
 TEXTBOX
-2
-465
-152
-483
+5
+466
+155
+484
 customers parameters
 11
 0.0
 1
 
 TEXTBOX
-395
-468
-545
-486
+398
+469
+548
+487
 cashiers parameters
 11
 0.0
 1
 
 SLIDER
-392
-570
-528
-603
+396
+562
+532
+595
 number-of-cashiers
 number-of-cashiers
 0
@@ -1875,25 +1975,25 @@ NIL
 HORIZONTAL
 
 SLIDER
-0
-539
-129
-572
+2
+531
+131
+564
 customer-arrival-mean-rate
 customer-arrival-mean-rate
 0
 25
-0.0
+6.618
 0.001
 1
 NIL
 HORIZONTAL
 
 SLIDER
-127
-539
-257
-572
+129
+531
+259
+564
 customer-basket-mean-size
 customer-basket-mean-size
 0
@@ -1905,10 +2005,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-395
-428
-658
-461
+176
+427
+391
+460
 simulation-end-day
 simulation-end-day
 simulation-start-day
@@ -1920,10 +2020,10 @@ NIL
 HORIZONTAL
 
 PLOT
-672
-408
-1241
-528
+670
+439
+1239
+559
 customers served count
 hours
 count
@@ -1940,10 +2040,10 @@ PENS
 "service" 1.0 0 -13345367 true "" "if (ticks-minute / 60) = ticks-hour [ plotxy ticks-hour  customer-leaving-count-hour - customer-leaving-count-sco-hour]"
 
 PLOT
-672
-528
-1241
-648
+670
+559
+1239
+679
 mean queue times 
 hours
 minutes
@@ -1981,10 +2081,10 @@ Agregeted statistics (customers)
 1
 
 TEXTBOX
-672
-393
-854
-421
+670
+424
+852
+452
 Statistics per hour
 11
 0.0
@@ -2002,10 +2102,10 @@ customer-leaving-count
 11
 
 SLIDER
-392
-660
-526
-693
+395
+732
+529
+765
 number-of-sco-servers
 number-of-sco-servers
 0
@@ -2017,10 +2117,10 @@ NIL
 HORIZONTAL
 
 SWITCH
-1
-705
-131
-738
+4
+777
+134
+810
 single-queue?
 single-queue?
 1
@@ -2028,10 +2128,10 @@ single-queue?
 -1000
 
 SLIDER
-0
-765
-128
-798
+3
+832
+131
+865
 distance-in-queue
 distance-in-queue
 1
@@ -2043,10 +2143,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-127
-766
-261
-799
+130
+833
+264
+866
 distance-queue-server
 distance-queue-server
 1
@@ -2058,10 +2158,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-261
-766
-384
-799
+264
+833
+387
+866
 distance-server-server
 distance-server-server
 1
@@ -2073,10 +2173,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-392
-766
-521
-799
+395
+833
+524
+866
 distance-sco-sco-h
 distance-sco-sco-h
 1
@@ -2088,10 +2188,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-522
-766
-656
-799
+525
+833
+659
+866
 distance-sco-sco-v
 distance-sco-sco-v
 1
@@ -2103,20 +2203,20 @@ NIL
 HORIZONTAL
 
 TEXTBOX
-1
-747
-151
-765
+4
+814
+154
+832
 other-parameters
 11
 0.0
 1
 
 SLIDER
-1
-571
-130
-604
+3
+563
+132
+596
 max-customers
 max-customers
 0
@@ -2224,55 +2324,55 @@ customers %
 11
 
 CHOOSER
-0
-483
-129
-528
+3
+484
+132
+529
 customer-arrival-proces
 customer-arrival-proces
 "HPP" "NHPP (POS)"
 1
 
 CHOOSER
-127
-483
-257
-528
+130
+484
+260
+529
 customer-basket-payment
 customer-basket-payment
 "Poisson\\Binomial" "ECDF (POS)"
 1
 
 CHOOSER
-392
-483
-528
-528
+395
+484
+531
+529
 cashier-arrival
 cashier-arrival
 "constant number" "workschedule (POS)"
 1
 
 SLIDER
-527
-483
-655
-516
+532
+484
+660
+517
 cashier-max-line
 cashier-max-line
 1
 5
-1.0
+2.0
 1
 1
 NIL
 HORIZONTAL
 
 SLIDER
-528
-571
-658
-604
+531
+561
+659
+594
 cashier-return-time
 cashier-return-time
 0
@@ -2284,10 +2384,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-527
-527
-656
-560
+531
+522
+660
+555
 cashier-min-line
 cashier-min-line
 0
@@ -2299,10 +2399,10 @@ NIL
 HORIZONTAL
 
 TEXTBOX
-392
-645
-622
-664
+395
+717
+625
+736
 sco-servers (self-checkout) parameters
 11
 0.0
@@ -2331,10 +2431,10 @@ time:show start-time \"dd.MM.YYYY HH:mm:ss\"
 11
 
 SLIDER
-393
-527
-529
-560
+396
+528
+532
+561
 cashier-work-time
 cashier-work-time
 120
@@ -2404,9 +2504,9 @@ sum [ticks - time-start] of cashiers + cashier-working-length
 11
 
 SLIDER
-176
+396
 427
-391
+660
 460
 simulation-start-day
 simulation-start-day
@@ -2485,10 +2585,10 @@ P(queue time > 5) %
 11
 
 PLOT
-672
-648
-1241
-768
+670
+679
+1239
+799
 P(queue time > 5) 
 hours
 %
@@ -2558,20 +2658,20 @@ total time on servers
 11
 
 CHOOSER
-131
-660
-257
-705
+134
+732
+260
+777
 server-service-time-model
 server-service-time-model
 "EXPONENTIAL" "Reg. model (POS)"
 1
 
 SLIDER
-132
-705
-257
-738
+135
+777
+260
+810
 server-service-time-expected
 server-service-time-expected
 0
@@ -2583,25 +2683,25 @@ NIL
 HORIZONTAL
 
 CHOOSER
-528
-660
-658
-705
+531
+732
+661
+777
 sco-server-service-time-model
 sco-server-service-time-model
 "EXPONENTIAL" "Reg. model (POS)"
 1
 
 SLIDER
-528
-705
-658
-738
+531
+777
+661
+810
 sco-server-service-time-expected
 sco-server-service-time-expected
 0
 10
-2.853
+2.849
 0.001
 1
 NIL
@@ -2789,10 +2889,10 @@ PENS
 "service" 1.0 0 -14730904 true "" "if (count servers) != 0 [ plotxy ticks-minute 100 *(count servers with [customer-being-served != nobody]) / (count servers)] "
 
 SLIDER
-259
-607
-389
-640
+260
+608
+392
+641
 customer-jockeying-threshold
 customer-jockeying-threshold
 1
@@ -2804,20 +2904,20 @@ NIL
 HORIZONTAL
 
 CHOOSER
-258
-563
-389
-608
+261
+564
+392
+609
 customer-jockeying-strategy
 customer-jockeying-strategy
-0 1 2 3 4
-4
+0 1 2 3 4 99
+5
 
 SLIDER
-257
-529
-389
-562
+260
+530
+392
+563
 customer-sco-item-thershold
 customer-sco-item-thershold
 0
@@ -2827,6 +2927,146 @@ customer-sco-item-thershold
 1
 NIL
 HORIZONTAL
+
+INPUTBOX
+3
+597
+202
+657
+customer-arrival-input-file
+C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel\\customer-arrival-input-file-store2.csv
+1
+0
+String
+
+INPUTBOX
+1
+652
+202
+712
+customer-basket-payment-input-file
+C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel\\customer-basket-payment-input-file-store2.csv
+1
+0
+String
+
+BUTTON
+202
+655
+260
+715
+Chose file
+setup-customer-basket-payment-file
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+BUTTON
+202
+596
+259
+654
+Chose file
+setup-customer-arrival-input-file
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+INPUTBOX
+395
+595
+600
+655
+cashier-arrival-input-file
+C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel\\cashier-arrival-input-file-store2.csv
+1
+0
+String
+
+BUTTON
+600
+594
+660
+653
+Chose file
+setup-cashier-arrival-input-file 
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+INPUTBOX
+9
+874
+194
+934
+customer-output-directory
+C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel_Output\\customers2\\
+1
+0
+String
+
+BUTTON
+193
+874
+258
+934
+Chose dir
+setup-customer-output-directory
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+INPUTBOX
+396
+873
+603
+933
+cashier-output-directory
+C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel_Output\\cashiers2\\
+1
+0
+String
+
+BUTTON
+603
+874
+669
+932
+Chose dir
+setup-cashier-output-directory
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
 
 @#$#@#$#@
 ## WHAT IS IT?
@@ -3370,6 +3610,233 @@ NetLogo 6.0.3
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@
+<experiments>
+  <experiment name="experiment-no-jockeying" repetitions="10" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <metric>count turtles</metric>
+    <enumeratedValueSet variable="server-service-time-expected">
+      <value value="1.345"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="cashier-work-time">
+      <value value="240"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="number-of-servers">
+      <value value="20"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="cashier-max-line">
+      <value value="2"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="cashier-min-line">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="server-service-time-model">
+      <value value="&quot;Reg. model (POS)&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-arrival-proces">
+      <value value="&quot;NHPP (POS)&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="cashier-arrival">
+      <value value="&quot;workschedule (POS)&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="distance-queue-server">
+      <value value="3"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="number-of-cashiers">
+      <value value="0"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="distance-sco-sco-v">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-basket-mean-size">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="simulation-end-day">
+      <value value="18"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-basket-payment">
+      <value value="&quot;ECDF (POS)&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="sco-server-service-time-model">
+      <value value="&quot;Reg. model (POS)&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="max-customers">
+      <value value="100"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-cash-payment-rate">
+      <value value="0.3"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="distance-server-server">
+      <value value="2"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="cashier-output-directory">
+      <value value="&quot;C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel_Output\\cashiers\\&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-basket-payment-input-file">
+      <value value="&quot;C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel\\customer-basket-payment-input-file-store2.csv&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-arrival-mean-rate">
+      <value value="6.618"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-jockeying-strategy">
+      <value value="0"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="single-queue?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="distance-in-queue">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-sco-item-thershold">
+      <value value="100"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="cashier-return-time">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-picking-queue-strategy">
+      <value value="1"/>
+      <value value="2"/>
+      <value value="3"/>
+      <value value="4"/>
+      <value value="99"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="simulation-start-day">
+      <value value="0"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-arrival-input-file">
+      <value value="&quot;C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel\\customer-arrival-input-file-store2.csv&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="number-of-sco-servers">
+      <value value="6"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="cashier-arrival-input-file">
+      <value value="&quot;C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel\\cashier-arrival-input-file-store2.csv&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="distance-sco-sco-h">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-output-directory">
+      <value value="&quot;C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel_Output\\customers\\&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-jockeying-threshold">
+      <value value="2"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="sco-server-service-time-expected">
+      <value value="2.849"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="experiment-jockeying" repetitions="1" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <metric>count turtles</metric>
+    <enumeratedValueSet variable="server-service-time-expected">
+      <value value="1.345"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="cashier-work-time">
+      <value value="240"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="number-of-servers">
+      <value value="20"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="cashier-max-line">
+      <value value="2"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="cashier-min-line">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="server-service-time-model">
+      <value value="&quot;Reg. model (POS)&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-arrival-proces">
+      <value value="&quot;NHPP (POS)&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="cashier-arrival">
+      <value value="&quot;workschedule (POS)&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="distance-queue-server">
+      <value value="3"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="number-of-cashiers">
+      <value value="0"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="distance-sco-sco-v">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-basket-mean-size">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="simulation-end-day">
+      <value value="18"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-basket-payment">
+      <value value="&quot;ECDF (POS)&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="sco-server-service-time-model">
+      <value value="&quot;Reg. model (POS)&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="max-customers">
+      <value value="100"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-cash-payment-rate">
+      <value value="0.3"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="distance-server-server">
+      <value value="2"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="cashier-output-directory">
+      <value value="&quot;C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel_Output\\cashiers2\\&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-basket-payment-input-file">
+      <value value="&quot;C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel\\customer-basket-payment-input-file-store2.csv&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-arrival-mean-rate">
+      <value value="6.618"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-jockeying-strategy">
+      <value value="99"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="single-queue?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="distance-in-queue">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-sco-item-thershold">
+      <value value="100"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="cashier-return-time">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-picking-queue-strategy">
+      <value value="4"/>
+      <value value="99"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="simulation-start-day">
+      <value value="0"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-arrival-input-file">
+      <value value="&quot;C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel\\customer-arrival-input-file-store2.csv&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="number-of-sco-servers">
+      <value value="6"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="cashier-arrival-input-file">
+      <value value="&quot;C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel\\cashier-arrival-input-file-store2.csv&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="distance-sco-sco-h">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-output-directory">
+      <value value="&quot;C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel_Output\\customers2\\&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-jockeying-threshold">
+      <value value="2"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="sco-server-service-time-expected">
+      <value value="2.849"/>
+    </enumeratedValueSet>
+  </experiment>
+</experiments>
 @#$#@#$#@
 @#$#@#$#@
 default
