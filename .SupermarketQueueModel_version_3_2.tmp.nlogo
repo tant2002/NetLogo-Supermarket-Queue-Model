@@ -3744,509 +3744,6 @@ NetLogo 6.0.3
 @#$#@#$#@
 @#$#@#$#@
 <experiments>
-  <experiment name="experiment-store1" repetitions="1" runMetricsEveryStep="false">
-    <setup>setup</setup>
-    <go>go</go>
-    <metric>count turtles</metric>
-    <enumeratedValueSet variable="server-service-time-expected">
-      <value value="1.346"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="cashier-work-time">
-      <value value="240"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="number-of-servers">
-      <value value="20"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="cashier-max-line">
-      <value value="2"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="cashier-min-line">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="server-service-time-model">
-      <value value="&quot;Reg. model (POS)&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-arrival-proces">
-      <value value="&quot;NHPP (POS)&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="cashier-arrival">
-      <value value="&quot;workschedule (POS)&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="distance-queue-server">
-      <value value="3"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="number-of-cashiers">
-      <value value="0"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="distance-sco-sco-v">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-basket-mean-size">
-      <value value="10"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="simulation-end-day">
-      <value value="18"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-basket-payment">
-      <value value="&quot;ECDF (POS)&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="sco-server-service-time-model">
-      <value value="&quot;Reg. model (POS)&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="max-customers">
-      <value value="100"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-cash-payment-rate">
-      <value value="0.3"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="distance-server-server">
-      <value value="2"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="cashier-output-directory">
-      <value value="&quot;C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel_Output\\cashiers0\\&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-basket-payment-input-file">
-      <value value="&quot;C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel\\customer-basket-payment-input-file-store1.csv&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-arrival-mean-rate">
-      <value value="6.618"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-jockeying-strategy">
-      <value value="0"/>
-      <value value="99"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="single-queue?">
-      <value value="false"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="distance-in-queue">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-sco-item-thershold">
-      <value value="100"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="cashier-return-time">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="experiment">
-      <value value="1"/>
-      <value value="2"/>
-      <value value="3"/>
-      <value value="4"/>
-      <value value="5"/>
-      <value value="6"/>
-      <value value="7"/>
-      <value value="8"/>
-      <value value="9"/>
-      <value value="10"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-picking-queue-strategy">
-      <value value="0"/>
-      <value value="1"/>
-      <value value="2"/>
-      <value value="3"/>
-      <value value="4"/>
-      <value value="99"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="simulation-start-day">
-      <value value="0"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-arrival-input-file">
-      <value value="&quot;C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel\\customer-arrival-input-file-store1.csv&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="number-of-sco-servers">
-      <value value="6"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="cashier-arrival-input-file">
-      <value value="&quot;C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel\\cashier-arrival-input-file-store1.csv&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="distance-sco-sco-h">
-      <value value="5"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-output-directory">
-      <value value="&quot;C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel_Output\\customers0\\&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-jockeying-threshold">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="sco-server-service-time-expected">
-      <value value="2.853"/>
-    </enumeratedValueSet>
-  </experiment>
-  <experiment name="experiment - store2" repetitions="1" runMetricsEveryStep="false">
-    <setup>setup</setup>
-    <go>go</go>
-    <metric>count turtles</metric>
-    <enumeratedValueSet variable="server-service-time-expected">
-      <value value="1.346"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="cashier-work-time">
-      <value value="240"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="number-of-servers">
-      <value value="20"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="cashier-max-line">
-      <value value="3"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="cashier-min-line">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="server-service-time-model">
-      <value value="&quot;Reg. model (POS)&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-arrival-proces">
-      <value value="&quot;NHPP (POS)&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="cashier-arrival">
-      <value value="&quot;workschedule (POS)&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="distance-queue-server">
-      <value value="3"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="number-of-cashiers">
-      <value value="0"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="distance-sco-sco-v">
-      <value value="2"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-basket-mean-size">
-      <value value="10"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="simulation-end-day">
-      <value value="18"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-basket-payment">
-      <value value="&quot;ECDF (POS)&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="sco-server-service-time-model">
-      <value value="&quot;Reg. model (POS)&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="max-customers">
-      <value value="100"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-cash-payment-rate">
-      <value value="0.3"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="distance-server-server">
-      <value value="2"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-basket-payment-input-file">
-      <value value="&quot;C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel\\customer-basket-payment-input-file-store2.csv&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="cashier-output-directory">
-      <value value="&quot;C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel_Output\\cashiers2\\&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-arrival-mean-rate">
-      <value value="6.618"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-jockeying-strategy">
-      <value value="0"/>
-      <value value="99"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="single-queue?">
-      <value value="false"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="distance-in-queue">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-sco-item-thershold">
-      <value value="100"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="cashier-return-time">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="experiment">
-      <value value="1"/>
-      <value value="2"/>
-      <value value="3"/>
-      <value value="4"/>
-      <value value="5"/>
-      <value value="6"/>
-      <value value="7"/>
-      <value value="8"/>
-      <value value="9"/>
-      <value value="10"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-picking-queue-strategy">
-      <value value="0"/>
-      <value value="1"/>
-      <value value="2"/>
-      <value value="3"/>
-      <value value="4"/>
-      <value value="99"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="simulation-start-day">
-      <value value="0"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-arrival-input-file">
-      <value value="&quot;C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel\\customer-arrival-input-file-store2.csv&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="number-of-sco-servers">
-      <value value="6"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="cashier-arrival-input-file">
-      <value value="&quot;C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel\\cashier-arrival-input-file-store2.csv&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="distance-sco-sco-h">
-      <value value="5"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-output-directory">
-      <value value="&quot;C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel_Output\\customers2\\&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-jockeying-threshold">
-      <value value="2"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="sco-server-service-time-expected">
-      <value value="2.853"/>
-    </enumeratedValueSet>
-  </experiment>
-  <experiment name="experiment-store1-1" repetitions="1" runMetricsEveryStep="false">
-    <setup>setup</setup>
-    <go>go</go>
-    <metric>count turtles</metric>
-    <enumeratedValueSet variable="server-service-time-expected">
-      <value value="1.346"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="cashier-work-time">
-      <value value="240"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="number-of-servers">
-      <value value="20"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="cashier-max-line">
-      <value value="2"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="cashier-min-line">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="server-service-time-model">
-      <value value="&quot;Reg. model (POS)&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-arrival-proces">
-      <value value="&quot;NHPP (POS)&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="cashier-arrival">
-      <value value="&quot;workschedule (POS)&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="distance-queue-server">
-      <value value="3"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="number-of-cashiers">
-      <value value="0"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="distance-sco-sco-v">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-basket-mean-size">
-      <value value="10"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="simulation-end-day">
-      <value value="18"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-basket-payment">
-      <value value="&quot;ECDF (POS)&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="sco-server-service-time-model">
-      <value value="&quot;Reg. model (POS)&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="max-customers">
-      <value value="100"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-cash-payment-rate">
-      <value value="0.3"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="distance-server-server">
-      <value value="2"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="cashier-output-directory">
-      <value value="&quot;C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel_Output\\cashiers1\\&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-basket-payment-input-file">
-      <value value="&quot;C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel\\customer-basket-payment-input-file-store1.csv&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-arrival-mean-rate">
-      <value value="6.618"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-jockeying-strategy">
-      <value value="0"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="single-queue?">
-      <value value="false"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="distance-in-queue">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-sco-item-thershold">
-      <value value="100"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="cashier-return-time">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="experiment">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-picking-queue-strategy">
-      <value value="0"/>
-      <value value="1"/>
-      <value value="2"/>
-      <value value="3"/>
-      <value value="4"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="simulation-start-day">
-      <value value="0"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-arrival-input-file">
-      <value value="&quot;C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel\\customer-arrival-input-file-store1.csv&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="number-of-sco-servers">
-      <value value="6"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="cashier-arrival-input-file">
-      <value value="&quot;C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel\\cashier-arrival-input-file-store1.csv&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="distance-sco-sco-h">
-      <value value="5"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-output-directory">
-      <value value="&quot;C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel_Output\\customers1\\&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-jockeying-threshold">
-      <value value="2"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="sco-server-service-time-expected">
-      <value value="2.853"/>
-    </enumeratedValueSet>
-  </experiment>
-  <experiment name="experiment n/j" repetitions="1" runMetricsEveryStep="false">
-    <setup>setup</setup>
-    <go>go</go>
-    <metric>count turtles</metric>
-    <enumeratedValueSet variable="server-service-time-expected">
-      <value value="1.346"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="cashier-work-time">
-      <value value="240"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="number-of-servers">
-      <value value="20"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-jockeying-distance">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="cashier-max-line">
-      <value value="2"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="cashier-min-line">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="server-service-time-model">
-      <value value="&quot;Reg. model (POS)&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-arrival-proces">
-      <value value="&quot;NHPP (POS)&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="cashier-arrival">
-      <value value="&quot;workschedule (POS)&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="distance-queue-server">
-      <value value="3"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="number-of-cashiers">
-      <value value="0"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="distance-sco-sco-v">
-      <value value="2"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-basket-mean-size">
-      <value value="9"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="simulation-end-day">
-      <value value="18"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-basket-payment">
-      <value value="&quot;ECDF (POS)&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="sco-server-service-time-model">
-      <value value="&quot;Reg. model (POS)&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="max-customers">
-      <value value="500"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-cash-payment-rate">
-      <value value="0.2"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="distance-server-server">
-      <value value="2"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-basket-payment-input-file">
-      <value value="&quot;C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel\\customer-basket-payment-input-file-store1.csv&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="cashier-output-directory">
-      <value value="&quot;C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel_Output\\cashiers0\\&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-jockeying-strategy">
-      <value value="0"/>
-      <value value="1"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-arrival-mean-rate">
-      <value value="6.618"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="single-queue?">
-      <value value="false"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="distance-in-queue">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="cashier-return-time">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-sco-item-thershold">
-      <value value="100"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="experiment">
-      <value value="1"/>
-      <value value="2"/>
-      <value value="3"/>
-      <value value="4"/>
-      <value value="5"/>
-      <value value="6"/>
-      <value value="7"/>
-      <value value="8"/>
-      <value value="9"/>
-      <value value="10"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-picking-queue-strategy">
-      <value value="0"/>
-      <value value="1"/>
-      <value value="2"/>
-      <value value="3"/>
-      <value value="4"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="simulation-start-day">
-      <value value="0"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-arrival-input-file">
-      <value value="&quot;C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel\\customer-arrival-input-file-store1.csv&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="number-of-sco-servers">
-      <value value="6"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="cashier-arrival-input-file">
-      <value value="&quot;C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel\\cashier-arrival-input-file-store1.csv&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="distance-sco-sco-h">
-      <value value="4"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-jockeying-threshold">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="customer-output-directory">
-      <value value="&quot;C:\\Doktorat\\Models\\NetLogo_SupermarketQueueModel_Output\\customers0\\&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="sco-server-service-time-expected">
-      <value value="2.853"/>
-    </enumeratedValueSet>
-  </experiment>
   <experiment name="experiment no_jockey" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
@@ -4500,6 +3997,147 @@ NetLogo 6.0.3
     </enumeratedValueSet>
     <enumeratedValueSet variable="customer-output-directory">
       <value value="&quot;C:\\Doktorat\\Models\\Supermarket_Queue_Model\\NetLogo_SupermarketQueueModel_Output\\customers0\\&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="sco-server-service-time-expected">
+      <value value="2.853"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="experiment no jockey/jockey 20 experiments" repetitions="1" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <metric>count turtles</metric>
+    <enumeratedValueSet variable="server-service-time-expected">
+      <value value="1.346"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="cashier-work-time">
+      <value value="240"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="number-of-servers">
+      <value value="20"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-jockeying-distance">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="cashier-max-line">
+      <value value="2"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="cashier-min-line">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="server-service-time-model">
+      <value value="&quot;Reg. model (POS)&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-arrival-proces">
+      <value value="&quot;NHPP (POS)&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="cashier-arrival">
+      <value value="&quot;workschedule (POS)&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="distance-queue-server">
+      <value value="3"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="number-of-cashiers">
+      <value value="0"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="distance-sco-sco-v">
+      <value value="2"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-basket-mean-size">
+      <value value="9"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="simulation-end-day">
+      <value value="18"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-basket-payment">
+      <value value="&quot;ECDF (POS)&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="sco-server-service-time-model">
+      <value value="&quot;Reg. model (POS)&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="max-customers">
+      <value value="500"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-cash-payment-rate">
+      <value value="0.2"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="distance-server-server">
+      <value value="2"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-basket-payment-input-file">
+      <value value="&quot;C:\\Doktorat\\Models\\Supermarket_Queue_Model\\NetLogo_SupermarketQueueModel\\customer-basket-payment-input-file-store1.csv&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="cashier-output-directory">
+      <value value="&quot;C:\\Doktorat\\Models\\Supermarket_Queue_Model\\NetLogo_SupermarketQueueModel_Output\\cashiers1\\&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-jockeying-strategy">
+      <value value="0"/>
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-arrival-mean-rate">
+      <value value="6.618"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="single-queue?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="distance-in-queue">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="cashier-return-time">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-sco-item-thershold">
+      <value value="100"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="experiment">
+      <value value="1"/>
+      <value value="2"/>
+      <value value="3"/>
+      <value value="4"/>
+      <value value="5"/>
+      <value value="6"/>
+      <value value="7"/>
+      <value value="8"/>
+      <value value="9"/>
+      <value value="10"/>
+      <value value="11"/>
+      <value value="12"/>
+      <value value="13"/>
+      <value value="14"/>
+      <value value="15"/>
+      <value value="16"/>
+      <value value="17"/>
+      <value value="18"/>
+      <value value="19"/>
+      <value value="20"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-picking-queue-strategy">
+      <value value="0"/>
+      <value value="1"/>
+      <value value="2"/>
+      <value value="3"/>
+      <value value="4"/>
+      <value value="99"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="simulation-start-day">
+      <value value="0"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-arrival-input-file">
+      <value value="&quot;C:\\Doktorat\\Models\\Supermarket_Queue_Model\\NetLogo_SupermarketQueueModel\\customer-arrival-input-file-store1.csv&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="number-of-sco-servers">
+      <value value="6"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="cashier-arrival-input-file">
+      <value value="&quot;C:\\Doktorat\\Models\\Supermarket_Queue_Model\\NetLogo_SupermarketQueueModel\\cashier-arrival-input-file-store1.csv&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="distance-sco-sco-h">
+      <value value="4"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-jockeying-threshold">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="customer-output-directory">
+      <value value="&quot;C:\\Doktorat\\Models\\Supermarket_Queue_Model\\NetLogo_SupermarketQueueModel_Output\\customers1\\&quot;"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="sco-server-service-time-expected">
       <value value="2.853"/>
