@@ -4,7 +4,7 @@ NetLogo's data driven queue system model of typical supermarket's checkout zone.
 ![alt text](/readme-images/model-interface.png)
 
 ## WHAT IS IT?
-This is a complex model for simulation queue system of typical supermarket's checkout zone. As opposed to traditional models based on queue theory, it let simulate and examine complex system with non-stationary characteristics i.e.  dynamically changed intensity  of customers arrival,  servers availability and / or service time distribution. 
+This is a model for simulation queue system of typical supermarket's checkout zone. As opposed to traditional models based on queue theory, it let simulate and examine complex system with non-stationary characteristics i.e.  dynamically changed intensity  of customers arrival,  servers availability and / or service time distribution. 
 To mimic process accurately, the model can be driven with historical data (time series)  containing:  intensity of the transactions,  proportions of  transactions for various combination basket sizes/methods of payment  and  cashiers availability (workschedule). It let to examine various checkout zone configurations in terms of quantity and type of servers (service and self-service checkouts) and overview basic performance measures. The model was created with an agent approach (ABS - Agent Based Simulation) however it also meets DES (Discrete Events Simulation)  model definition.  
 
 ## HOW IT WORKS
