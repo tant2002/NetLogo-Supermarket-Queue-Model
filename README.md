@@ -26,10 +26,13 @@ Historical time series can extracted out of transactional data that are collecte
 ![alt text](/readme-images/model-pitch3D.png)
 
 ## HOW TO USE IT
-Depend on user decision, the model can be run with mode that use POS (Point of Sale) historical data or with inputs generated randomly according to theoretical distributions. To drive model with POS data  the values, parameters "customer-arrival-process", "customer-basket-payment", "cashier-arrival", 'server-service-time-model' and 'sco-server-service-time-model' need to be set on relevant values (see section Parameters bellow) and input files (see section POS data input files) need to be provide.  
+Depend on user decision, the model can be run with mode that use POS (Point of Sale) historical data or with inputs generated randomly according to theoretical distributions. To drive model with POS data  the values, parameters "customer-arrival-process", "customer-basket-payment", "cashier-arrival", 'server-service-time-model' and 'sco-server-service-time-model' need to be set on relevant values (see section Parameters bellow) and input files (see section POS data input files) need to be provide. The model use two Netlogo extensions that need to be lto be installed in local environment of NetLogo:
+ - Time extension ( see https://github.com/NetLogo/Time-Extension ) 
+ - The RNGS extension (see https://github.com/cstaelin/RNGS-Extension)
+Instruction for extensions in NetLogo can be find on http://ccl.northwestern.edu/netlogo/docs/extensions.html.
 
 ### POS data input files
-As example, the files contained historical data generated out POS  transactional data from supermarket located in southern Poland was provided. However,  it is possible to use any data. Please note data range of all files need to be coherent. Files are in time series format and need NetLogo Time extension ( see https://github.com/NetLogo/Time-Extension ) to be installed in local environment of NetLogo. Instruction for extensions in NetLogo can be find on http://ccl.northwestern.edu/netlogo/docs/extensions.html.
+As example, the files contained historical data generated out POS  transactional data from supermarket located in southern Poland was provided. However,  it is possible to use any data. Please note data range of all files need to be coherent. Files are in time series format and need NetLogo Time extension ( see https://github.com/NetLogo/Time-Extension ). The path to each file need to be indicated as parameter. 
 #### [customer-arrival-input-file-store1.csv](customer-arrival-input-file-store1.csv)
 This file contain data that are necessary to generate arrivals of customers to checkouts in supermarket. It's assumed that arrivals of customers Non Homogenous Poisson Process (NHPP) and expected value of arrived customers in each hour is close to number of transaction in each hour. In the model expected value of arrivals (lambda function in NHPP) is equal to the linear interpolation between calibration points. The calibration points are number of transaction (transactions count) for each hour .  The data in file contains following fields (columns):
 "timestamp" = full hour +/- 30 min , "customer-transaction-count" = number of transactions within time window <full hour, full hour + 1>.  
@@ -42,7 +45,7 @@ This file contains workschedule of cashiers. It determines number of cashiers th
 ### Parameters
 ![alt text](/readme-images/model-parameters.png)
 #### simulation-start-day
-Value in days (1 day = 3600 ticks). In case of data deiven simulation start date and time is determined by the earliest date/time in input files.  In case inputs generated randomly according theoretical distributions,  the start date is 01-01-0001 00:00:01. The parameter simulation-start-day  let to shift starting of simulation by selected number of days. Example earliest date and time in input files is 01-02-2018 00:50:01, the parameter value 3 shift start the simulation to  04-02-2018 00:50:01.
+Value in days (1 day = 3600 ticks). In case of data driven simulation start date and time is determined by the earliest date/time in input files.  In case inputs generated randomly according theoretical distributions,  the start date is 01-01-0001 00:00:01. The parameter simulation-start-day  let to shift starting of simulation by selected number of days. Example earliest date and time in input files is 01-02-2018 00:50:01, the parameter value 3 shift start the simulation to  04-02-2018 00:50:01.
 #### simulation-end-day
 Value in days (1 day = 3600 ticks). In standard case simulation end date and time is determined by the latest date/time in input fields. In case inputs generated randomly according theoretical distributions,  the end date and time is  01-01-0001 00:00:01 + simulation-end-day value. 
 #### customer-arrival-process
@@ -59,12 +62,16 @@ See description of "customer-basket-payment" parameter
 See description of "customer-basket-payment" parameter 
 #### customer-picking-queue-strategy
 It determine the strategy of picking line by the customer. Followed possibility are available: 0 the line is picked randomly, using a uniform distribution; 1 - the line with the lowest number of customers is picked, 2 - the line with the lowest number of items in all baskets in this line is picked; 3 the line with the lowest mean service time-implied expected waiting time is picked, i.e. the expected waiting time for each queue is calculated using the number of customers and the mean service time for service and self-service checkouts; 4 the line with the lowest power regression-implied expected waiting time is picked, i.e., the expected waiting time for each queue is calculated using the number of customers and the expected service and break times.
-#### customer-sco-item-thershold
-The parameter determine whenever customer can or cannot use sco-servers. Customers with basket size that exceed the value of the parameter are refered to the service checkouts (servers). Only if none of service checkout is open,  customers with basket size that exceed thershold are refered to sco-servers. This parameter let to simulate i.e. "expres self-service checkouts"scenarious.     
+Value 99  means that will be sampled out of 0 - 4 according to uniform distribution for every agent customer separately.
+#### customer-sco-item-threshold
+The parameter determine whenever customer can or cannot use sco-servers. Customers with basket size that exceed the value of the parameter are referred to the service checkouts (servers). Only if none of service checkout is open,  customers with basket size that exceed thershold are referred to sco-servers. This parameter let to simulate i.e. "expres self-service checkouts" scenarios.     
 #### customer-jockeying-strategy
-It determine the strategy of jockeying by customer. Followed possibility are available: 0 - customer does not jockey in any case, 1 - customer jockey if  his  position in line exceeds the lowest line length by the jockeying threshold, 2 customer jockey if the number of items in all baskets of customers before him  exceeds the lowest number of items in all baskets in line by the product of the jockeying threshold  and the average size of the basket (parameter: customer-basket-mean-size) , 3 customer jockey if his mean service time-implied expected waiting time exceeds the lowest mean service time-implied expected waiting time by the product of the jockeying-threshold and the mean service time (parameter: server-service-time-expected) 
-(the expected waiting time for each queue is calculated using the number of customers and the mean service time for service and self-service checkouts), 4 customer jockey if the his  power regression-implied expected waiting time exceeds the lowest power regression-implied expected waiting time by the product of the jockeying-threshold and the mean service time (parameter: server-service-time-expected) .
-Jockeying  can be trigger by two kind events: the opening new checkout and  the end of each service (which imply change of queue length). The model let simulate individual decision of customer to  jockey or not  to jockey according strategies bellow. Once the triggering event occurs,  customers start to decide to jockey in random order, using a uniform distribution. 
+It determine the strategy of jockeying by customer. Followed possibility are available: 0 - customer does not jockey in any case, 1 - customer jockey if  his  position in line exceeds the line length that is within jockeying distance by the jockeying threshold. Value 99 means that strategy 1 or 2 will sampled ccording to uniform distribution for every agent customer separately.
+#### customer-jockeying-distance  
+It determines the distance (between lines on both side) in which the customer is willing to jockey. Please note that parameter distance-server-server determine the distance between lines. So the jockeying distance must take account of the distance between lines. In other words this parameters must reflect differences between coordinates of servers. 
+Possible value is 1 2 3 4. Value 99 means that distance will be sampled out of 1 - 4 according to uniform distribution for every agent customer separately. 
+####  customer-jockeying-threshold
+Minimal difference between actual position of customer in lines and length of the length of the queue to which the customer is willing to jockey. Value 99  means that threshold will be sampled out of 1 - 4 according to uniform distribution for every agent customer separately.
 
 #### cashier-arrival
 The parameter determine availability of cashiers in  store. The value "constant number" means that constant number of cashiers is determine by parameter "number-of-cashiers" from the beginning till end of simulation. The value "workschedule (POS)" means that cashiers number is determine be workschedule defined in file "cashier-arrival-input-file-store1.csv" and parameter "cashier-work-time". Note that value "number-of-cashiers" greater than 0 add  cashiers to the quantities defined in "cashier-arrival-input-file-store1.csv" in whole period of simulation. 
@@ -78,6 +85,16 @@ This parameter determine behaviour of cashiers in the system. In case average qu
 This parameter determine behaviour of cashiers in the system. In case average queue length in store is less than this value, the cashier close checkout (server). Note, that  cashier will remain in checkout until last customer from current queue will be served. Closed checkout means no new customer can join to the queue assign to checkout. 
 #### cashier-return-time
 Value in minutes (ticks). This parameter determine time the cashier need to switch from backoffice to checkout. In other words: it takes "cashier-return-time"  minutes to go from backoffice to checkout and open it. 
+#### customer-arrival-input-file
+The parameter contain path to the file with data necessary generate customer arrivals - see description of customer-arrival-input-file-store1.csv above.
+#### customer-basket-payment-input-file
+The parameter contain path to the file with data necessary assign basket size and  method of payment to the customers – see description of customer-basket-payment-input-file-store1.csv file above.
+#### cashier-arrival-input-file
+The parameter contain work schedule of cashiers - see description of cashier-arrival-input-file-store1.csv file above.
+#### customer-output-directory
+It determines the directory in which the result files with customers data will be saved. The files contain data separately for each agent - customer. To avoid problems with processing big size file one simulation may generate many files. The file example name  "customers-output-file_1_0_17_121245576AM13-gru-2020.csv" - first three numbers in the name means picking-line-strategy, jockeying-strategy and experiment number chosen in simulation. 
+#### cashier-output-directory
+It determines the directory in which the result files with cashier data will be saved. The files contain data separately for each agent - cashier. To avoid problems with processing big size file one simulation may generate many files. The file example name  "customers-output-file_1_0_17_121245576AM13-gru-2020.csv" - first three numbers in the name means picking-line-strategy, jockeying-strategy and experiment number chosen in simulation. 
 #### number-of-servers
 It determine number of checkouts that are available to be open on the store. 
 #### single-queue?
@@ -102,7 +119,7 @@ The plot shows number of customers arrived to the system within every minute of 
 #### cashiers count 
 ![alt text](/readme-images/plot-cashiers-count.png) 
 
-The plot number of cashiers that are in system. The staistic is calculated for every full minute (tick) of simulation. 
+The plot number of cashiers that are in system. The statistic is calculated for every full minute (tick) of simulation. 
 #### servers utilization 
 ![alt text](/readme-images/plot-servers-utilization.png) 
 
@@ -158,6 +175,8 @@ Antczak  T. (2020). NetLogo Supermarket Queue Model https://github.com/tant2002/
 Wilensky  U. (1999). NetLogo. http://ccl.northwestern.edu/netlogo/. Center for Connected Learning and Computer-Based Modeling, Northwestern University, Evanston, IL.
 
 Sheppard C., Railsback S.,  Kelter J. NetLogo time extensions, https://github.com/NetLogo/Time-Extension 
+
+The RNGS extension updated to NetLogo 5.0 https://github.com/cstaelin/RNGS-Extension
 
 Cizek P. Hardle W. Weron R. (Eds.) (2011). Statistical Tools for Finance and Insurance (2nd ed.), Springer
 
