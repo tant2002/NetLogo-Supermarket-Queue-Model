@@ -20,15 +20,17 @@ First In First Served (FIFS) for both types of server.
 ### number of queues
 The system can mimic both multi or single queue to the service checkouts. For self-service checkouts, only single queue is possible. 
 Since the system assumes multiple queues, various methods of queue picking have been implemented. Although the way of picking is an individual decision of each client, the model assumes that each cashier uses the same strategy. It is possible to simulate 5 different strategies (0 - 4) that reflect different levels of customer knowledge about the state of the system: from strategy 0 that reflect no information (pure random choice of queue) to strategy 4 which assumes ability to estimate expected waiting times in each queue (= queue with minimum expected waiting time is picked). Strategies 0 - 3  are between - see description of 'customer-picking-queue-strategy' parameter for more details.          
+### customer's jockeying
+Model can mimic jockeying of customers between the queues. The rule of jockeyng is implemented to be depend on 3 values. First parameter (strategy) decide whenever the customer is able to jockey or not, second parameter - distance -  decide abbout distance (between lines) within the customer is able to jockey and third parameter threshold decide about minimal difrence between current posiont of customer in queue and lenght of queue to jockeying.   
 
 Historical time series can extracted out of transactional data that are collected by most of POS (Point of Sale) system -  see work "Data-driven simulation modelling of the checkout process in supermarkets: Insights for decision support in retail operations" for more details. 
 
 ![alt text](/readme-images/model-pitch3D.png)
 
 ## HOW TO USE IT
-Depend on user decision, the model can be run with mode that use POS (Point of Sale) historical data or with inputs generated randomly according to theoretical distributions. To drive model with POS data  the values, parameters "customer-arrival-process", "customer-basket-payment", "cashier-arrival", 'server-service-time-model' and 'sco-server-service-time-model' need to be set on relevant values (see section Parameters bellow) and input files (see section POS data input files) need to be provide. The model use two Netlogo extensions that need to be lto be installed in local environment of NetLogo:
- - Time extension ( see https://github.com/NetLogo/Time-Extension ) 
- - The RNGS extension (see https://github.com/cstaelin/RNGS-Extension)
+Depend on user decision, the model can be run with mode that use POS (Point of Sale) historical data or with inputs generated randomly according to theoretical distributions. To drive model with POS data  the values, parameters "customer-arrival-process", "customer-basket-payment", "cashier-arrival", 'server-service-time-model' and 'sco-server-service-time-model' need to be set on relevant values (see section Parameters bellow) and input files (see section POS data input files) need to be provide. The model use two Netlogo extensions that need to be lto be installed in local environment of NetLogo.
+ - Time extension ( see https://github.com/NetLogo/Time-Extension ). 
+ - The RNGS extension (see https://github.com/cstaelin/RNGS-Extension).
 Instruction for extensions in NetLogo can be find on http://ccl.northwestern.edu/netlogo/docs/extensions.html.
 
 ### POS data input files
@@ -111,6 +113,9 @@ The parameter is used for two purposes. Firstly it is used as input (Lambda) par
 
 #### other parameters
 distance-in-queue, distance-queue-server, distance-server-server, distance-sco-sco-h, distance-sco-sco-v determines spatial distances between customers in queues, servers, sco-servers, servers and customers. Although the spatial parameter do not  affect currently on the  model, they can be used for future extensions. 
+#### experiment
+This parameter let to mark experiments. It is counter that is saved in output files.
+
 ### Plots
 #### customers arrived cunt 
 ![alt text](/readme-images/plot-customers-arrived-count.png)
