@@ -4,7 +4,7 @@ NetLogo's data driven queue system model of typical supermarket's checkout zone.
 ![alt text](/readme-images/model-interface.png)
 
 ## WHAT IS IT?
-This is a model for simulation queue system of typical supermarket's checkout zone. As opposed to traditional models based on queue theory, it let simulate and examine complex system with non-stationary characteristics i.e.  dynamically changed intensity  of customers arrival,  servers availability and / or service time distribution. 
+This is a model for simulation queue system of typical supermarket's checkout zone in NetLogo. As opposed to traditional models based on queue theory, it let simulate and examine complex system with non-stationary characteristics i.e.  dynamically changed intensity  of customers arrival,  servers availability and / or service time distribution. 
 To mimic process accurately, the model can be driven with historical data (time series)  containing:  intensity of the transactions,  proportions of  transactions for various combination basket sizes/methods of payment  and  cashiers availability (workschedule). It let to examine various checkout zone configurations in terms of quantity and type of servers (service and self-service checkouts) and overview basic performance measures. The model was created with an agent approach (ABS - Agent Based Simulation) however it also meets DES (Discrete Events Simulation)  model definition.  
 
 ## HOW IT WORKS
@@ -28,10 +28,13 @@ Historical time series can extracted out of transactional data that are collecte
 ![alt text](/readme-images/model-pitch3D.png)
 
 ## HOW TO USE IT
-Depend on user decision, the model can be run with mode that use POS (Point of Sale) historical data or with inputs generated randomly according to theoretical distributions. To drive model with POS data  the values, parameters "customer-arrival-process", "customer-basket-payment", "cashier-arrival", 'server-service-time-model' and 'sco-server-service-time-model' need to be set on relevant values (see section Parameters bellow) and input files (see section POS data input files) need to be provide. The model use two Netlogo extensions that need to be lto be installed in local environment of NetLogo.
+The main code of the model can be found in main directory in file SupermarketQueueModel_version_x_x.nlogo.  
+The model use two Netlogo extensions that need to be lto be installed in local environment of NetLogo.
  - Time extension ( see https://github.com/NetLogo/Time-Extension ). 
  - The RNGS extension (see https://github.com/cstaelin/RNGS-Extension).
 Instruction for extensions in NetLogo can be find on http://ccl.northwestern.edu/netlogo/docs/extensions.html.
+Due to exc installations, the model can only be launched in the local netlogo environment (no possible to use Netlogo Web)  
+Depend on user decision, the model can be run with mode that use POS (Point of Sale) historical data or with inputs generated randomly according to theoretical distributions. To drive model with POS data  the values, parameters "customer-arrival-process", "customer-basket-payment", "cashier-arrival", 'server-service-time-model' and 'sco-server-service-time-model' need to be set on relevant values (see section Parameters bellow) and input files (see section POS data input files) need to be provide. 
 
 ### POS data input files
 As example, the files contained historical data generated out POS  transactional data from supermarket located in southern Poland was provided. However,  it is possible to use any data. Please note data range of all files need to be coherent. Files are in time series format and need NetLogo Time extension ( see https://github.com/NetLogo/Time-Extension ). The path to each file need to be indicated as parameter. 
