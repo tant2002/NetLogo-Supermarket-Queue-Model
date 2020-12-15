@@ -50,9 +50,9 @@ This file contains workschedule of cashiers. It determines number of cashiers th
 ### Parameters
 ![alt text](/readme-images/model-parameters.png)
 #### simulation-start-day
-Value in days (1 day = 3600 ticks). In case of data driven simulation start date and time is determined by the earliest date/time in input files.  In case inputs generated randomly according theoretical distributions,  the start date is 01-01-0001 00:00:01. The parameter simulation-start-day  let to shift starting of simulation by selected number of days. Example earliest date and time in input files is 01-02-2018 00:50:01, the parameter value 3 shift start the simulation to  04-02-2018 00:50:01.
+Value in days (1 day = 1440 ticks). In case of data driven simulation start date and time is determined by the earliest date/time in input files.  In case inputs generated randomly according theoretical distributions,  the start date is 01-01-0001 00:00:01. The parameter simulation-start-day  let to shift starting of simulation by selected number of days. Example earliest date and time in input files is 01-02-2018 00:50:01, the parameter value 3 shift start the simulation to  04-02-2018 00:50:01.
 #### simulation-end-day
-Value in days (1 day = 3600 ticks). In standard case simulation end date and time is determined by the latest date/time in input fields. In case inputs generated randomly according theoretical distributions,  the end date and time is  01-01-0001 00:00:01 + simulation-end-day value. 
+Value in days (1 day = 1440 ticks). In standard case simulation end date and time is determined by the latest date/time in input fields. In case inputs generated randomly according theoretical distributions,  the end date and time is  01-01-0001 00:00:01 + simulation-end-day value. 
 #### customer-arrival-process
 This parameter determine customer arrivals to the system: value "HPP" means Homogenous Poisson Process with lambda value taken out of "customer-arrival-mean-rate" parameter (lambda = 1/customer-arrival-mean-rate) ; value "NHPP (POS)" means Non-Homogenous Poisson Process with lambda function determined by calibration points in customer-arrival-input-file-store1.csv input file. 
 #### customer-arrival-mean-rate
