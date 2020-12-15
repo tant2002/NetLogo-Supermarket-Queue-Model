@@ -97,9 +97,9 @@ The parameter contain path to the file with data necessary assign basket size an
 #### cashier-arrival-input-file
 The parameter contain work schedule of cashiers - see description of cashier-arrival-input-file-store1.csv file above.
 #### customer-output-directory
-It determines the directory in which the result files with customers data will be saved. The files contain data separately for each agent - customer. To avoid problems with processing big size file one simulation may generate many files. The file example name  "customers-output-file_1_0_17_121245576AM13-gru-2020.csv" - first three numbers in the name means picking-line-strategy, jockeying-strategy and experiment number chosen in simulation. 
+It determines the directory in which the result files with customers data will be saved. The files contain data separately for each agent - customer. To avoid problems with processing big size file one simulation may generate many files. The file example name  "customers-output-file_1_0_17_121245576AM13-gru-2020.csv" - first three numbers in the name means picking-line-strategy, jockeying-strategy and experiment number chosen in simulation. Last symbols in file's name contain system date & time of file creation.  
 #### cashier-output-directory
-It determines the directory in which the result files with cashier data will be saved. The files contain data separately for each agent - cashier. To avoid problems with processing big size file one simulation may generate many files. The file example name  "customers-output-file_1_0_17_121245576AM13-gru-2020.csv" - first three numbers in the name means picking-line-strategy, jockeying-strategy and experiment number chosen in simulation. 
+It determines the directory in which the result files with cashier data will be saved. The files contain data separately for each agent - cashier. To avoid problems with processing big size file one simulation may generate many files. The file example name  "customers-output-file_1_0_17_121245576AM13-gru-2020.csv" - first three numbers in the name means picking-line-strategy, jockeying-strategy and experiment number chosen in simulation. Last symbols in file's name contain system date & time of file creation. 
 #### number-of-servers
 It determine number of checkouts that are available to be open on the store. 
 #### single-queue?
