@@ -4,7 +4,7 @@ NetLogo's data driven queue system model of typical supermarket's checkout zone.
 ![alt text](/readme-images/model-interface.png)
 
 ## WHAT IS IT?
-This is a model for simulation queue system of typical supermarket's checkout zone. As opposed to traditional models based on queue theory, it let simulate and examine complex system with non-stationary characteristics i.e.  dynamically changed intensity  of customers arrival,  servers availability and / or service time distribution. 
+This is a model for simulation queue system of typical supermarket's checkout zone in NetLogo. As opposed to traditional models based on queue theory, it let simulate and examine complex system with non-stationary characteristics i.e.  dynamically changed intensity  of customers arrival,  servers availability and / or service time distribution. 
 To mimic process accurately, the model can be driven with historical data (time series)  containing:  intensity of the transactions,  proportions of  transactions for various combination basket sizes/methods of payment  and  cashiers availability (workschedule). It let to examine various checkout zone configurations in terms of quantity and type of servers (service and self-service checkouts) and overview basic performance measures. The model was created with an agent approach (ABS - Agent Based Simulation) however it also meets DES (Discrete Events Simulation)  model definition.  
 
 ## HOW IT WORKS
@@ -28,10 +28,13 @@ Historical time series can extracted out of transactional data that are collecte
 ![alt text](/readme-images/model-pitch3D.png)
 
 ## HOW TO USE IT
-Depend on user decision, the model can be run with mode that use POS (Point of Sale) historical data or with inputs generated randomly according to theoretical distributions. To drive model with POS data  the values, parameters "customer-arrival-process", "customer-basket-payment", "cashier-arrival", 'server-service-time-model' and 'sco-server-service-time-model' need to be set on relevant values (see section Parameters bellow) and input files (see section POS data input files) need to be provide. The model use two Netlogo extensions that need to be lto be installed in local environment of NetLogo.
+The main code of the model can be found in main directory in file SupermarketQueueModel_version_x_x.nlogo.  
+The model use two Netlogo extensions that need to be lto be installed in local environment of NetLogo.
  - Time extension ( see https://github.com/NetLogo/Time-Extension ). 
  - The RNGS extension (see https://github.com/cstaelin/RNGS-Extension).
 Instruction for extensions in NetLogo can be find on http://ccl.northwestern.edu/netlogo/docs/extensions.html.
+Due to exc installations, the model can only be launched in the local netlogo environment (no possible to use Netlogo Web)  
+Depend on user decision, the model can be run with mode that use POS (Point of Sale) historical data or with inputs generated randomly according to theoretical distributions. To drive model with POS data  the values, parameters "customer-arrival-process", "customer-basket-payment", "cashier-arrival", 'server-service-time-model' and 'sco-server-service-time-model' need to be set on relevant values (see section Parameters bellow) and input files (see section POS data input files) need to be provide. 
 
 ### POS data input files
 As example, the files contained historical data generated out POS  transactional data from supermarket located in southern Poland was provided. However,  it is possible to use any data. Please note data range of all files need to be coherent. Files are in time series format and need NetLogo Time extension ( see https://github.com/NetLogo/Time-Extension ). The path to each file need to be indicated as parameter. 
@@ -47,9 +50,9 @@ This file contains workschedule of cashiers. It determines number of cashiers th
 ### Parameters
 ![alt text](/readme-images/model-parameters.png)
 #### simulation-start-day
-Value in days (1 day = 3600 ticks). In case of data driven simulation start date and time is determined by the earliest date/time in input files.  In case inputs generated randomly according theoretical distributions,  the start date is 01-01-0001 00:00:01. The parameter simulation-start-day  let to shift starting of simulation by selected number of days. Example earliest date and time in input files is 01-02-2018 00:50:01, the parameter value 3 shift start the simulation to  04-02-2018 00:50:01.
+Value in days (1 day = 1440 ticks). In case of data driven simulation start date and time is determined by the earliest date/time in input files.  In case inputs generated randomly according theoretical distributions,  the start date is 01-01-0001 00:00:01. The parameter simulation-start-day  let to shift starting of simulation by selected number of days. Example earliest date and time in input files is 01-02-2018 00:50:01, the parameter value 3 shift start the simulation to  04-02-2018 00:50:01.
 #### simulation-end-day
-Value in days (1 day = 3600 ticks). In standard case simulation end date and time is determined by the latest date/time in input fields. In case inputs generated randomly according theoretical distributions,  the end date and time is  01-01-0001 00:00:01 + simulation-end-day value. 
+Value in days (1 day = 1440 ticks). In standard case simulation end date and time is determined by the latest date/time in input fields. In case inputs generated randomly according theoretical distributions,  the end date and time is  01-01-0001 00:00:01 + simulation-end-day value. 
 #### customer-arrival-process
 This parameter determine customer arrivals to the system: value "HPP" means Homogenous Poisson Process with lambda value taken out of "customer-arrival-mean-rate" parameter (lambda = 1/customer-arrival-mean-rate) ; value "NHPP (POS)" means Non-Homogenous Poisson Process with lambda function determined by calibration points in customer-arrival-input-file-store1.csv input file. 
 #### customer-arrival-mean-rate
@@ -94,9 +97,9 @@ The parameter contain path to the file with data necessary assign basket size an
 #### cashier-arrival-input-file
 The parameter contain work schedule of cashiers - see description of cashier-arrival-input-file-store1.csv file above.
 #### customer-output-directory
-It determines the directory in which the result files with customers data will be saved. The files contain data separately for each agent - customer. To avoid problems with processing big size file one simulation may generate many files. The file example name  "customers-output-file_1_0_17_121245576AM13-gru-2020.csv" - first three numbers in the name means picking-line-strategy, jockeying-strategy and experiment number chosen in simulation. 
+It determines the directory in which the result files with customers data will be saved. The files contain data separately for each agent - customer. To avoid problems with processing big size file one simulation may generate many files. The file example name  "customers-output-file_1_0_17_121245576AM13-gru-2020.csv" - first three numbers in the name means picking-line-strategy, jockeying-strategy and experiment number chosen in simulation. Last symbols in file's name contain system date & time of file creation.  
 #### cashier-output-directory
-It determines the directory in which the result files with cashier data will be saved. The files contain data separately for each agent - cashier. To avoid problems with processing big size file one simulation may generate many files. The file example name  "customers-output-file_1_0_17_121245576AM13-gru-2020.csv" - first three numbers in the name means picking-line-strategy, jockeying-strategy and experiment number chosen in simulation. 
+It determines the directory in which the result files with cashier data will be saved. The files contain data separately for each agent - cashier. To avoid problems with processing big size file one simulation may generate many files. The file example name  "customers-output-file_1_0_17_121245576AM13-gru-2020.csv" - first three numbers in the name means picking-line-strategy, jockeying-strategy and experiment number chosen in simulation. Last symbols in file's name contain system date & time of file creation. 
 #### number-of-servers
 It determine number of checkouts that are available to be open on the store. 
 #### single-queue?
